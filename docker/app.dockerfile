@@ -1,7 +1,7 @@
 FROM x0-app:latest
 MAINTAINER Your Name
 
-ARG DEB_FILE=x0app-data_0.1_all.deb
+ARG DEB_FILE=your-app-data_0.1_all.deb
 
 COPY ./x0-skeleton/docker/tmp/environment-db.sh ./environment.sh
 
