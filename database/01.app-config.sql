@@ -1,0 +1,11 @@
+INSERT INTO system.config (app_id, config_group, "value") VALUES ('your-app', 'index_title', 'Your first x0-app!');
+INSERT INTO system.config (app_id, config_group, "value") VALUES ('your-app', 'debug_level', '0');
+INSERT INTO system.config (app_id, config_group, "value") VALUES ('your-app', 'display_language', 'en');
+INSERT INTO system.config (app_id, config_group, "value") VALUES ('your-app', 'default_screen', 'WelcomeScreen');
+INSERT INTO system.config (app_id, config_group, "value") VALUES ('your-app', 'parent_window_url', '""');
+INSERT INTO system.config (app_id, config_group, "value") VALUES ('your-app', 'subdir', '/static');
+INSERT INTO system.config (app_id, config_group, "value") VALUES ('your-app', 'preload_script', '');
+INSERT INTO system.config (app_id, config_group, "value") VALUES ('your-app', 'config_file_menu', 'menu.json');
+INSERT INTO system.config (app_id, config_group, "value") VALUES ('your-app', 'config_file_object', 'object.json');
+INSERT INTO system.config (app_id, config_group, "value") VALUES ('your-app', 'config_file_skeleton', 'skeleton.json');
+INSERT INTO system.config (app_id, config_group, "value") VALUES ('your-app', 'preload_script', 'undefined');

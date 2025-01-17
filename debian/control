@@ -1,0 +1,14 @@
+Source: your-app
+Section: utils
+Priority: extra
+Maintainer: Maintainer <m.tainer@domain.com>
+Standards-Version: 4.5.1
+Build-Depends: debhelper (>= 11)
+Homepage: http://domain.com
+Vcs-Git: git://git.domain.com/your-app
+
+Package: your-app-data
+Section: utils
+Architecture: all
+Depends: ${misc:Depends}
+Description: Your application (www) data.

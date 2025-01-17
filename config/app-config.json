@@ -1,0 +1,82 @@
+{
+    "project": {
+        "name": "your-app",
+        "id": "x0-skeleton-app",
+        "git-repo": "your-repo"
+    },
+    "installer": {
+        "type": "x0"
+    },
+    "database": {
+        "name": "yourdb",
+        "su_password": "changeme",
+        "x0_password": "changeme",
+        "repl_password": "changeme"
+    },
+    "env_list": [ "test", "prod" ],
+    "environments": {
+        "test": {
+            "kubernetes": {
+                "deployment": {
+                    "image": "your-app-main",
+                    "replicas": 2,
+                    "cpu": "200m",
+                    "memory": "512Mi",
+                    "autoscale": false
+                },
+                "namespace": "your-app-test",
+                "app_templates": [ "kubegres" ]
+            },
+            "database": {
+                "size": "1Gi",
+                "replicas": 2
+            }
+        },
+        "prod": {
+            "kubernetes": {
+                "deployment": {
+                    "image": "your-app-main",
+                    "replicas": 4,
+                    "cpu": "500m",
+                    "memory": "1000Mi",
+                    "autoscale": false
+                },
+                "namespace": "your-app-prod",
+                "app_templates": [ "kubegres" ]
+            },
+            "database": {
+                "size": "10Gi",
+                "replicas": 3
+            }
+        }
+    },
+    "vhosts": {
+        "app1": {
+            "apps": [ "your-app" ],
+            "env": {
+                "test": {
+                    "dns": {
+                        "hostname": "your-app-test",
+                        "domain": "x0.localnet"
+                    },
+                    "ip": {
+                        "v4": {
+                            "dns_register": false
+                        }
+                    }
+                },
+                "prod": {
+                    "dns": {
+                        "hostname": "your-app-prod",
+                        "domain": "x0.localnet"
+                    },
+                    "ip": {
+                        "v4": {
+                            "dns_register": false
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
