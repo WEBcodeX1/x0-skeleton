@@ -1,0 +1,19 @@
+#!/bin/sh
+
+#DEBHELPER#
+
+if [ "$1" = "configure" ]; then
+
+	# system vars
+	APACHE_VHOST_SITES_ENABLED_DIR="/etc/apache2/sites-enabled"
+
+	# copy apache main config file
+	cp ${BASEDIR}/config/apache2/apache2.conf /etc/apache2/apache2.conf
+
+	# remove all sites-enabled symlinks
+	rm ${APACHE_VHOST_SITES_ENABLED_DIR}/*
+
+	# restart apache
+	service apache2 restart
+
+fi
