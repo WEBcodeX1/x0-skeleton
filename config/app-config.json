@@ -13,7 +13,7 @@
         "x0_password": "changeme",
         "repl_password": "changeme"
     },
-    "env_list": [ "test", "prod" ],
+    "env_list": [ "test" ],
     "environments": {
         "test": {
             "kubernetes": {
@@ -31,23 +31,6 @@
                 "size": "1Gi",
                 "replicas": 2
             }
-        },
-        "prod": {
-            "kubernetes": {
-                "deployment": {
-                    "image": "your-app-main",
-                    "replicas": 4,
-                    "cpu": "500m",
-                    "memory": "1000Mi",
-                    "autoscale": false
-                },
-                "namespace": "your-app-prod",
-                "app_templates": [ "kubegres" ]
-            },
-            "database": {
-                "size": "10Gi",
-                "replicas": 3
-            }
         }
     },
     "vhosts": {
@@ -57,17 +40,6 @@
                 "test": {
                     "dns": {
                         "hostname": "your-app-test",
-                        "domain": "x0.localnet"
-                    },
-                    "ip": {
-                        "v4": {
-                            "dns_register": false
-                        }
-                    }
-                },
-                "prod": {
-                    "dns": {
-                        "hostname": "your-app-prod",
                         "domain": "x0.localnet"
                     },
                     "ip": {
