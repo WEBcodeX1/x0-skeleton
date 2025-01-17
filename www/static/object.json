@@ -1,0 +1,30 @@
+{
+    "Link1": {
+        "Type": "Div",
+        "Attributes": {
+        }
+    },
+
+    "TabContainer1": {
+        "Type": "TabContainer",
+        "Attributes": {
+            "StyleActive": "sysTabActive",
+            "StyleInactive": "sysTabInactive",
+            "Clickable": false,
+            "Tabs": {
+                "Tab1": {
+                    "Attributes": {
+                        "Default": true,
+                        "TextID": "TXT.TAB.TAB1"
+                    }
+                },
+                "Tab2": {
+                    "Attributes": {
+                        "TextID": "TXT.TAB.TAB2"
+                    }
+                }
+            }
+        }
+    }
+
+}
