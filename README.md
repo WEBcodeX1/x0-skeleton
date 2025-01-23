@@ -1,6 +1,6 @@
 # x0-skeleton
 
-x0 JS Framework Apps Skeleton Repository.
+x0 JS Framework Application Skeleton Repository.
 
 ## 1. Dependencies
 
