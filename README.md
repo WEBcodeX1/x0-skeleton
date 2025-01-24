@@ -45,7 +45,7 @@ cd ./debian && debuild
 
 ```bash
 # build docker container
-cd ./docker && build-app.sh
+cd ./docker && build-app.sh && build-db.sh
 ```
 
 ## 5. Start Application
