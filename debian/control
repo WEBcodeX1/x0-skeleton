@@ -1,4 +1,4 @@
-Source: your-app
+Source: x0-skeleton
 Section: utils
 Priority: extra
 Maintainer: Maintainer <m.tainer@domain.com>
@@ -7,7 +7,7 @@ Build-Depends: debhelper (>= 11)
 Homepage: http://domain.com
 Vcs-Git: git://git.domain.com/your-app
 
-Package: your-app-data
+Package: x0-skeleton-data
 Section: utils
 Architecture: all
 Depends: ${misc:Depends}
