@@ -7,7 +7,7 @@ from datetime import datetime
 import dbpool.pool
 
 
-DBName = 'your-db'
+DBName = 'yourdb'
 DBUser = 'x0'
 DBHost = 'mypostgres'
 DBPass = os.environ['PSQL_x0_PWD']
