@@ -33,3 +33,24 @@ https://docker.webcodex.de/x0/docker.x0-db-install.tar (optional kubernetes / mi
 docker load < docker.x0-app.tar
 docker load < docker.x0-db.tar
 ```
+
+## 3. Build Base Debian Packages
+
+```bash
+# build debian packages
+cd ./debian && debuild
+```
+
+## 4. Build Docker Container
+
+```bash
+# build docker container
+cd ./docker && build-app.sh
+```
+
+## 5. Start Application
+
+```bash
+# build docker container
+cd ./docker && x0-start-containers.sh
+```
