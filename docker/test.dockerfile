@@ -4,7 +4,7 @@ MAINTAINER Your Name
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ARG APP_DEB_FILE=your-app-test_0.1_all.deb
+ARG APP_DEB_FILE=x0-skeleton-test_0.1_all.deb
 
 COPY ./x0-skeleton/docker/tmp/apt-sources.list /etc/apt/sources.list
 

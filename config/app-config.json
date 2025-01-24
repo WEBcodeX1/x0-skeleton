@@ -1,6 +1,6 @@
 {
     "project": {
-        "name": "your-app",
+        "name": "x0-skeleton",
         "id": "x0-skeleton-app",
         "git-repo": "your-repo"
     },
@@ -18,13 +18,13 @@
         "test": {
             "kubernetes": {
                 "deployment": {
-                    "image": "your-app-main",
+                    "image": "x0-skeleton-main",
                     "replicas": 2,
                     "cpu": "200m",
                     "memory": "512Mi",
                     "autoscale": false
                 },
-                "namespace": "your-app-test",
+                "namespace": "x0-skeleton-test",
                 "app_templates": [ "kubegres" ]
             },
             "database": {
@@ -34,12 +34,11 @@
         }
     },
     "vhosts": {
-        "app1": {
-            "apps": [ "your-app" ],
+        "x0-skeleton": {
             "env": {
                 "test": {
                     "dns": {
-                        "hostname": "your-app-test",
+                        "hostname": "x0-skeleton-test",
                         "domain": "x0.localnet"
                     },
                     "ip": {
