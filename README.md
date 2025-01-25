@@ -64,9 +64,17 @@ The following IP setup  is used (addresses / hostnames).
 >[!NOTE]
 > Add `172.20.0.10` / `x0-skeleton-test.x0.localnet` to hosts file or dns server.
 
-## 6. Start Application
+## 6. Start Base Application
+
+Run the following to test if everything is working correctly.
 
 ```bash
 # build docker container
 cd ./docker && x0-start-containers.sh
 ```
+
+## 7. Model Your Application
+
+## 8. Add Database
+
+## 9. Rebuild / Deploy
