@@ -8,14 +8,14 @@ Ubuntu 22.04, 24.04
 
 ```bash
 # install debian package builder / gnu gpg 
-apt-get -y install debuild gnupg
+apt-get -y install debuild gnupg docker.io
 ```
 
 Devuan
 
 ```bash
 # install debian package builder / gnu gpg 
-apt-get install devscripts pbuilder gnupg
+apt-get install devscripts pbuilder gnupg docker.io
 ```
 
 ## 2. Docker Images
