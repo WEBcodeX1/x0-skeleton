@@ -51,7 +51,20 @@ cd ./debian && debuild
 cd ./docker && build-app.sh && build-db.sh
 ```
 
-## 5. Start Application
+## 5. IP Setup / DNS
+
+The following IP setup  is used (addresses / hostnames).
+
+| CONTAINER           | IP ADDRESS         | DNS / HOSTNAME               |
+| ------------------- | ------------------ | ---------------------------- |
+| <img width="300px"> | <img width="300">  | <img width="420">            |
+| your-app            | 172.20.0.10        | x0-skeleton-test.x0.localnet |
+| your-db             | 172.20.0.20        | mypostgres                   |
+
+>[!NOTE]
+> Add `172.20.0.10` / `x0-skeleton-test.x0.localnet` to hosts file or dns server.
+
+## 6. Start Application
 
 ```bash
 # build docker container
