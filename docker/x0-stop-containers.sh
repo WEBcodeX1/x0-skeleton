@@ -1,6 +1,6 @@
 #!/bin/sh
 
 docker stop x0-app
-docker stop x0-app-db
+docker stop x0-db
 
 docker container prune -f
