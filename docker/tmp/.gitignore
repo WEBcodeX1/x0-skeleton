@@ -1,0 +1,4 @@
+# tmp dir, ignore all
+*
+# except this file
+!.gitignore
