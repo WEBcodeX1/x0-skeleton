@@ -2,6 +2,9 @@
 
 x0 JS Framework Application Skeleton Repository.
 
+Contains skeleton data to run your x0-application in minutes
+(Docker / Google Kubernetes Engine).
+
 ## 1. Dependencies
 
 Ubuntu 22.04, 24.04
