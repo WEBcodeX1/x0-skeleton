@@ -32,7 +32,7 @@ https://docker.webcodex.de/x0/docker.x0-db.tar<br>
 https://docker.webcodex.de/x0/docker.x0-db-install.tar (optional kubernetes / minikube)
 
 ```bash
-# load images to local registry
+# load docker images
 docker load < docker.x0-app.tar
 docker load < docker.x0-db.tar
 ```
