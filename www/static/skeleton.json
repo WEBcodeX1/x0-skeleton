@@ -1,8 +1,16 @@
 {
-	"Main": [
+	"Screen1":
+	[
 		{
-			"TabContainer1": {
-				"RefID": "Main"
+			"Header1":
+			{
+				"RefID": "Screen1"
+			}
+		},
+		{
+			"HelloWorldText":
+			{
+				"RefID": "Screen1"
 			}
 		}
 	]
