@@ -73,7 +73,7 @@ Run the following to test if everything is working correctly.
 cd ./docker && x0-start-containers.sh
 ```
 
-Open `http://x0-skeleton-test.x0.localnet/python/Index.py`, a `Hello World!`
+Open `http://x0-skeleton-test.x0.localnet/python/Index.py`, a `Hello World.`
 text should be displayed.
 
 ## 7. Model Your Application
