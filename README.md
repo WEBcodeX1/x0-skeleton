@@ -81,8 +81,8 @@ cd ./docker && x0-start-containers.sh
 Open `http://x0-skeleton-test.x0.localnet/python/Index.py`, a `Hello World.`
 text should be displayed.
 
-## 7. Model Your Application
+## 7. Add Database
 
-## 8. Add Database
+## 8. Model Your Application
 
 ## 9. Rebuild / Deploy
