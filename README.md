@@ -5,6 +5,11 @@ x0 JS Framework Application Skeleton Repository.
 Contains skeleton data to run your x0-application in minutes
 (Docker / Google Kubernetes Engine).
 
+>[!WARNING]
+> This repository is a "template repository", see
+> https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template
+> You should create your own repository from this template before you start modeling your x0-app. 
+
 ## 1. Dependencies
 
 Ubuntu 22.04, 24.04
