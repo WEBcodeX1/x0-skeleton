@@ -37,13 +37,13 @@ def application(environ, start_response):
 
         Result = []
 
-        sql = """SELECT name FROM sys_dns.dnsdomain ORDER BY name ASC"""
+        sql = """SELECT "name" || '.' || ending AS domain_name FROM sys_core.domain ORDER BY "name" ASC"""
         sql_params = {}
         with dbpool.pool.Handler('hosting') as db:
             for Record in db.query(sql, sql_params):
                 Row = {}
-                Row['Display'] = Record['name']
-                Row['Value'] = Record['name']
+                Row['Display'] = Record['domain_name']
+                Row['Value'] = Record['domain_name']
                 Result.append(Row)
 
         yield bytes(json.dumps(Result), 'utf-8')

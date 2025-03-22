@@ -1,3 +1,5 @@
+\connect "yourdb" 
+
 INSERT INTO webui.text (id, "group", value_en) VALUES ('TXT.MENU.ESBEXAMPLE.LINK.SCREEN1', 'menu', 'Link1');
 
 INSERT INTO webui.text (id, "group", value_de, value_en) VALUES ('TXT.PULLDOWN.RECORD-TYPE.A', 'pulldown', 'Type A (IPv4 Addresse)', 'Type A (IPv4 Address)');
@@ -46,6 +48,3 @@ INSERT INTO webui.text (id, "group", value_de, value_en) VALUES ('TXT.VALIDATE.R
 INSERT INTO webui.text (id, "group", value_de, value_en) VALUES ('TXT.VALIDATE.RECORD-TTL', 'validate', 'Der DNS Eintrag (time to live) ist fehlerhaft.', 'The DNS record (time to live) is invalid.');
 INSERT INTO webui.text (id, "group", value_de, value_en) VALUES ('TXT.VALIDATE.RECORD-PRIORITY', 'validate', 'Der DNS Eintrag (priority) ist fehlerhaft.', 'The DNS record (priority) is invalid.');
 
-INSERT INTO webui.text (id, "group", value_de, value_en) VALUES ('TXT.ID.DOMAIN1', 'pulldown', 'domain1.com', 'domain1.com');
-INSERT INTO webui.text (id, "group", value_de, value_en) VALUES ('TXT.ID.DOMAIN2', 'pulldown', 'domain2.com', 'domain2.com');
-INSERT INTO webui.text (id, "group", value_de, value_en) VALUES ('TXT.ID.DOMAIN3', 'pulldown', 'domain3.com', 'domain3.com');

@@ -111,25 +111,11 @@
 	},
 
 	"DomainPulldown": {
-		"Type": "FormField",
+		"Type": "Formfield",
 		"Attributes": {
-			"Type": "pulldown",
+			"Type": "dynpulldown",
 			"Style": "form-select w-100",
-			"Options": [
-				{
-					"TextID": "TXT.ID.DOMAIN1",
-					"Value": "domain1.com",
-					"Default": true
-				},
-				{
-					"TextID": "TXT.ID.DOMAIN2",
-					"Value": "domain2.com"
-				},
-				{
-					"TextID": "TXT.ID.DOMAIN3",
-					"Value": "domain3.com"
-				}
-			]
+			"ServiceURL": "getDomainsPulldown.py"
 		}
 	},
 
@@ -447,7 +433,7 @@
 			"TextID": "TXT.HOSTINGNEWHOSTS.BUTTON.SUBMIT",
 			"Style": "btn btn-primary w-100 mt-3",
 			"IconStyle": "fa-solid fa-square-check",
-			"OnClick": "/python/not-working.py",
+			"OnClick": "addDomainHosts.py",
 			"SrcDataObjects": [
 				"HostingNewHostsSelectedUser",
 				"HostingNewHostsSelectedDomain",
