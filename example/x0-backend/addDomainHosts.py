@@ -110,15 +110,15 @@ class_mapper = microesb.ClassMapper(
     class_properties=service_properties
 )
 
+dbcon = psycopg2.connect("dbname='hosting-example' user='postgres' host='mypostgres' password='changeme'")
+dbcon.autocommit = True
+
 
 def application(environ, start_response):
 
     start_response('200 OK', [('Content-Type', 'application/json; charset=UTF-8')])
 
     if environ['REQUEST_METHOD'].upper() == 'POST':
-
-        dbcon = psycopg2.connect("dbname='hosting-example' user='postgres' host='mypostgres' password='changeme'")
-        dbcon.autocommit = False
 
         result = {}
 
@@ -167,13 +167,6 @@ def application(environ, start_response):
             service_data=service_metadata
         )
 
-        try:
-            dbcon.commit()
-        except Exception as e:
-            result['error'] = True
-            result['exception_id'] = type(e).__name__
-            result['exception'] = "{0}".format(e)
-        finally:
-            dbcon.close()
+        dbcon.commit()
 
         yield bytes(json.dumps(result), 'utf-8')

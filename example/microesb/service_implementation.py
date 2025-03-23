@@ -10,16 +10,16 @@ class User(microesb.ClassHandler):
         self.DB_user_id = None
 
     def init(self):
-        with self.dbcon.cursor() as crs:
-            crs.execute("""
-                SELECT id
-                    FROM sys_core."user"
-                WHERE
-                    "name" = %s""",
-                (self.name,)
-            )
-            row = crs.fetchone()
-            self.DB_user_id = row[0]
+        crs = self.dbcon.cursor()
+        crs.execute("""
+            SELECT id
+                FROM sys_core."user"
+            WHERE
+                "name" = %s""",
+            (self.name,)
+        )
+        row = crs.fetchone()
+        self.DB_user_id = row[0]
 
 
 class Domain(microesb.ClassHandler):
@@ -32,46 +32,19 @@ class Domain(microesb.ClassHandler):
 
         self.DB_user_id = self.parent_object.DB_user_id
         self.dbcon = self.parent_object.dbcon
-        print("DB_user_id:{} name:{} ending:{}".format(
-            self.DB_user_id, self.name, self.ending)
+
+        crs = self.dbcon.cursor()
+        crs.execute(
+            """
+            SELECT id
+                FROM sys_core."domain"
+            WHERE
+                creator_user_id = %s AND "name" = %s AND ending = %s""",
+            (self.DB_user_id, self.name, self.ending,)
         )
 
-        print("Insert Domain")
-
-        with self.dbcon.cursor() as crs:
-            crs.execute(
-                """
-                SELECT id
-                    FROM sys_core."domain"
-                WHERE
-                    creator_user_id = %s AND "name" = %s AND ending = %s""",
-                (self.DB_user_id, self.name, self.ending,)
-            )
-            try:
-                row = crs.fetchone()
-                self.DB_domain_id = row[0]
-            except Exception as e:
-                pass
-
-        print("DB_domain_id:{}".format(self.DB_domain_id))
-
-        with self.dbcon.cursor() as crs:
-            crs.execute(
-                """
-                INSERT INTO sys_core."domain"
-                    (creator_user_id, "name", ending)
-                VALUES
-                    (%s, %s, %s)
-                ON CONFLICT (creator_user_id, "name", ending) DO NOTHING
-                RETURNING id
-                """,
-                (self.DB_user_id, self.name, self.ending)
-            )
-            try:
-                row = crs.fetchone()
-                self.DB_domain_id = row[0]
-            except Exception as e:
-                pass
+        row = crs.fetchone()
+        self.DB_domain_id = row[0]
 
 
 class Host(microesb.MultiClassHandler):
@@ -87,28 +60,36 @@ class Host(microesb.MultiClassHandler):
         self.DB_user_id = self.parent_object.DB_user_id
         self.DB_domain_id = self.parent_object.DB_domain_id
 
-        print("Host add() called")
+        with open("/tmp/esb-debug-host", 'w') as fh:
+            fh.write("User id:{} Domain id:{} hostname:{} type:{} value:{} ttl:{} prio:{}".format(
+                self.DB_user_id,
+                self.DB_domain_id,
+                self.name,
+                self.type,
+                self.value,
+                self.ttl,
+                self.priority
+            ))
 
-        print("DB_user_id:{} DB_domain_id:{}".format(
-            self.DB_user_id, self.DB_domain_id)
+        if len(self.ttl) == 0:
+            self.ttl = 0
+        if len(self.priority) == 0:
+            self.priority = 0
+
+        crs = self.dbcon.cursor()
+        crs.execute(
+            """
+            INSERT INTO sys_dns.dnsrecord
+                (domain_id, "name", "type", content, ttl, prio)
+            VALUES
+                (%s, %s, %s, %s, %s, %s)""",
+            (
+                self.DB_domain_id,
+                self.name,
+                self.type,
+                self.value,
+                self.ttl,
+                self.priority,
+            )
         )
 
-        try:
-            with self.dbcon.cursor() as crs:
-                crs.execute(
-                    """
-                    INSERT INTO sys_dns."dnsrecord"
-                        (domain_id, "name", "type", content, ttl, prio)
-                    VALUES
-                        (%s, %s, %s, %s, %s, %s)""",
-                    (
-                        self.DB_domain_id,
-                        self.name,
-                        self.type,
-                        self.value,
-                        self.ttl,
-                        self.priority
-                    )
-                )
-        except Exception as e:
-            print("Insert excetion:{}".format(e))
