@@ -10,6 +10,8 @@ Contains skeleton data to run your x0-application in minutes
 > https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template
 > You should create your own repository from this template before you start modeling your x0-app / make changes. 
 
+Base x0 Repository: https://github.com/WEBcodeX1/x0.
+
 ## 1. Dependencies
 
 Ubuntu 22.04, 24.04
@@ -81,8 +83,24 @@ cd ./docker && x0-start-containers.sh
 Open `http://x0-skeleton-test.x0.localnet/python/Index.py`, a `Hello World.`
 text should be displayed.
 
-## 7. Add Database
+## 7. Short Interception
 
-## 8. Model Your Application
+The next chapters will cope with setting up a full working 3-tier application
+including a small postgresql database.
 
-## 9. Rebuild / Deploy
+Our `microesb` software has been used to abstract the relevant backend processes
+(see https://github.com/clauspruefer/python-micro-esb).
+
+>[!NOTE]
+> Security and scaling aspects have been ommitted. The *x0-system* is not
+> mandatory limited to a single backend application. All systems returning the correct
+> JSON schema are usable. See *x0-documentation* for JSON definition / schemes.
+
+It is also possible to test and run your x0-app on GKM / Minikube (google kubernetes engine).
+
+## 8. Add Database
+
+## 9. Model Your Application
+
+## 10. Rebuild / Deploy
+
