@@ -101,6 +101,15 @@ It is also possible to test and run your x0-app on GKM / Minikube (google kubern
 
 ## 8. Add Database
 
+1. First remove all sql data from `./database/*`.
+2. *Move* the contents of `./example/database/*` to `./database/*`.
+3. Build `your-db` docker image by `cd ./docker && build-db.sh`.
+
+Now your docker database image is ready. `cd ./docker && x0-start-containers.sh` will
+start `your-db` and `your-app` containers.
+
+>[!NOTE]
+> Database image build does **not** require the debian `debuild` process.
 
 ## 9. Model Your Application
 
