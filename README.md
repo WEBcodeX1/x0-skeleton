@@ -169,3 +169,14 @@ cd ./docker && build-app.sh && build-db.sh
 Open `http://x0-skeleton-test.x0.localnet/python/Index.py`.
 
 ## 11. Developing x0
+
+If you need to implement new (enhanced) base x0 objects:
+
+1. Clone the x0 repository
+2. Model / add your sysObjNewObject.js
+3. Build x0 docker containers
+4. Import as `clickit/x0-app:latest`
+5. Rebuild local your-app
+
+>[!NOTE]
+> Get fame by proposing your object to be implemented into official x0-system.
