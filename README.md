@@ -8,7 +8,8 @@ Contains skeleton data to run your x0-application in minutes
 >[!WARNING]
 > This repository is a "template repository", see
 > https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template
-> You should create your own repository from this template before you start modeling your x0-app / make changes. 
+> You should create your own repository from this template before you start modeling
+> your x0-app / make changes.
 
 Base x0 Repository: https://github.com/WEBcodeX1/x0.
 
@@ -92,13 +93,14 @@ Our `microesb` software has been used to abstract the relevant backend processes
 (see https://github.com/clauspruefer/python-micro-esb).
 
 >[!NOTE]
-> Security and scaling aspects have been ommitted. The *x0-system* is not
-> mandatory limited to a single backend application. All systems returning the correct
-> JSON schema are usable. See *x0-documentation* for JSON definition / schemes.
+> Security and scaling aspects have been ommitted. The *x0-system* is not mandatory
+> limited to a single backend application / database. All systems returning the
+> correct JSON schema are usable. See *x0-documentation* for JSON definition / schemes.
 
 It is also possible to test and run your x0-app on GKM / Minikube (google kubernetes engine).
 
 ## 8. Add Database
+
 
 ## 9. Model Your Application
 
