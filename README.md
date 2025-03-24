@@ -101,17 +101,55 @@ It is also possible to test and run your x0-app on GKM / Minikube (google kubern
 
 ## 8. Add Database
 
-1. First remove all sql data from `./database/*`.
-2. *Move* the contents of `./example/database/*` to `./database/*`.
+1. First remove all sql data from `rm ./database/*`.
+2. *Move* the contents of `mv ./example/database/* ./database/*`.
 3. Build `your-db` docker image by `cd ./docker && build-db.sh`.
 
 Now your docker database image is ready. `cd ./docker && x0-start-containers.sh` will
-start `your-db` and `your-app` containers.
+start `your-db` and `your-app` containers later.
 
 >[!NOTE]
 > Database image build does **not** require the debian `debuild` process.
 
 ## 9. Model Your Application
+
+Now its time to checkout a more advanced application setup.
+
+A modified example *nr.5* from *x0-system* is used with working backend services /
+database. Also `microesb` product is used to abstract OOP based *webservice call data*.
+
+### 9.1 Example Content Explained
+
+The `./example` subdir contains the following content.
+
+| SUBDIR              | DESCRIPTION                                           |
+| ------------------- | ----------------------------------------------------- |
+| <img width="500px"> | <img width="520">                                     |
+| database            | PostgreSQL Database Definition                        |
+| docker              | Modified Dockerfile (add Python pip3 and microesb)    |
+| microesb            | Microesb Config and Service Implementation            |
+| x0-backend          | Python Backend Scripts                                |
+| x0-config           | x0 Frontend Objects Definition                        |
+
+### 9.2 Build Dir Explained
+
+The `./www` subdir used by docker to build the x0 app contains the following
+content.
+
+| SUBDIR              | DESCRIPTION                                           |
+| ------------------- | ----------------------------------------------------- |
+| <img width="500px"> | <img width="520">                                     |
+| python              | Python Backend Scripts                                |
+| static              | x0 Frontend Objects Definition / CSS                  |
+| x0                  | x0 User Functions                                     |
+
+### 9.3 Get Application Ready
+
+1. Remove all x0 objects definition (`rm ./www/static/*.json`)
+2. Move x0 objects definition to build dir (`mv ./x0-config/* ./www/static/`)
+3. Move Python backend scripts to build dir (`mv ./x0-backend/* ./www/python/`)
+4. Move microesb config and service implementation to build dir (`mv ./microesb/* ./www/backend/`)
+4. Replace dockerfile in docker dir (`mv ./docker/app.dockerfile ./docker/app.dockerfile`)
 
 ## 10. Rebuild / Deploy
 
