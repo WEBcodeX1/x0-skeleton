@@ -153,4 +153,19 @@ content.
 
 ## 10. Rebuild / Deploy
 
+Now rebuild debian package, docker container and start the application.
+
+```bash
+# build debian package
+cd ./debian && debuild
+
+# build docker container
+cd ./docker && build-app.sh && build-db.sh
+
+# start application
+./x0-start-containers.sh
+```
+
+Open `http://x0-skeleton-test.x0.localnet/python/Index.py`.
+
 ## 11. Developing x0
