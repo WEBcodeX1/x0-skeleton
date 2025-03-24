@@ -111,7 +111,7 @@ class_mapper = microesb.ClassMapper(
 )
 
 dbcon = psycopg2.connect("dbname='hosting-example' user='postgres' host='mypostgres' password='changeme'")
-dbcon.autocommit = True
+dbcon.autocommit = False
 
 
 def application(environ, start_response):
