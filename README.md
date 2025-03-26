@@ -11,7 +11,7 @@ Contains skeleton data to run your x0-application in minutes
 > You should create your own repository from this template before you start modeling
 > your x0-app / make changes.
 
-Base x0 Repository: https://github.com/WEBcodeX1/x0.
+Base x0 Repository including detailed documentation: https://github.com/WEBcodeX1/x0.
 
 ## 1. Dependencies
 
@@ -176,7 +176,7 @@ If you need to implement new (enhanced) base x0 objects:
 2. Model / add your sysObjNewObject.js
 3. Build x0 docker containers
 4. Import as `clickit/x0-app:latest`
-5. Rebuild your-app local
+5. Rebuild your-app locally
 
 >[!NOTE]
 > Get fame by proposing your object to be implemented into official x0-system.
