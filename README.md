@@ -13,23 +13,36 @@ Contains skeleton data to run your x0-application in minutes
 
 Base x0 Repository including detailed documentation: https://github.com/WEBcodeX1/x0.
 
-## 1. Dependencies
+## 1. Dependencies / Package Install
 
 Ubuntu 22.04, 24.04
 
 ```bash
-# install debian package builder / gnu gpg 
+# install debian package builder / gnu gpg
 apt-get -y install debuild gnupg docker.io
 ```
 
 Devuan
 
 ```bash
-# install debian package builder / gnu gpg 
+# install debian package builder / gnu gpg
 apt-get install devscripts pbuilder gnupg docker.io
 ```
 
-## 2. Docker Images
+## 2. Docker Permissions
+
+As **root** user, add your current user to the docker unix group.
+
+```bash
+# add user to docker group
+usermod -aG docker your-user
+```
+
+>[!NOTE]
+> Eventually a restart of your current shell, desktop session or
+> even computer is required for changes to take effect.
+
+## 3. Docker Images
 
 >[!NOTE]
 > Currently we do not provide a docker registry, images must be loaded manually
@@ -45,21 +58,21 @@ docker load < docker.x0-app.tar
 docker load < docker.x0-db.tar
 ```
 
-## 3. Build Base Debian Packages
+## 4. Build Base Debian Packages
 
 ```bash
 # build debian packages
 cd ./debian && debuild
 ```
 
-## 4. Build Docker Container
+## 5. Build Docker Container
 
 ```bash
 # build docker container
 cd ./docker && build-app.sh && build-db.sh
 ```
 
-## 5. IP Setup / DNS
+## 6. IP Setup / DNS
 
 The following IP setup  is used (addresses / hostnames).
 
@@ -72,7 +85,7 @@ The following IP setup  is used (addresses / hostnames).
 >[!NOTE]
 > Add `172.20.0.10` / `x0-skeleton-test.x0.localnet` to hosts file or dns server.
 
-## 6. Start Base Application
+## 7. Start Base Application
 
 Run the following to test if everything is working correctly.
 
@@ -84,7 +97,7 @@ cd ./docker && x0-start-containers.sh
 Open `http://x0-skeleton-test.x0.localnet/python/Index.py`, a `Hello World.`
 text should be displayed.
 
-## 7. Short Interception
+## 8. Short Interception
 
 The next chapters will cope with setting up a full working 3-tier application
 including a small postgresql database.
@@ -99,7 +112,7 @@ Our `microesb` software has been used to abstract the relevant backend processes
 
 It is also possible to test and run your x0-app on GKM / Minikube (google kubernetes engine).
 
-## 8. Add Database
+## 9. Add Database
 
 1. First remove all sql data from `rm ./database/*`.
 2. *Move* the contents of `mv ./example/database/* ./database/*`.
@@ -111,14 +124,14 @@ start `your-db` and `your-app` containers later.
 >[!NOTE]
 > Database image build does **not** require the debian `debuild` process.
 
-## 9. Model Your Application
+## 10. Model Your Application
 
 Now its time to checkout a more advanced application setup.
 
 A modified example *nr.5* from *x0-system* is used with working backend services /
 database. Also `microesb` product is used to abstract OOP based *webservice call data*.
 
-### 9.1 Example Content Explained
+### 10.1 Example Content Explained
 
 The `./example` subdir contains the following content.
 
@@ -131,7 +144,7 @@ The `./example` subdir contains the following content.
 | x0-backend          | Python Backend Scripts                                |
 | x0-config           | x0 Frontend Objects Definition                        |
 
-### 9.2 Build Dir Explained
+### 10.2 Build Dir Explained
 
 The `./www` subdir used by docker to build the x0 app contains the following
 content.
@@ -143,7 +156,7 @@ content.
 | static              | x0 Frontend Objects Definition / CSS                  |
 | x0                  | x0 User Functions                                     |
 
-### 9.3 Get Application Ready
+### 10.3 Get Application Ready
 
 1. Remove all x0 objects definition (`rm ./www/static/*.json`)
 2. Move x0 objects definition to build dir (`mv ./x0-config/* ./www/static/`)
@@ -151,7 +164,7 @@ content.
 4. Move microesb config and service implementation to build dir (`mv ./microesb/* ./www/backend/`)
 4. Replace dockerfile in docker dir (`mv ./docker/app.dockerfile ./docker/app.dockerfile`)
 
-## 10. Rebuild / Deploy
+## 11. Rebuild / Deploy
 
 Now rebuild debian package, docker container and start the application.
 
@@ -168,7 +181,7 @@ cd ./docker && build-app.sh && build-db.sh
 
 Open `http://x0-skeleton-test.x0.localnet/python/Index.py`.
 
-## 11. Developing x0
+## 12. Developing x0
 
 If you need to implement new (enhanced) base x0 objects:
 
