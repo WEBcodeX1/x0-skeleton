@@ -2,7 +2,7 @@
 
 x0 JS Framework Application Skeleton Repository.
 
-Contains skeleton data to run your x0-application in minutes
+Contains skeleton data to run your *x0-application* in minutes
 (Docker / Google Kubernetes Engine).
 
 >[!WARNING]
@@ -149,7 +149,7 @@ The `./example` subdir contains the following content.
 
 ### 10.2 Build Dir Explained
 
-The `./www` subdir used by docker to build the x0 app contains the following
+The `./www` subdir used by docker to build the *x0-app* contains the following
 content.
 
 | SUBDIR              | DESCRIPTION                                           |
@@ -186,7 +186,7 @@ Open `http://x0-skeleton-test.x0.localnet/python/Index.py`.
 
 ## 12. Developing x0
 
-If you need to implement new (enhanced) base x0 objects:
+If you need to implement new (enhanced) base *x0-objects*:
 
 1. Clone the x0 repository
 2. Model / add your sysObjNewObject.js
@@ -195,4 +195,4 @@ If you need to implement new (enhanced) base x0 objects:
 5. Rebuild your-app locally
 
 >[!NOTE]
-> Get fame by proposing your object to be implemented into official x0-system.
+> Get fame by proposing your object to be implemented into official *x0-system*.
