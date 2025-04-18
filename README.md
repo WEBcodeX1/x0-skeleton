@@ -64,6 +64,9 @@ docker load < docker.x0-db.tar
 Install requirements and setup gnupg before you are able to build debian packages,
 see https://github.com/WEBcodeX1/x0/blob/main/debian/README.md.
 
+Be sure to provide "Your Name" as gpg `Real Name`, "you@domain.online" as `Email address`
+and "YourPosition" as `Comment` to use default package signing.
+
 ```bash
 # build debian packages
 cd ./debian && debuild
