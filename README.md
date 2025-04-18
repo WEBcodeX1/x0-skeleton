@@ -192,8 +192,7 @@ If you need to implement new (enhanced) base *x0-objects*:
 1. Clone the x0 repository
 2. Model / add your sysObjNewObject.js
 3. Build x0 docker containers
-4. Import (tag) as `clickit/x0-app:latest`
-5. Rebuild your-app locally
+4. Rebuild your-app locally
 
 >[!NOTE]
 > Get fame by proposing your object to be implemented into official *x0-system*.
