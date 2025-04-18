@@ -51,7 +51,7 @@ usermod -aG docker your-user
 https://docker.webcodex.de/x0/docker.x0-app.tar<br>
 https://docker.webcodex.de/x0/docker.x0-db.tar<br>
 https://docker.webcodex.de/x0/docker.x0-db-install.tar (optional kubernetes / minikube)<br>
-https://docker.webcodex.de/x0/docker.x0-msg-server.tar (optional examples)
+https://docker.webcodex.de/x0/docker.x0-msg-server.tar (optional net-messaging)
 
 ```bash
 # load docker images
