@@ -1,4 +1,4 @@
-FROM clickit/x0-db:latest
+FROM x0-db:latest
 MAINTAINER Your Name
 
 COPY ./x0-skeleton/docker/tmp/environment-db.sh ./environment.sh
