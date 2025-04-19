@@ -2,18 +2,20 @@
 
 x0 JS Framework Application Skeleton Repository.
 
-Contains skeleton data to run your *x0-application* in minutes
-(Docker / Google Kubernetes Engine).
+This repository contains the skeleton setup required to run your *x0-application*
+within minutes using Docker or Google Kubernetes Engine (GKE).
 
 >[!WARNING]
-> This repository is a "template repository", see
+> This repository is a "template repository." For more details, see:
 > https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template
-> You should create your own repository from this template before you start modeling
-> your x0-app / make changes.
+> You should create your own repository from this template before starting to model
+> your *x0-app* or making any changes.
 
-Base x0 Repository including detailed documentation: https://github.com/WEBcodeX1/x0.
+For the base x0 repository and detailed documentation, visit: https://github.com/WEBcodeX1/x0.
 
-## 1. Dependencies / Package Install
+## 1. Dependencies / Package Installation
+
+### Supported OS:
 
 Ubuntu 22.04, 24.04
 
@@ -31,7 +33,7 @@ apt-get install devscripts pbuilder gnupg docker.io
 
 ## 2. Docker Permissions
 
-As **root** user, add your current user to the docker unix group.
+As the **root** user, add your current user to the Docker UNIX group:
 
 ```bash
 # add user to docker group
@@ -39,19 +41,23 @@ usermod -aG docker your-user
 ```
 
 >[!NOTE]
-> Eventually a restart of your current shell, desktop session or
-> even computer is required for changes to take effect.
+> A restart of your current shell, desktop session, or even computer may be
+> required for the changes to take effect.
 
 ## 3. Docker Images
 
 >[!NOTE]
-> Currently we do not provide a docker registry, images must be loaded manually
-> after downloading.
+> Currently, we do not provide a Docker registry.
+> Images must be loaded manually after downloading.
 
-https://docker.webcodex.de/x0/docker.x0-app.tar<br>
-https://docker.webcodex.de/x0/docker.x0-db.tar<br>
-https://docker.webcodex.de/x0/docker.x0-db-install.tar (optional kubernetes / minikube)<br>
-https://docker.webcodex.de/x0/docker.x0-msg-server.tar (optional net-messaging)
+Available Docker images:
+
+- https://docker.webcodex.de/x0/docker.x0-app.tar<br>
+- https://docker.webcodex.de/x0/docker.x0-db.tar<br>
+- https://docker.webcodex.de/x0/docker.x0-db-install.tar (optional for Kubernetes / Minikube)<br>
+- https://docker.webcodex.de/x0/docker.x0-msg-server.tar (optional for net-messaging)
+
+To load the Docker images:
 
 ```bash
 # load docker images
@@ -61,27 +67,30 @@ docker load < docker.x0-db.tar
 
 ## 4. Build Base Debian Packages
 
-Install requirements and setup gnupg before you are able to build debian packages,
-see https://github.com/WEBcodeX1/x0/blob/main/debian/README.md.
+Install the required tools and set up GPG before building Debian packages.
+See: https://github.com/WEBcodeX1/x0/blob/main/debian/README.md.
 
-Be sure to provide "Your Name" as gpg `Real Name`, "you@domain.online" as `Email address`
-and "YourPosition" as `Comment` to use default package signing.
+Provide the following details for default package signing:
 
+- `Real Name`: Your Name
+- `Email address`: you@domain.online
+- `Comment`: YourPosition
+  
 ```bash
 # build debian packages
 cd ./debian && debuild
 ```
 
-## 5. Build Docker Container
+## 5. Build Docker Containers
 
 ```bash
-# build docker container
+# build docker containers
 cd ./docker && build-app.sh && build-db.sh
 ```
 
 ## 6. IP Setup / DNS
 
-The following IP setup  is used (addresses / hostnames).
+The following IP setup is used for container addresses and hostnames:
 
 | CONTAINER           | IP ADDRESS         | DNS / HOSTNAME               |
 | ------------------- | ------------------ | ---------------------------- |
@@ -90,57 +99,73 @@ The following IP setup  is used (addresses / hostnames).
 | your-db             | 172.20.0.20        | mypostgres                   |
 
 >[!NOTE]
-> Add `172.20.0.10` / `x0-skeleton-test.x0.localnet` to hosts file or dns server.
+> Add `172.20.0.10` / `x0-skeleton-test.x0.localnet` to your hosts file or
+> dns zone.
 
 ## 7. Start Base Application
 
-Run the following to test if everything is working correctly.
+Run the following command to test if everything is working correctly:
 
 ```bash
 # build docker container
 cd ./docker && x0-start-containers.sh
 ```
 
-Open `http://x0-skeleton-test.x0.localnet/python/Index.py`, a `Hello World.`
-text should be displayed.
+Open `http://x0-skeleton-test.x0.localnet/python/Index.py` in your browser.
+A `Hello World.` text should be displayed.
 
 ## 8. Short Interception
 
-The next chapters will cope with setting up a full working 3-tier application
-including a small postgresql database.
+The next chapters will guide you through setting up a fully functional 3-tier
+application, including a small PostgreSQL database.
 
-Our `microesb` software has been used to abstract the relevant backend processes
-(see https://github.com/clauspruefer/python-micro-esb).
+Our `microesb` software abstracts the relevant backend processes.
+See: https://github.com/clauspruefer/python-micro-esb.
 
 >[!NOTE]
-> Security and scaling aspects have been ommitted. The *x0-system* is not mandatory
-> limited to a single backend application / database. All systems returning the
-> correct JSON schema are usable. See *x0-documentation* for JSON definition / schemes.
+> Security and scaling considerations have been omitted. The *x0-system* is not
+> limited to a single backend application or database. Any system returning the
+> correct JSON schema is usable. Refer to the *x0-documentation* for JSON definitions
+> and schemas.
 
-It is also possible to test and run your x0-app on GKM / Minikube (google kubernetes engine).
+You can also test and run your *x0-app* on GKE / Minikube (Google Kubernetes Engine).
 
 ## 9. Add Database
 
-1. First remove all sql data from `rm ./database/*`.
-2. *Move* the contents of `mv ./example/database/* ./database/*`.
-3. Build `your-db` docker image by `cd ./docker && build-db.sh`.
+1. Remove all SQL data:
+```bash
+rm ./database/*
+```
+2. Move example database contents:
+```bash
+mv ./example/database/* ./database/*
+```
+3. Build the `your-db` Docker image:
+```bash
+cd ./docker && build-db.sh
+```
 
-Now your docker database image is ready. `cd ./docker && x0-start-containers.sh` will
-start `your-db` and `your-app` containers later.
+Now your Docker database image is ready. Later, run:
+
+```bash
+cd ./docker && x0-start-containers.sh
+```
+
+This will start the `your-db` and `your-app` containers.
 
 >[!NOTE]
-> Database image build does **not** require the debian `debuild` process.
+> Building the database image does **not** require the Debian `debuild` process.
 
 ## 10. Model Your Application
 
-Now its time to checkout a more advanced application setup.
+Now it's time to explore an advanced application setup.
 
-A modified example *nr.5* from *x0-system* is used with working backend services /
-database. Also `microesb` product is used to abstract OOP based *webservice call data*.
+An example (modified example #5) from the *x0-system* is used, with working backend
+services and a database. The `microesb` product abstracts OOP-based *webservice call data*.
 
 ### 10.1 Example Content Explained
 
-The `./example` subdir contains the following content.
+The ./example subdirectory contains the following:
 
 | SUBDIR              | DESCRIPTION                                           |
 | ------------------- | ----------------------------------------------------- |
@@ -153,8 +178,7 @@ The `./example` subdir contains the following content.
 
 ### 10.2 Build Dir Explained
 
-The `./www` subdir used by docker to build the *x0-app* contains the following
-content.
+The ./www subdirectory, used by Docker to build the x0-app, contains:
 
 | SUBDIR              | DESCRIPTION                                           |
 | ------------------- | ----------------------------------------------------- |
@@ -165,24 +189,39 @@ content.
 
 ### 10.3 Get Application Ready
 
-1. Remove all x0 objects definition (`rm ./www/static/*.json`)
-2. Move x0 objects definition to build dir (`mv ./x0-config/* ./www/static/`)
-3. Move Python backend scripts to build dir (`mv ./x0-backend/* ./www/python/`)
-4. Move microesb config and service implementation to build dir (`mv ./microesb/* ./www/backend/`)
-4. Replace dockerfile in docker dir (`mv ./docker/app.dockerfile ./docker/app.dockerfile`)
+1. Remove all x0 object definitions:
+```bash
+rm ./www/static/*.json
+```
+2. Move x0 objects definition to build dir
+```bash
+mv ./x0-config/* ./www/static/
+```
+3. Move Python backend scripts to build dir
+```bash
+mv ./x0-backend/* ./www/python/
+```
+4. Move microesb config and service implementation to build dir
+```bash
+   mv ./microesb/* ./www/backend/
+```
+5. Replace the Dockerfile:
+```bash
+mv ./docker/app.dockerfile ./docker/app.dockerfile`
+```
 
 ## 11. Rebuild / Deploy
 
-Now rebuild debian package, docker container and start the application.
+Rebuild the Debian package, Docker container, and start the application:
 
 ```bash
 # build debian package
 cd ./debian && debuild
 
-# build docker container
+# build docker containers
 cd ./docker && build-app.sh && build-db.sh
 
-# start application
+# start the application
 ./x0-start-containers.sh
 ```
 
@@ -190,12 +229,12 @@ Open `http://x0-skeleton-test.x0.localnet/python/Index.py`.
 
 ## 12. Developing x0
 
-If you need to implement new (enhanced) base *x0-objects*:
+If you need to implement new (or enhanced) base x0-objects:
 
-1. Clone the x0 repository
-2. Model / add your sysObjNewObject.js
-3. Build x0 docker containers
-4. Rebuild your-app locally
+1. Clone the x0 repository.
+2. Model / add your `sysObjNewObject.js`.
+3. Build x0 Docker containers.
+4. Rebuild your app locally.
 
 >[!NOTE]
-> Get fame by proposing your object to be implemented into official *x0-system*.
+> Get recognition by proposing your object for inclusion in the official x0-system.
