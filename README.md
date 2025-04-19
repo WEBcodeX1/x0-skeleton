@@ -178,7 +178,7 @@ The ./example subdirectory contains the following:
 
 ### 10.2 Build Dir Explained
 
-The ./www subdirectory, used by Docker to build the x0-app, contains:
+The ./www subdirectory, used by Docker to build the *x0-app*, contains:
 
 | SUBDIR              | DESCRIPTION                                           |
 | ------------------- | ----------------------------------------------------- |
@@ -229,7 +229,7 @@ Open `http://x0-skeleton-test.x0.localnet/python/Index.py`.
 
 ## 12. Developing x0
 
-If you need to implement new (or enhanced) base x0-objects:
+If you need to implement new (or enhanced) base *x0-objects*:
 
 1. Clone the x0 repository.
 2. Model / add your `sysObjNewObject.js`.
@@ -237,4 +237,4 @@ If you need to implement new (or enhanced) base x0-objects:
 4. Rebuild your app locally.
 
 >[!NOTE]
-> Get recognition by proposing your object for inclusion in the official x0-system.
+> Get recognition by proposing your object for inclusion in the official *x0-system*.
