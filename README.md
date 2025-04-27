@@ -46,11 +46,17 @@ usermod -aG docker your-user
 
 ## 3. Docker Images
 
->[!NOTE]
-> Currently, we do not provide a Docker registry.
-> Images must be loaded manually after downloading.
+```bash
+# pull docker images
+docker pull ghcr.io/webcodex1/x0-app
+docker pull ghcr.io/webcodex1/x0-db
+docker pull ghcr.io/webcodex1/x0-test
+docker pull ghcr.io/webcodex1/x0-msg-server
+```
 
-Available Docker images:
+-- or --
+
+Download Docker images manually:
 
 - https://docker.webcodex.de/x0/docker.x0-app.tar<br>
 - https://docker.webcodex.de/x0/docker.x0-db.tar<br>
