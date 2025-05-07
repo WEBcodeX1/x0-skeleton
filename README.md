@@ -17,18 +17,18 @@ For the base x0 repository and detailed documentation, visit: https://github.com
 
 ### Supported OS:
 
-Ubuntu 22.04, 24.04
+Ubuntu 22.04
 
 ```bash
 # install debian package builder / gnu gpg
 apt-get -y install debuild gnupg docker.io
 ```
 
-Devuan
+Ubuntu 24.04 / Devuan 
 
 ```bash
 # install debian package builder / gnu gpg
-apt-get install devscripts pbuilder gnupg docker.io
+apt-get install devscripts debhelper pbuilder gnupg docker.io
 ```
 
 ## 2. Docker Permissions
