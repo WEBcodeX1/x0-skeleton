@@ -1,4 +1,4 @@
-FROM x0-app:latest
+FROM ghcr.io/webcodex1/x0-app:latest
 MAINTAINER Your Name
 
 ARG DEB_FILE=x0-skeleton-data_0.1_all.deb

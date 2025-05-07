@@ -1,4 +1,4 @@
-FROM x0-db-install-tpl:latest
+FROM ghcr.io/webcodex1/x0-db-install-tpl:latest
 MAINTAINER Your Name
 
 ARG APP_DEB_FILE=x0-skeleton-db-install_0.1_all.deb
