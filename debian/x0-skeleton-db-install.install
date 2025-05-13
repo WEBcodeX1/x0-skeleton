@@ -1,0 +1,2 @@
+database/*.sql var/lib/x0/database
+config/app-config.json /var/lib/x0/app-setup/config

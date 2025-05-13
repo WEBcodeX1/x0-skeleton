@@ -24,34 +24,30 @@ app_config_file = '{}/app-config.json'.format(dir_x0_app_config)
 def log_message(log_prefix, msg):
     logging.info('{}:{}'.format(log_prefix, msg))
 
-def prepare_minikube_hyperv(os_type, subtype, driver, offline_install):
+def prepare_minikube(os_type, subtype, driver, offline_install):
 
     if os_type == 'mswindows' and subtype == 'minikube' and driver == 'hyperv' and offline_install is False:
 
-        curl_binary = '"C:\\Program Files\\Git\\mingw64\\bin\\curl"'
-        tmp_path = 'C:\\Windows\\Temp'
-
-        docker_image_base_url = 'https://docker.webcodex.de/x0'
-
-        docker_image_files = {
-            'x0_app': 'docker.x0-app.tar',
-            'x0_db_install': 'docker.x0-db-install.tar',
-            'x0_test': 'docker.x0-test.tar'
-        }
-
-        for image_id, image_file in docker_image_files.items():
-            cmd_wget = '{} -o {}\\{} -C - {}/{}'.format(
-                curl_binary,
-                tmp_path,
-                image_file,
-                docker_image_base_url,
-                image_file
-            )
-            logging.info('Wget cmd:{}'.format(cmd_wget))
-            res = subprocess.run(cmd_wget, shell=True)
-
         cmd_minikube_create_cluster = 'minikube start --driver=hyperv'
         res = subprocess.run(cmd_minikube_create_cluster, shell=True)
+
+    if os_type == 'linux' and subtype == 'minikube' and driver == 'docker' and offline_install is False:
+
+        get_installer_cmd = 'curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64'
+        res = subprocess.run(get_installer_cmd, shell=True)
+
+        install_cmd = 'sudo install minikube-linux-amd64 /usr/local/bin/minikube'
+        res = subprocess.run(install_cmd, shell=True)
+
+    if subtype == 'minikube' and offline_install is False:
+
+        export_app_cmd = 'docker save your-app:latest > /tmp/docker.your-app.tar'
+        export_db_install_cmd = 'docker save your-db-install:latest > /tmp/docker.your-db-install.tar'
+        res = subprocess.run(export_app_cmd, shell=True)
+        res = subprocess.run(export_db_install_cmd, shell=True)
+
+        cmd_create_cluster = 'minikube start --driver=docker'
+        res = subprocess.run(cmd_create_cluster, shell=True)
 
         res = subprocess.run('minikube addons enable registry', shell=True)
         res = subprocess.run('minikube addons enable ingress', shell=True)
@@ -59,14 +55,12 @@ def prepare_minikube_hyperv(os_type, subtype, driver, offline_install):
 
         res = subprocess.run('minikube image pull reactivetechio/kubegres:1.19', shell=True)
         res = subprocess.run('minikube image pull postgres:14', shell=True)
-        res = subprocess.run('minikube image pull selenium/standalone-chrome:131.0', shell=True)
+        res = subprocess.run('minikube image pull selenium/standalone-chrome:latest', shell=True)
 
-        for image_id, image_file in docker_image_files.items():
-            cmd_image_load = 'minikube image load {}/{}'.format(
-                tmp_path,
-                image_file
-            )
-            res = subprocess.run(cmd_image_load, shell=True)
+        import_app_cmd = 'minikube image load /tmp/docker.your-app.tar'
+        import_db_install_cmd = 'minikube image load /tmp/docker.your-db-install.tar'
+        res = subprocess.run(import_app_cmd, shell=True)
+        res = subprocess.run(import_db_install_cmd, shell=True)
 
 def gen_kubernetes_templates(ConfRef, environment, tpl_group='app'):
 
@@ -439,7 +433,7 @@ if __name__ == '__main__':
     print("Install sub type:{}".format(install_subtype))
 
     # prepare win 
-    prepare_minikube_hyperv(os_type, install_subtype, minikube_driver, install_offline)
+    prepare_minikube(os_type, install_subtype, minikube_driver, install_offline)
 
     load_balancers = get_loadbalancers(CH)
     log_message(log_prefix, 'LoadBalancers:{}'.format(load_balancers))

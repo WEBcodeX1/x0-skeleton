@@ -1,11 +1,14 @@
 {
     "project": {
-        "name": "x0-skeleton",
-        "id": "x0-skeleton-app",
-        "git-repo": "your-repo"
+        "name": "your-x0-skeleton-app",
+        "id": "your-app",
+        "git-repo": "https://your-repo.com"
     },
     "installer": {
-        "type": "x0"
+        "type": "x0",
+        "subtype": "minikube",
+        "os:": "linux",
+        "minikube_driver": "docker"
     },
     "database": {
         "name": "yourdb",
@@ -18,7 +21,7 @@
         "test": {
             "kubernetes": {
                 "deployment": {
-                    "image": "x0-skeleton-main",
+                    "image": "your-app",
                     "replicas": 2,
                     "cpu": "200m",
                     "memory": "512Mi",
