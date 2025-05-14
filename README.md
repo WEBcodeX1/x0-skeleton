@@ -13,7 +13,7 @@ within minutes using Docker or Google Kubernetes Engine (GKE).
 
 For the base x0 repository and detailed documentation, visit: https://github.com/WEBcodeX1/x0.
 
-
+Howto model an *x0-app* according to the shipped example, see: [./BUILD-HOWTO.md](./BUILD-HOWTO.md).
 
 ## 1. Dependencies / Package Installation
 
@@ -146,3 +146,40 @@ python3 ./Setup.py
 > The IP setup including DNS differs from the Docker setup and **must** be changed
 > according to the next steps.
 
+### 9.1. IP Setup / DNS
+
+```bash
+# get minikube main ip address
+minikube ip
+```
+
+Returns the current Minikube ingress IP Address (e.g. 192.168.49.2).
+
+```bash
+# get minikube ingress
+kubectl get ingress -n x0-skeleton-test
+```
+
+Returns ingress configuration for the x0-skeleton namespace.
+Add the data from column `HOST` and `ADDRESS` to `/etc/hosts` or DNS zone file.
+
+>[!NOTE]
+> Change IP address if already used in Docker context.
+
+### 9.2. Check Pod Status
+
+Finally check pod status.
+
+```bash
+# get pods status
+kubectl get pods -n x0-skeleton-test
+```
+
+```bash
+NAME                                        READY   STATUS
+mypostgres-1-0                              1/1     Running
+mypostgres-2-0                              1/1     Running
+your-app-test-db-install                    0/1     Completed
+your-app-test-deployment-6cb48779f9-cq2sb   1/1     Running
+your-app-test-deployment-6cb48779f9-d5sf9   1/1     Running
+```
