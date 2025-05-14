@@ -183,3 +183,8 @@ your-app-test-db-install                    0/1     Completed
 your-app-test-deployment-6cb48779f9-cq2sb   1/1     Running
 your-app-test-deployment-6cb48779f9-d5sf9   1/1     Running
 ```
+
+### 9.3. Check Application
+
+Open http://x0-skeleton-test.x0.localnet/python/Index.py in your browser.
+A `Hello World.` text should be displayed.
