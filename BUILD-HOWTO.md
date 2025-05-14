@@ -111,7 +111,7 @@ cd ./docker && build-app.sh && build-db.sh
 
 Open `http://x0-skeleton-test.x0.localnet/python/Index.py`.
 
-## 5. Developing x0
+## 5. Be An x0-Developer
 
 If you need to implement new (or enhanced) base *x0-objects*:
 
