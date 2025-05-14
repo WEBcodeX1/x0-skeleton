@@ -8,6 +8,6 @@ spec:
   automountServiceAccountToken: false
   containers:
   - name: db-install
-    image: docker.io/library/${x0_DB_NAME}-db-install:latest
+    image: docker.io/library/your-db-install:latest
     imagePullPolicy: IfNotPresent
   restartPolicy: Never

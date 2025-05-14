@@ -12,3 +12,10 @@ Section: utils
 Architecture: all
 Depends: ${misc:Depends}
 Description: Your application (www) data.
+
+Package: x0-skeleton-db-install
+Section: utils
+Architecture: all
+Depends: ${misc:Depends}
+Description: Your application Minikube DB installer.
+
