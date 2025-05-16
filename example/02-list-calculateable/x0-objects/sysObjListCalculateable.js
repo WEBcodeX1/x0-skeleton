@@ -12,10 +12,10 @@
 
 
 //------------------------------------------------------------------------------
-//- CONSTRUCTOR "sysListCalculatableCol"
+//- CONSTRUCTOR "sysListCalculateableCol"
 //------------------------------------------------------------------------------
 
-function sysListCalculatableCol(ParentObject, RowIndex, ColIndex)
+function sysListCalculateableCol(ParentObject, RowIndex, ColIndex)
 {
     this.EventListeners            = new Object();       //- Event Listeners
     this.ChildObjects              = Array();            //- Child Objects
@@ -29,29 +29,33 @@ function sysListCalculatableCol(ParentObject, RowIndex, ColIndex)
 
     this.overrideDOMObjectID       = true;               //- Set ObjectID not recursive
 
-    this.ObjectID                  = 'TC_'+ ParentObject.ObjectID + '_' + RowIndex '_' + ColIndex;
+    this.ObjectID                  = 'TC_'+ ParentObject.ObjectID + '_' + RowIndex + '_' + ColIndex;
 }
 
-sysListCalculatableCol.prototype = new sysBaseObject();
+sysListCalculateableCol.prototype = new sysBaseObject();
 
 
 //------------------------------------------------------------------------------
 //- METHOD "init"
 //------------------------------------------------------------------------------
 
-sysListCalculatableCol.prototype.init = function()
+sysListCalculateableCol.prototype.init = function()
 {
+    this.FormFieldText = new sysFormfieldItem();
+
     var EventListenerObj = new Object();
     EventListenerObj['Type'] = 'mousedown';
     EventListenerObj['Element'] = this.EventListenerRightClick.bind(this);
     this.EventListeners['ContextMenuOpen'] = EventListenerObj;
 
-	/*
+/*
     var EventListenerObj = new Object();
     EventListenerObj['Type'] = 'mousedown';
     EventListenerObj['Element'] = this.EventListenerSelect.bind(this);
     this.EventListeners['ColSelect'] = EventListenerObj;
-	*/
+*/
+
+    this.addObject(this.FormFieldText);
 }
 
 
@@ -59,30 +63,30 @@ sysListCalculatableCol.prototype.init = function()
 //- METHOD "EventListenerRightClick"
 //------------------------------------------------------------------------------
 
-sysListCalculatableCol.prototype.EventListenerRightClick = function(Event)
+sysListCalculateableCol.prototype.EventListenerRightClick = function(Event)
 {
     var ContextMenuItems = [
         {
             "ID": "Remove",
-            "TextID": "TXT.CONTEXTMENU.REMOVE-ITEM-SINGLE",
+            "TextID": "TXT.CONTEXTMENU.REMOVE-COL-SINGLE",
             "IconStyle": "fa-regular fa-trash-can",
             "InternalFunction": "remove"
         },
         {
             "ID": "RemoveSelected",
-            "TextID": "TXT.CONTEXTMENU.REMOVE-ITEM-SELECTED",
+            "TextID": "TXT.CONTEXTMENU.REMOVE-COLS-SELECTED",
             "IconStyle": "fa-regular fa-trash-can",
             "InternalFunction": "remove-selected"
         },
         {
             "ID": "AddColLeft",
-            "TextID": "TXT.CONTEXTMENU.APPEND-ROW",
+            "TextID": "TXT.CONTEXTMENU.ADD-COL-LEFT",
             "IconStyle": "fa-solid fa-paste",
             "InternalFunction": "append-row"
         },
         {
             "ID": "AddColRight",
-            "TextID": "TXT.CONTEXTMENU.APPEND-ROW",
+            "TextID": "TXT.CONTEXTMENU.ADD-COL-RIGHT",
             "IconStyle": "fa-solid fa-paste",
             "InternalFunction": "append-row"
         }
@@ -111,10 +115,10 @@ sysListCalculatableCol.prototype.EventListenerRightClick = function(Event)
 
 
 //------------------------------------------------------------------------------
-//- CONSTRUCTOR "sysListCalculatableRow"
+//- CONSTRUCTOR "sysListCalculateableRow"
 //------------------------------------------------------------------------------
 
-function sysListCalculatableRow(ParentObject, RowIndex)
+function sysListCalculateableRow(ParentObject, RowIndex)
 {
     this.EventListeners            = new Object();       //- Event Listeners
     this.ChildObjects              = Array();            //- Child Objects
@@ -124,7 +128,7 @@ function sysListCalculatableRow(ParentObject, RowIndex)
     this.Index                     = RowIndex;           //- Row Index
     this.Selected                  = false;              //- Selected Row
 
-    this.ColItems                  = new Array();        //- Col Item Objects
+    this.ColItems                  = new Array();        //- Col Items Array
 
     this.overrideDOMObjectID       = true;               //- Set ObjectID not recursive
 
@@ -164,13 +168,13 @@ sysListCalculateableRow.prototype.EventListenerRightClick = function(Event)
     var ContextMenuItems = [
         {
             "ID": "Remove",
-            "TextID": "TXT.CONTEXTMENU.REMOVE-ITEM-SINGLE",
+            "TextID": "TXT.CONTEXTMENU.REMOVE-ROW-SINGLE",
             "IconStyle": "fa-regular fa-trash-can",
             "InternalFunction": "remove"
         },
         {
             "ID": "RemoveSelected",
-            "TextID": "TXT.CONTEXTMENU.REMOVE-ITEM-SELECTED",
+            "TextID": "TXT.CONTEXTMENU.REMOVE-ROWS-SELECTED",
             "IconStyle": "fa-regular fa-trash-can",
             "InternalFunction": "remove-selected"
         },
@@ -231,68 +235,8 @@ sysListCalculateableRow.prototype.EventListenerSelect = function(Event)
 
 sysListCalculateableRow.prototype.addColumns = function()
 {
-    const Attributes = this.ParentObject.JSONConfig.Attributes;
-    console.log('::addColumns ObjectID:%s Attributes:%o', this.ParentObject.ObjectID, Attributes);
-
-    for (let i=0; i<this.RowCount.; ++i;) {
-
-    for (const ColConfigItem of Attributes.Columns) {
-
-        const ColumnKey = ColConfigItem.ID;
-        var ColumnItem = new sysBaseObject();
-
-        try {
-            ColumnItem.ObjectID = ColumnKey + this.Index;
-
-            const ColAttributes = ColConfigItem.Attributes;
-
-            if (ColAttributes !== undefined) {
-                var ColumnObj = new sysFactory.SetupClasses[ColAttributes.ObjectType]();
-
-                if (ColAttributes.ObjectID !== undefined) {
-                    ColumnObj.ObjectID = ColAttributes.ObjectID + this.Index;
-                }
-                else {
-                    ColumnObj.ObjectID = this.ParentObject.ObjectID + ColumnItem.ObjectID + this.Index;
-                }
-
-                ColumnObj.JSONConfig = {
-                    "Attributes": ColConfigItem.Attributes
-                };
-
-                ColumnObj.ScreenObject = this.ParentObject.ScreenObject;
-                ColumnObj.ParentObject = this.ParentObject;
-                ColumnObj.ParentRow = this;
-
-                ColumnObj.init();
-                ColumnItem.addObject(ColumnObj);
-
-                console.debug('ColAttributes:%o', ColAttributes);
-
-                if (ColAttributes.SetObjectData == true) {
-                    this.DynUpdateObjects.push(
-                        [ ColumnObj.ObjectID, this.RowData[ColumnKey] ]
-                    );
-                }
-            }
-            else if(ColConfigItem.IndexGenerator === true) {
-                const setValue = this.Index+1;
-                ColumnItem.DOMValue = setValue;
-                this.ParentObject.Data[this.Index][ColumnKey] = setValue;
-                this.RowData[ColumnKey] = setValue;
-            }
-            else {
-                ColumnItem.DOMValue = this.RowData[ColumnKey];
-            }
-        }
-        catch(err) {
-            ColumnItem.DOMValue = 'Error';
-            console.debug('::addColumns err:%s', err);
-        }
-        console.log('::addColumns Push ColItem DOMValue:%o', ColumnItem);
-
-        ColumnItem.VisibleState = ColConfigItem.VisibleState;
-
+    for (let x=0; x<this.ParentObject.ColumnCount; ++x) {
+        var ColumnItem = new sysListCalculateableCol(this, this.RowIndex, x);
         this.ColItems.push(ColumnItem);
     }
 }
@@ -318,32 +262,6 @@ sysListCalculateableRow.prototype.updateColumnsValues = function()
 sysListCalculateableRow.prototype.getRowData = function()
 {
     return this.RowData;
-}
-
-
-//------------------------------------------------------------------------------
-//- METHOD "genGrid"
-//------------------------------------------------------------------------------
-
-sysListCalculateableRow.prototype.genGrid = function()
-{
-    var GridGenerator = new sysGridGenerator(this.ColItems);
-
-    GridGenerator.init(
-        this.ParentObject.JSONConfig.Attributes.RowStyle,
-        this.ParentObject.JSONConfig.Attributes.ColStyle,
-        this.ParentObject.JSONConfig.Attributes.RowAfterElements,
-        undefined
-    );
-
-    const RowItems = GridGenerator.generate();
-    console.debug('::genGrid RowItems:%o', RowItems);
-
-    for (const RowItem of RowItems) {
-        this.addObject(RowItem);
-    }
-
-    this.ParentObject.addObject(this);
 }
 
 
@@ -428,8 +346,16 @@ sysListCalculateable.prototype.init = function()
 
     this.DOMStyle = Attributes.Style;
 
+    if (Attributes.ColumnCount !== undefined) {
+        this.ColumnCount = Attributes.ColumnCount;
+    }
+
+    if (Attributes.RowCount !== undefined) {
+        this.RowCount = Attributes.RowCount;
+    }
+
     //- add rows / columns
-    for (let i=0; i<this.RowCount.; ++i;) {
+    for (let i=0; i<this.RowCount; ++i) {
         this.addRow(i);
     }
 
@@ -498,9 +424,10 @@ sysListCalculateable.prototype.removeSelectedRows = function()
 
 sysListCalculateable.prototype.renderRows = function()
 {
-    for (const Item of this.RowItems) {
-        Item.genGrid();
+    for (const RowItem of this.RowItems) {
+        this.addObject(RowItem);
     }
+    //this.renderObject(this.DOMParentID);
 }
 
 
