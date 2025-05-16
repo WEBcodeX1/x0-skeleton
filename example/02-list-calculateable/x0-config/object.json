@@ -1,0 +1,74 @@
+{
+	"Link1":
+	{
+		"Type": "Link",
+		"Attributes": {
+			"Style": "btn btn-primary",
+			"TextID": "TXT.MENU.LIST-EXAMPLE.LINK.SCREEN1",
+			"ScreenID": "Screen1"
+		}
+	},
+
+	"Link2":
+	{
+		"Type": "Link",
+		"Attributes": {
+			"Style": "btn btn-primary",
+			"TextID": "TXT.MENU.LIST-EXAMPLE.LINK.SCREEN2",
+			"ScreenID": "Screen2"
+		}
+	},
+
+	"Link3":
+	{
+		"Type": "Link",
+		"Attributes": {
+			"Style": "btn btn-primary",
+			"TextID": "TXT.MENU.LIST-EXAMPLE.LINK.SCREEN3",
+			"ScreenID": "Screen3"
+		}
+	},
+
+	"ListCalculateable1": {
+		"Type": "ListCalculateable",
+		"Attributes": {
+			"Style": "border border-dark border-3 rounded-top rounded-bottom container",
+			"ErrorContainer": "ListCalculateable1ErrorContainer"
+		}
+	},
+
+	"ListCalculateable1ErrorContainer": {
+		"Type": "ErrorContainer",
+		"Attributes": {
+		}
+	},
+
+	"ListCalculateable2": {
+		"Type": "ListCalculateable",
+		"Attributes": {
+			"Style": "border border-dark border-3 rounded-top rounded-bottom container",
+			"ErrorContainer": "ListCalculateable2ErrorContainer"
+		}
+	},
+
+	"ListCalculateable2ErrorContainer": {
+		"Type": "ErrorContainer",
+		"Attributes": {
+		}
+	},
+
+	"ListCalculateable3": {
+		"Type": "ListCalculateable",
+		"Attributes": {
+			"Style": "border border-dark border-3 rounded-top rounded-bottom container",
+			"ErrorContainer": "ListCalculateable3ErrorContainer"
+		}
+	},
+
+	"ListCalculateable3ErrorContainer": {
+		"Type": "ErrorContainer",
+		"Attributes": {
+		}
+	}
+
+}
