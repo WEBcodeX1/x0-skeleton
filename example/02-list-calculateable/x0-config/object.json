@@ -32,7 +32,7 @@
 	"ListCalculateable1": {
 		"Type": "ListCalculateable",
 		"Attributes": {
-			"Style": "border border-dark border-3 rounded-top rounded-bottom",
+			"Style": "border border-dark border-3 rounded-top rounded-bottom container",
 			"ErrorContainer": "ListCalculateable1ErrorContainer"
 		}
 	},
@@ -46,7 +46,7 @@
 	"ListCalculateable2": {
 		"Type": "ListCalculateable",
 		"Attributes": {
-			"Style": "border border-dark border-3 rounded-top rounded-bottom",
+			"Style": "border border-dark border-3 rounded-top rounded-bottom container",
 			"ErrorContainer": "ListCalculateable2ErrorContainer"
 		}
 	},
@@ -60,7 +60,7 @@
 	"ListCalculateable3": {
 		"Type": "ListCalculateable",
 		"Attributes": {
-			"Style": "border border-dark border-3 rounded-top rounded-bottom",
+			"Style": "border border-dark border-3 rounded-top rounded-bottom container",
 			"ErrorContainer": "ListCalculateable3ErrorContainer"
 		}
 	},

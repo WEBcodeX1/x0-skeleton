@@ -10,3 +10,4 @@ INSERT INTO webui.text (id, "group", value_de, value_en) VALUES ('TXT.CONTEXTMEN
 INSERT INTO webui.text (id, "group", value_de, value_en) VALUES ('TXT.CONTEXTMENU.ADD-COL-RIGHT', 'context-menu', 'Spalte rechts einfügen', 'Add column right');
 INSERT INTO webui.text (id, "group", value_de, value_en) VALUES ('TXT.CONTEXTMENU.REMOVE-ROW-SINGLE', 'context-menu', 'Zeile löschen', 'Remove row');
 INSERT INTO webui.text (id, "group", value_de, value_en) VALUES ('TXT.CONTEXTMENU.REMOVE-ROWS-SELECTED', 'context-menu', 'Markierte Zeilen löschen', 'Remove selected rows');
+INSERT INTO webui.text (id, "group", value_de, value_en) VALUES ('TXT.CONTEXTMENU.APPEND-ROW', 'context-menu', 'Zeile hinzufügen', 'Add row');

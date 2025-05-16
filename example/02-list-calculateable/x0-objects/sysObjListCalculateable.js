@@ -30,6 +30,7 @@ function sysListCalculateableCol(ParentObject, RowIndex, ColIndex)
     this.overrideDOMObjectID       = true;               //- Set ObjectID not recursive
 
     this.ObjectID                  = 'TC_'+ ParentObject.ObjectID + '_' + RowIndex + '_' + ColIndex;
+    this.DOMStyle                  = 'col-sm m-1 p-1'
 }
 
 sysListCalculateableCol.prototype = new sysBaseObject();
@@ -42,20 +43,30 @@ sysListCalculateableCol.prototype = new sysBaseObject();
 sysListCalculateableCol.prototype.init = function()
 {
     this.FormFieldText = new sysFormfieldItem();
+    this.FormFieldText.ObjectID = 'Form_' + this.RowIndex + '_' + this.ColIndex;
+
+    this.FormFieldText.JSONConfig = {
+        "Attributes": {
+            "ObjectType": "FormfieldText",
+            "Type": "text",
+            "Style": "form-control w-100"
+        }
+    }
+
+    this.FormFieldText.FormItemInit();
+    this.addObject(this.FormFieldText);
 
     var EventListenerObj = new Object();
     EventListenerObj['Type'] = 'mousedown';
     EventListenerObj['Element'] = this.EventListenerRightClick.bind(this);
     this.EventListeners['ContextMenuOpen'] = EventListenerObj;
 
-/*
+    /*
     var EventListenerObj = new Object();
     EventListenerObj['Type'] = 'mousedown';
     EventListenerObj['Element'] = this.EventListenerSelect.bind(this);
     this.EventListeners['ColSelect'] = EventListenerObj;
-*/
-
-    this.addObject(this.FormFieldText);
+    */
 }
 
 
@@ -136,6 +147,7 @@ function sysListCalculateableRow(ParentObject, RowIndex)
     this.RuntimeSetDataFunc        = undefined;          //- To be implemented
 
     this.ObjectID                  = 'TR_'+ ParentObject.ObjectID + '_' + RowIndex;
+    this.DOMStyle                  = 'row'
 }
 
 sysListCalculateableRow.prototype = new sysBaseObject();
@@ -236,8 +248,12 @@ sysListCalculateableRow.prototype.EventListenerSelect = function(Event)
 sysListCalculateableRow.prototype.addColumns = function()
 {
     for (let x=0; x<this.ParentObject.ColumnCount; ++x) {
-        var ColumnItem = new sysListCalculateableCol(this, this.RowIndex, x);
+        const ColumnItem = new sysListCalculateableCol(this, this.Index, x);
+        ColumnItem.init();
         this.ColItems.push(ColumnItem);
+    }
+    for (const ColItem of this.ColItems) {
+        this.addObject(ColItem);
     }
 }
 
@@ -323,6 +339,7 @@ function sysListCalculateable()
     this.ChildObjects           = new Array();               //- Child Objects
 
     this.RowsSelectable         = true;                      //- Multi Row Selection Default
+    this.DOMStyle               = 'container';
 }
 
 sysListCalculateable.prototype = new sysBaseObject();
