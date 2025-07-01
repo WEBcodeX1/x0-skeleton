@@ -12,23 +12,62 @@
 
 
 //------------------------------------------------------------------------------
+//- CONSTRUCTOR "sysListCalculateableColRowIndexEmpty"
+//------------------------------------------------------------------------------
+
+function sysListCalculateableColRowIndexEmpty(ParentObject)
+{
+    this.ObjectID                  = 'TCRowIndex_'+ ParentObject.ObjectID + '_0';
+    this.DOMStyle                  = 'col-1 h3 m-1 p-1';
+
+    this.DOMValue                  = '';
+}
+
+sysListCalculateableColRowIndexEmpty.prototype = new sysBaseObject();
+
+
+//------------------------------------------------------------------------------
 //- CONSTRUCTOR "sysListCalculateableColRowIndex"
 //------------------------------------------------------------------------------
 
 function sysListCalculateableColRowIndex(ParentObject, RowIndex)
 {
-    this.EventListeners            = new Object();          //- Event Listeners
-    this.ChildObjects              = Array();               //- Child Objects
-
     this.RowIndex                  = RowIndex;              //- Row Index
 
     this.ObjectID                  = 'TCRowIndex_'+ ParentObject.ObjectID + '_' + RowIndex;
     this.DOMStyle                  = 'col-1 h3 m-1 p-1';
 
-    this.DOMValue                  = 'Row ' + (RowIndex+1);
+    this.DOMValue                  = 'Row' + (RowIndex+1);
 }
 
 sysListCalculateableColRowIndex.prototype = new sysBaseObject();
+
+
+//------------------------------------------------------------------------------
+//- CONSTRUCTOR "sysListCalculateableHeaderCol"
+//------------------------------------------------------------------------------
+
+function sysListCalculateableHeaderCol(ParentObject, ColIndex)
+{
+    this.EventListeners            = new Object();          //- Event Listeners
+    this.ChildObjects              = Array();               //- Child Objects
+
+    this.ParentObject              = ParentObject;          //- Parent Object
+    this.ParentObjectID            = ParentObject.ObjectID; //- Parent Object ObjectID
+
+    this.ColIndex                  = ColIndex;              //- Col Index
+
+    this.Selected                  = false;                 //- Selected Row
+
+    this.overrideDOMObjectID       = true;                  //- Set ObjectID not recursive
+
+    this.ObjectID                  = 'TC_'+ this.ParentObjectID + '_' + ColIndex;
+    this.DOMStyle                  = 'col-sm h3 m-1 p-1';
+
+    this.DOMValue                  = 'Col' + (ColIndex+1);
+}
+
+sysListCalculateableHeaderCol.prototype = new sysBaseObject();
 
 
 //------------------------------------------------------------------------------
@@ -142,6 +181,48 @@ sysListCalculateableCol.prototype.EventListenerRightClick = function(Event)
         ContextMenu.RowObject      = this;
 
         ContextMenu.init();
+    }
+}
+
+
+//------------------------------------------------------------------------------
+//- CONSTRUCTOR "sysListCalculateableHeaderRow"
+//------------------------------------------------------------------------------
+
+function sysListCalculateableHeaderRow(ParentObject)
+{
+    this.EventListeners            = new Object();       //- Event Listeners
+    this.ChildObjects              = Array();            //- Child Objects
+
+    this.ParentObject              = ParentObject;       //- Parent Object
+
+    this.ColItems                  = new Array();        //- Col Items Array
+
+    this.overrideDOMObjectID       = true;               //- Set ObjectID not recursive
+
+    this.ObjectID                  = 'TRHeader_'+ ParentObject.ObjectID;
+    this.DOMStyle                  = 'row'
+}
+
+sysListCalculateableHeaderRow.prototype = new sysBaseObject();
+
+
+//------------------------------------------------------------------------------
+//- METHOD "addColumns"
+//------------------------------------------------------------------------------
+
+sysListCalculateableHeaderRow.prototype.addColumns = function()
+{
+    const ColRowIndex = new sysListCalculateableColRowIndexEmpty(this);
+    this.ColItems.push(ColRowIndex);
+
+    for (let x=0; x<this.ParentObject.ColumnCount; ++x) {
+        const ColumnItem = new sysListCalculateableHeaderCol(this, x);
+        this.ColItems.push(ColumnItem);
+    }
+
+    for (const ColItem of this.ColItems) {
+        this.addObject(ColItem);
     }
 }
 
@@ -397,7 +478,7 @@ sysListCalculateable.prototype.init = function()
     }
 
     //- add header row
-    //this.addHeaderRow();
+    this.addHeaderRow();
 
     //- add rows / columns
     for (let i=0; i<this.RowCount; ++i) {
@@ -409,6 +490,20 @@ sysListCalculateable.prototype.init = function()
 
     //- register event listeners
     this.processEventListener();
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "addHeaderRow"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.addHeaderRow = function()
+{
+    var RowObj = new sysListCalculateableHeaderRow(this);
+
+    RowObj.addColumns();
+
+    this.RowItems.push(RowObj);
 }
 
 
