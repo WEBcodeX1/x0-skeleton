@@ -42,6 +42,21 @@ sysListCalculateableColHeaderSum.prototype = new sysBaseObject();
 
 
 //------------------------------------------------------------------------------
+//- CONSTRUCTOR "sysListCalculateableColRowSum"
+//------------------------------------------------------------------------------
+
+function sysListCalculateableColRowSum(ParentObject)
+{
+    this.ObjectID                  = 'TCRow_'+ ParentObject.ObjectID + '_Sum';
+    this.DOMStyle                  = 'col-1 h5 fw-bold';
+
+    this.DOMValue                  = 'Sum';
+}
+
+sysListCalculateableColRowSum.prototype = new sysBaseObject();
+
+
+//------------------------------------------------------------------------------
 //- CONSTRUCTOR "sysListCalculateableColRowIndex"
 //------------------------------------------------------------------------------
 
@@ -56,6 +71,21 @@ function sysListCalculateableColRowIndex(ParentObject, RowIndex)
 }
 
 sysListCalculateableColRowIndex.prototype = new sysBaseObject();
+
+
+//------------------------------------------------------------------------------
+//- CONSTRUCTOR "sysListCalculateableColEmptyBottom"
+//------------------------------------------------------------------------------
+
+function sysListCalculateableColEmptyBottom(ParentObject)
+{
+    this.ObjectID                  = 'TCEmptyBottom_'+ ParentObject.ObjectID;
+    this.DOMStyle                  = 'col-sm';
+
+    this.DOMValue                  = '';
+}
+
+sysListCalculateableColEmptyBottom.prototype = new sysBaseObject();
 
 
 //------------------------------------------------------------------------------
@@ -167,7 +197,6 @@ sysListCalculateableHeaderCol.prototype.EventListenerRightClick = function(Event
 
 function sysListCalculateableSumCol(ParentObject, RowIndex)
 {
-    this.EventListeners            = new Object();          //- Event Listeners
     this.ChildObjects              = Array();               //- Child Objects
 
     this.ParentObject              = ParentObject;          //- Parent Object
@@ -192,6 +221,51 @@ sysListCalculateableSumCol.prototype.init = function()
 {
     this.FormFieldText = new sysFormfieldItem();
     this.FormFieldText.ObjectID = 'FormSumCol_' + this.ParentObjectID + '_' + this.RowIndex;
+
+    this.FormFieldText.JSONConfig = {
+        "Attributes": {
+            "ObjectType": "FormfieldText",
+            "Type": "text",
+            "Disabled": true,
+            "Style": "form-control w-100 rounded-1"
+        }
+    }
+
+    this.FormFieldText.FormItemInit();
+    this.addObject(this.FormFieldText);
+}
+
+
+//------------------------------------------------------------------------------
+//- CONSTRUCTOR "sysListCalculateableRowSum"
+//------------------------------------------------------------------------------
+
+function sysListCalculateableRowSum(ParentObject, ColIndex)
+{
+    this.ChildObjects              = Array();               //- Child Objects
+
+    this.ParentObject              = ParentObject;          //- Parent Object
+    this.ParentObjectID            = ParentObject.ObjectID; //- Parent Object ObjectID
+
+    this.ColIndex                  = ColIndex;              //- Col Index
+
+    this.overrideDOMObjectID       = true;                  //- Set ObjectID not recursive
+
+    this.ObjectID                  = 'TCRowSum_'+ this.ParentObjectID + '_' + ColIndex;
+    this.DOMStyle                  = 'col-sm';
+}
+
+sysListCalculateableRowSum.prototype = new sysBaseObject();
+
+
+//------------------------------------------------------------------------------
+//- METHOD "init"
+//------------------------------------------------------------------------------
+
+sysListCalculateableRowSum.prototype.init = function()
+{
+    this.FormFieldText = new sysFormfieldItem();
+    this.FormFieldText.ObjectID = 'FormRowSumCol_' + this.ParentObjectID + '_' + this.ColIndex;
 
     this.FormFieldText.JSONConfig = {
         "Attributes": {
@@ -294,6 +368,51 @@ sysListCalculateableHeaderRow.prototype.addColumns = function()
 
     const ColHeaderSum = new sysListCalculateableColHeaderSum(this);
     this.ColItems.push(ColHeaderSum);
+
+    for (const ColItem of this.ColItems) {
+        this.addObject(ColItem);
+    }
+}
+
+
+//------------------------------------------------------------------------------
+//- CONSTRUCTOR "sysListCalculateableSumRow"
+//------------------------------------------------------------------------------
+
+function sysListCalculateableSumRow(ParentObject)
+{
+    this.ChildObjects              = Array();            //- Child Objects
+
+    this.ParentObject              = ParentObject;       //- Parent Object
+
+    this.ColItems                  = new Array();        //- Col Items Array
+
+    this.overrideDOMObjectID       = true;               //- Set ObjectID not recursive
+
+    this.ObjectID                  = 'TRSum_'+ ParentObject.ObjectID;
+    this.DOMStyle                  = 'row'
+}
+
+sysListCalculateableSumRow.prototype = new sysBaseObject();
+
+
+//------------------------------------------------------------------------------
+//- METHOD "addColumns"
+//------------------------------------------------------------------------------
+
+sysListCalculateableSumRow.prototype.addColumns = function()
+{
+    const ColRowSum = new sysListCalculateableColRowSum(this);
+    this.ColItems.push(ColRowSum);
+
+    for (let x=0; x<this.ParentObject.ColumnCount; ++x) {
+        const ColumnItem = new sysListCalculateableRowSum(this, x);
+        ColumnItem.init();
+        this.ColItems.push(ColumnItem);
+    }
+
+    const ColEmpty = new sysListCalculateableColEmptyBottom(this);
+    this.ColItems.push(ColEmpty);
 
     for (const ColItem of this.ColItems) {
         this.addObject(ColItem);
@@ -563,6 +682,9 @@ sysListCalculateable.prototype.init = function()
         this.addRow(i);
     }
 
+    //- add sum row
+    this.addSumRow();
+
     //- render matrix
     this.renderRows();
 
@@ -594,6 +716,20 @@ sysListCalculateable.prototype.addRow = function(Index)
     var RowObj = new sysListCalculateableRow(this, Index);
 
     RowObj.init();
+    RowObj.addColumns();
+
+    this.RowItems.push(RowObj);
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "addSumRow"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.addSumRow = function()
+{
+    var RowObj = new sysListCalculateableSumRow(this);
+
     RowObj.addColumns();
 
     this.RowItems.push(RowObj);
