@@ -18,12 +18,27 @@
 function sysListCalculateableColRowIndexEmpty(ParentObject)
 {
     this.ObjectID                  = 'TCRowIndex_'+ ParentObject.ObjectID + '_0';
-    this.DOMStyle                  = 'col-1 h3 m-1 p-1';
+    this.DOMStyle                  = 'col-1';
 
     this.DOMValue                  = '';
 }
 
 sysListCalculateableColRowIndexEmpty.prototype = new sysBaseObject();
+
+
+//------------------------------------------------------------------------------
+//- CONSTRUCTOR "sysListCalculateableColHeaderSum"
+//------------------------------------------------------------------------------
+
+function sysListCalculateableColHeaderSum(ParentObject)
+{
+    this.ObjectID                  = 'TCHeader_'+ ParentObject.ObjectID + '_Sum';
+    this.DOMStyle                  = 'col-sm h5 fw-bold';
+
+    this.DOMValue                  = 'Sum';
+}
+
+sysListCalculateableColHeaderSum.prototype = new sysBaseObject();
 
 
 //------------------------------------------------------------------------------
@@ -35,7 +50,7 @@ function sysListCalculateableColRowIndex(ParentObject, RowIndex)
     this.RowIndex                  = RowIndex;              //- Row Index
 
     this.ObjectID                  = 'TCRowIndex_'+ ParentObject.ObjectID + '_' + RowIndex;
-    this.DOMStyle                  = 'col-1 h3 m-1 p-1';
+    this.DOMStyle                  = 'col-1 h5 fw-bold';
 
     this.DOMValue                  = 'Row' + (RowIndex+1);
 }
@@ -62,7 +77,7 @@ function sysListCalculateableHeaderCol(ParentObject, ColIndex)
     this.overrideDOMObjectID       = true;                  //- Set ObjectID not recursive
 
     this.ObjectID                  = 'TC_'+ this.ParentObjectID + '_' + ColIndex;
-    this.DOMStyle                  = 'col-sm h3 m-1 p-1';
+    this.DOMStyle                  = 'col-sm h5 fw-bold';
 
     this.DOMValue                  = 'Col' + (ColIndex+1);
 }
@@ -71,51 +86,11 @@ sysListCalculateableHeaderCol.prototype = new sysBaseObject();
 
 
 //------------------------------------------------------------------------------
-//- CONSTRUCTOR "sysListCalculateableCol"
-//------------------------------------------------------------------------------
-
-function sysListCalculateableCol(ParentObject, RowIndex, ColIndex)
-{
-    this.EventListeners            = new Object();          //- Event Listeners
-    this.ChildObjects              = Array();               //- Child Objects
-
-    this.ParentObject              = ParentObject;          //- Parent Object
-    this.ParentObjectID            = ParentObject.ObjectID; //- Parent Object ObjectID
-
-    this.RowIndex                  = RowIndex;              //- Row Index
-    this.ColIndex                  = ColIndex;              //- Col Index
-
-    this.Selected                  = false;                 //- Selected Row
-
-    this.overrideDOMObjectID       = true;                  //- Set ObjectID not recursive
-
-    this.ObjectID                  = 'TC_'+ this.ParentObjectID + '_' + RowIndex + '_' + ColIndex;
-    this.DOMStyle                  = 'col-sm m-1 p-1';
-}
-
-sysListCalculateableCol.prototype = new sysBaseObject();
-
-
-//------------------------------------------------------------------------------
 //- METHOD "init"
 //------------------------------------------------------------------------------
 
-sysListCalculateableCol.prototype.init = function()
+sysListCalculateableHeaderCol.prototype.init = function()
 {
-    this.FormFieldText = new sysFormfieldItem();
-    this.FormFieldText.ObjectID = 'Form_' + this.ParentObjectID + '_' + this.RowIndex + '_' + this.ColIndex;
-
-    this.FormFieldText.JSONConfig = {
-        "Attributes": {
-            "ObjectType": "FormfieldText",
-            "Type": "text",
-            "Style": "form-control w-100"
-        }
-    }
-
-    this.FormFieldText.FormItemInit();
-    this.addObject(this.FormFieldText);
-
     var EventListenerObj = new Object();
     EventListenerObj['Type'] = 'mousedown';
     EventListenerObj['Element'] = this.EventListenerRightClick.bind(this);
@@ -134,7 +109,7 @@ sysListCalculateableCol.prototype.init = function()
 //- METHOD "EventListenerRightClick"
 //------------------------------------------------------------------------------
 
-sysListCalculateableCol.prototype.EventListenerRightClick = function(Event)
+sysListCalculateableHeaderCol.prototype.EventListenerRightClick = function(Event)
 {
     var ContextMenuItems = [
         {
@@ -170,7 +145,7 @@ sysListCalculateableCol.prototype.EventListenerRightClick = function(Event)
 
         ContextMenu.ID             = 'CtMenu_' + this.ParentObject.ObjectID;
         ContextMenu.ItemConfig     = ContextMenuItems;
-        ContextMenu.ScreenObject   = this.ParentObject.ScreenObject;
+        ContextMenu.ScreenObject   = this.ParentObject.ParentObject.ScreenObject;
         ContextMenu.ParentObject   = this;
         ContextMenu.pageX          = Event.pageX;
         ContextMenu.pageY          = Event.pageY;
@@ -182,6 +157,101 @@ sysListCalculateableCol.prototype.EventListenerRightClick = function(Event)
 
         ContextMenu.init();
     }
+}
+
+
+
+//------------------------------------------------------------------------------
+//- CONSTRUCTOR "sysListCalculateableSumCol"
+//------------------------------------------------------------------------------
+
+function sysListCalculateableSumCol(ParentObject, RowIndex)
+{
+    this.EventListeners            = new Object();          //- Event Listeners
+    this.ChildObjects              = Array();               //- Child Objects
+
+    this.ParentObject              = ParentObject;          //- Parent Object
+    this.ParentObjectID            = ParentObject.ObjectID; //- Parent Object ObjectID
+
+    this.RowIndex                  = RowIndex;              //- Row Index
+
+    this.overrideDOMObjectID       = true;                  //- Set ObjectID not recursive
+
+    this.ObjectID                  = 'TCSum_'+ this.ParentObjectID + '_' + RowIndex;
+    this.DOMStyle                  = 'col-sm';
+}
+
+sysListCalculateableSumCol.prototype = new sysBaseObject();
+
+
+//------------------------------------------------------------------------------
+//- METHOD "init"
+//------------------------------------------------------------------------------
+
+sysListCalculateableSumCol.prototype.init = function()
+{
+    this.FormFieldText = new sysFormfieldItem();
+    this.FormFieldText.ObjectID = 'FormSumCol_' + this.ParentObjectID + '_' + this.RowIndex;
+
+    this.FormFieldText.JSONConfig = {
+        "Attributes": {
+            "ObjectType": "FormfieldText",
+            "Type": "text",
+            "Disabled": true,
+            "Style": "form-control w-100 rounded-1"
+        }
+    }
+
+    this.FormFieldText.FormItemInit();
+    this.addObject(this.FormFieldText);
+}
+
+
+//------------------------------------------------------------------------------
+//- CONSTRUCTOR "sysListCalculateableCol"
+//------------------------------------------------------------------------------
+
+function sysListCalculateableCol(ParentObject, RowIndex, ColIndex)
+{
+    this.EventListeners            = new Object();          //- Event Listeners
+    this.ChildObjects              = Array();               //- Child Objects
+
+    this.ParentObject              = ParentObject;          //- Parent Object
+    this.ParentObjectID            = ParentObject.ObjectID; //- Parent Object ObjectID
+
+    this.RowIndex                  = RowIndex;              //- Row Index
+    this.ColIndex                  = ColIndex;              //- Col Index
+
+    this.Selected                  = false;                 //- Selected Row
+
+    this.overrideDOMObjectID       = true;                  //- Set ObjectID not recursive
+
+    this.ObjectID                  = 'TC_'+ this.ParentObjectID + '_' + RowIndex + '_' + ColIndex;
+    this.DOMStyle                  = 'col-sm';
+}
+
+sysListCalculateableCol.prototype = new sysBaseObject();
+
+
+//------------------------------------------------------------------------------
+//- METHOD "init"
+//------------------------------------------------------------------------------
+
+sysListCalculateableCol.prototype.init = function()
+{
+    this.FormFieldText = new sysFormfieldItem();
+    this.FormFieldText.ObjectID = 'Form_' + this.ParentObjectID + '_' + this.RowIndex + '_' + this.ColIndex;
+
+    this.FormFieldText.JSONConfig = {
+        "Attributes": {
+            "ObjectType": "FormfieldText",
+            "Type": "text",
+            "Style": "form-control w-100 rounded-1"
+        }
+    }
+
+    this.FormFieldText.FormItemInit();
+    this.addObject(this.FormFieldText);
 }
 
 
@@ -218,8 +288,12 @@ sysListCalculateableHeaderRow.prototype.addColumns = function()
 
     for (let x=0; x<this.ParentObject.ColumnCount; ++x) {
         const ColumnItem = new sysListCalculateableHeaderCol(this, x);
+        ColumnItem.init();
         this.ColItems.push(ColumnItem);
     }
+
+    const ColHeaderSum = new sysListCalculateableColHeaderSum(this);
+    this.ColItems.push(ColHeaderSum);
 
     for (const ColItem of this.ColItems) {
         this.addObject(ColItem);
@@ -357,6 +431,10 @@ sysListCalculateableRow.prototype.addColumns = function()
         ColumnItem.init();
         this.ColItems.push(ColumnItem);
     }
+
+    const ColSum = new sysListCalculateableSumCol(this, this.Index);
+    ColSum.init();
+    this.ColItems.push(ColSum);
 
     for (const ColItem of this.ColItems) {
         this.addObject(ColItem);
