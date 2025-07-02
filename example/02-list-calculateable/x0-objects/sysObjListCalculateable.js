@@ -219,13 +219,16 @@ sysListCalculateableSumCol.prototype = new sysBaseObject();
 
 sysListCalculateableSumCol.prototype.init = function()
 {
+    const SheetObjectID = this.ParentObject.ParentObject.ObjectID;
+
     this.FormFieldText = new sysFormfieldItem();
-    this.FormFieldText.ObjectID = 'FormSumCol_' + this.ParentObjectID + '_' + this.RowIndex;
+    this.FormFieldText.ObjectID = 'FormSumCol_' + SheetObjectID + '_' + this.RowIndex;
 
     this.FormFieldText.JSONConfig = {
         "Attributes": {
             "ObjectType": "FormfieldText",
             "Type": "text",
+            "Value": 0,
             "Disabled": true,
             "Style": "form-control w-100 rounded-1"
         }
@@ -264,13 +267,16 @@ sysListCalculateableRowSum.prototype = new sysBaseObject();
 
 sysListCalculateableRowSum.prototype.init = function()
 {
+    const SheetObjectID = this.ParentObject.ParentObject.ObjectID;
+
     this.FormFieldText = new sysFormfieldItem();
-    this.FormFieldText.ObjectID = 'FormRowSumCol_' + this.ParentObjectID + '_' + this.ColIndex;
+    this.FormFieldText.ObjectID = 'FormRowSumCol_' + SheetObjectID + '_' + this.ColIndex;
 
     this.FormFieldText.JSONConfig = {
         "Attributes": {
             "ObjectType": "FormfieldText",
             "Type": "text",
+            "Value": 0,
             "Disabled": true,
             "Style": "form-control w-100 rounded-1"
         }
@@ -313,19 +319,66 @@ sysListCalculateableCol.prototype = new sysBaseObject();
 
 sysListCalculateableCol.prototype.init = function()
 {
+    const SheetObjectID = this.ParentObject.ParentObject.ObjectID;
+
     this.FormFieldText = new sysFormfieldItem();
-    this.FormFieldText.ObjectID = 'Form_' + this.ParentObjectID + '_' + this.RowIndex + '_' + this.ColIndex;
+    this.FormFieldText.ObjectID = 'Form_' + SheetObjectID + '_' + this.RowIndex + '_' + this.ColIndex;
 
     this.FormFieldText.JSONConfig = {
         "Attributes": {
             "ObjectType": "FormfieldText",
             "Type": "text",
+            "Value": 0,
             "Style": "form-control w-100 rounded-1"
         }
     }
 
+    this.FormFieldText.EventListeners["OnChangeColItem"] = {
+        "Type": 'change',
+        "Element": this.processOnChangeColItem.bind(this)
+    };
+
     this.FormFieldText.FormItemInit();
     this.addObject(this.FormFieldText);
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "processOnChangeColItem"
+//------------------------------------------------------------------------------
+
+sysListCalculateableCol.prototype.processOnChangeColItem = function()
+{
+    let RowObj = this.ParentObject;
+    let RootObj = RowObj.ParentObject;
+
+    //- process sum for single rows (output to sum column)
+    var SumCol;
+    for (let x=0; x<(RootObj.RowItems.length)-2; ++x) {
+
+        SumCol = 0;
+        for (let y=0; y<RootObj.ColumnCount; ++y) {
+            const SrcColObj = sysFactory.getObjectByID('Form_' + RootObj.ObjectID + '_' + x + '_' + y);
+            SumCol += parseFloat(SrcColObj.RuntimeGetDataFunc());
+        }
+
+        const DstColID = 'FormSumCol_' + RootObj.ObjectID + '_' + x;
+        sysFactory.getObjectByID(DstColID).RuntimeSetDataFunc(SumCol);
+    }
+
+    //- process sum for single columns (output to sum row)
+    var SumRow = 0;
+    for (let x=0; x<RootObj.ColumnCount; ++x) {
+
+        SumRow = 0;
+        for (let y=0; y<(RootObj.RowItems.length)-2; ++y) {
+            const SrcColObj = sysFactory.getObjectByID('Form_' + RootObj.ObjectID + '_' + y + '_' + x);
+            SumRow += parseFloat(SrcColObj.RuntimeGetDataFunc());
+        }
+
+        const DstColID = 'FormRowSumCol_' + RootObj.ObjectID + '_' + x;
+        sysFactory.getObjectByID(DstColID).RuntimeSetDataFunc(SumRow);
+    }
 }
 
 
