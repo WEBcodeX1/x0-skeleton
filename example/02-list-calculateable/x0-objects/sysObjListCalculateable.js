@@ -62,6 +62,7 @@ sysListCalculateableColRowSum.prototype = new sysBaseObject();
 
 function sysListCalculateableColRowIndex(ParentObject, RowIndex)
 {
+    this.EventListeners            = new Object();          //- Event Listeners
     this.RowIndex                  = RowIndex;              //- Row Index
 
     this.ObjectID                  = 'TCRowIndex_'+ ParentObject.ObjectID + '_' + RowIndex;
@@ -71,6 +72,93 @@ function sysListCalculateableColRowIndex(ParentObject, RowIndex)
 }
 
 sysListCalculateableColRowIndex.prototype = new sysBaseObject();
+
+
+//------------------------------------------------------------------------------
+//- METHOD "init"
+//------------------------------------------------------------------------------
+
+sysListCalculateableColRowIndex.prototype.init = function()
+{
+    var EventListenerObj = new Object();
+    EventListenerObj['Type'] = 'mousedown';
+    EventListenerObj['Element'] = this.EventListenerRightClick.bind(this);
+    this.EventListeners['ContextMenuOpen'] = EventListenerObj;
+
+    var EventListenerObj = new Object();
+    EventListenerObj['Type'] = 'mousedown';
+    EventListenerObj['Element'] = this.EventListenerSelect.bind(this);
+    this.EventListeners['RowSelect'] = EventListenerObj;
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "EventListenerRightClick"
+//------------------------------------------------------------------------------
+
+sysListCalculateableColRowIndex.prototype.EventListenerRightClick = function(Event)
+{
+    const RootObject = this.ParentObject.ParentObject;
+
+    var ContextMenuItems = [
+        {
+            "ID": "Remove",
+            "TextID": "TXT.CONTEXTMENU.REMOVE-ROW-SINGLE",
+            "IconStyle": "fa-regular fa-trash-can",
+            "InternalFunction": "remove"
+        },
+        {
+            "ID": "RemoveSelected",
+            "TextID": "TXT.CONTEXTMENU.REMOVE-ROWS-SELECTED",
+            "IconStyle": "fa-regular fa-trash-can",
+            "InternalFunction": "remove-selected"
+        },
+        {
+            "ID": "AppendRow",
+            "TextID": "TXT.CONTEXTMENU.APPEND-ROW",
+            "IconStyle": "fa-solid fa-paste",
+            "InternalFunction": "append-row"
+        }
+    ];
+
+    //- check for right click on mousedown
+    if (Event.button == 2 && ContextMenuItems !== undefined) {
+
+        var ContextMenu = new sysContextMenu();
+
+        ContextMenu.ID             = 'CtMenuRow_' + RootObject.ObjectID;
+        ContextMenu.ItemConfig     = ContextMenuItems;
+        ContextMenu.ScreenObject   = RootObject.ScreenObject;
+        ContextMenu.ParentObject   = this;
+        ContextMenu.pageX          = Event.pageX;
+        ContextMenu.pageY          = Event.pageY;
+
+        ContextMenu.RowObject      = this.ParentObject;
+
+        ContextMenu.init();
+    }
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "EventListenerSelect"
+//------------------------------------------------------------------------------
+
+sysListCalculateableColRowIndex.prototype.EventListenerSelect = function(Event)
+{
+    if (Event.button == 0) {
+        var processed = false;
+        if (this.ParentObject.Selected == true) {
+            this.ParentObject.removeDOMElementStyle('text-bg-secondary');
+            this.ParentObject.Selected = false;
+            processed = true;
+        }
+        if (this.ParentObject.Selected == false && processed == false) {
+            this.ParentObject.addDOMElementStyle('text-bg-secondary');
+            this.ParentObject.Selected = true;
+        }
+    }
+}
 
 
 //------------------------------------------------------------------------------
@@ -126,12 +214,10 @@ sysListCalculateableHeaderCol.prototype.init = function()
     EventListenerObj['Element'] = this.EventListenerRightClick.bind(this);
     this.EventListeners['ContextMenuOpen'] = EventListenerObj;
 
-    /*
     var EventListenerObj = new Object();
     EventListenerObj['Type'] = 'mousedown';
     EventListenerObj['Element'] = this.EventListenerSelect.bind(this);
     this.EventListeners['ColSelect'] = EventListenerObj;
-    */
 }
 
 
@@ -189,6 +275,26 @@ sysListCalculateableHeaderCol.prototype.EventListenerRightClick = function(Event
     }
 }
 
+
+//------------------------------------------------------------------------------
+//- METHOD "EventListenerSelect"
+//------------------------------------------------------------------------------
+
+sysListCalculateableHeaderCol.prototype.EventListenerSelect = function(Event)
+{
+    if (Event.button == 0) {
+        var processed = false;
+        if (this.Selected == true) {
+            this.removeDOMElementStyle('text-bg-secondary');
+            this.Selected = false;
+            processed = true;
+        }
+        if (this.Selected == false && processed == false) {
+            this.addDOMElementStyle('text-bg-secondary');
+            this.Selected = true;
+        }
+    }
+}
 
 
 //------------------------------------------------------------------------------
@@ -502,100 +608,13 @@ sysListCalculateableRow.prototype = new sysBaseObject();
 
 
 //------------------------------------------------------------------------------
-//- METHOD "init"
-//------------------------------------------------------------------------------
-
-sysListCalculateableRow.prototype.init = function()
-{
-    var EventListenerObj = new Object();
-    EventListenerObj['Type'] = 'mousedown';
-    EventListenerObj['Element'] = this.EventListenerRightClick.bind(this);
-    this.EventListeners['ContextMenuOpen'] = EventListenerObj;
-
-    var EventListenerObj = new Object();
-    EventListenerObj['Type'] = 'mousedown';
-    EventListenerObj['Element'] = this.EventListenerSelect.bind(this);
-    this.EventListeners['RowSelect'] = EventListenerObj;
-}
-
-
-//------------------------------------------------------------------------------
-//- METHOD "EventListenerRightClick"
-//------------------------------------------------------------------------------
-
-sysListCalculateableRow.prototype.EventListenerRightClick = function(Event)
-{
-    var ContextMenuItems = [
-        {
-            "ID": "Remove",
-            "TextID": "TXT.CONTEXTMENU.REMOVE-ROW-SINGLE",
-            "IconStyle": "fa-regular fa-trash-can",
-            "InternalFunction": "remove"
-        },
-        {
-            "ID": "RemoveSelected",
-            "TextID": "TXT.CONTEXTMENU.REMOVE-ROWS-SELECTED",
-            "IconStyle": "fa-regular fa-trash-can",
-            "InternalFunction": "remove-selected"
-        },
-        {
-            "ID": "AppendRow",
-            "TextID": "TXT.CONTEXTMENU.APPEND-ROW",
-            "IconStyle": "fa-solid fa-paste",
-            "InternalFunction": "append-row"
-        }
-    ];
-
-    //- check for right click on mousedown
-    if (Event.button == 2 && ContextMenuItems !== undefined) {
-
-        var ContextMenu = new sysContextMenu();
-
-        ContextMenu.ID             = 'CtMenu_' + this.ParentObject.ObjectID;
-        ContextMenu.ItemConfig     = ContextMenuItems;
-        ContextMenu.ScreenObject   = this.ParentObject.ScreenObject;
-        ContextMenu.ParentObject   = this;
-        ContextMenu.pageX          = Event.pageX;
-        ContextMenu.pageY          = Event.pageY;
-
-        ContextMenu.RowData        = this.RowData;
-        ContextMenu.RowDataIndex   = this.Index;
-
-        ContextMenu.RowObject      = this;
-
-        ContextMenu.init();
-    }
-}
-
-
-//------------------------------------------------------------------------------
-//- METHOD "EventListenerSelect"
-//------------------------------------------------------------------------------
-
-sysListCalculateableRow.prototype.EventListenerSelect = function(Event)
-{
-    if (this.ParentObject.RowsSelectable == true && Event.button == 0) {
-        var processed = false;
-        if (this.Selected == true) {
-            this.removeDOMElementStyle('text-bg-secondary');
-            this.Selected = false;
-            processed = true;
-        }
-        if (this.Selected == false && processed == false) {
-            this.addDOMElementStyle('text-bg-secondary');
-            this.Selected = true;
-        }
-    }
-}
-
-
-//------------------------------------------------------------------------------
 //- METHOD "addColumns"
 //------------------------------------------------------------------------------
 
 sysListCalculateableRow.prototype.addColumns = function()
 {
     const ColRowIndex = new sysListCalculateableColRowIndex(this, this.Index);
+    ColRowIndex.init();
     this.ColItems.push(ColRowIndex);
 
     for (let x=0; x<this.ParentObject.ColumnCount; ++x) {
@@ -753,9 +772,7 @@ sysListCalculateable.prototype.init = function()
 sysListCalculateable.prototype.addHeaderRow = function()
 {
     var RowObj = new sysListCalculateableHeaderRow(this);
-
     RowObj.addColumns();
-
     this.RowItems.push(RowObj);
 }
 
@@ -767,10 +784,7 @@ sysListCalculateable.prototype.addHeaderRow = function()
 sysListCalculateable.prototype.addRow = function(Index)
 {
     var RowObj = new sysListCalculateableRow(this, Index);
-
-    RowObj.init();
     RowObj.addColumns();
-
     this.RowItems.push(RowObj);
 }
 
@@ -782,9 +796,7 @@ sysListCalculateable.prototype.addRow = function(Index)
 sysListCalculateable.prototype.addSumRow = function()
 {
     var RowObj = new sysListCalculateableSumRow(this);
-
     RowObj.addColumns();
-
     this.RowItems.push(RowObj);
 }
 
