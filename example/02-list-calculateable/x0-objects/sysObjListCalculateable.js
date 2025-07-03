@@ -425,10 +425,11 @@ sysListCalculateableCol.prototype = new sysBaseObject();
 
 sysListCalculateableCol.prototype.init = function()
 {
-    const SheetObjectID = this.ParentObject.ParentObject.ObjectID;
+    this.SheetObject = this.ParentObject.ParentObject;
+    this.SheetObjectID = this.SheetObject.ObjectID;
 
     this.FormFieldText = new sysFormfieldItem();
-    this.FormFieldText.ObjectID = 'Form_' + SheetObjectID + '_' + this.RowIndex + '_' + this.ColIndex;
+    this.FormFieldText.ObjectID = 'Form_' + this.SheetObjectID + '_' + this.RowIndex + '_' + this.ColIndex;
 
     this.FormFieldText.JSONConfig = {
         "Attributes": {
@@ -446,6 +447,104 @@ sysListCalculateableCol.prototype.init = function()
 
     this.FormFieldText.FormItemInit();
     this.addObject(this.FormFieldText);
+
+    var EventListenerObj = new Object();
+    EventListenerObj['Type'] = 'mousedown';
+    EventListenerObj['Element'] = this.EventListenerRightClick.bind(this);
+    this.EventListeners['ContextMenuOpen'] = EventListenerObj;
+
+    var EventListenerObj = new Object();
+    EventListenerObj['Type'] = 'mousedown';
+    EventListenerObj['Element'] = this.EventListenerSelect.bind(this);
+    this.EventListeners['ColSelect'] = EventListenerObj;
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "EventListenerRightClick"
+//------------------------------------------------------------------------------
+
+sysListCalculateableCol.prototype.EventListenerRightClick = function(Event)
+{
+    var ContextMenuItems = [
+        {
+            "ID": "Copy",
+            "TextID": "TXT.CONTEXTMENU.COLDATA-COPY",
+            "IconStyle": "fa-solid fa-copy",
+            "InternalFunction": "get-data"
+        },
+        {
+            "ID": "Paste",
+            "TextID": "TXT.CONTEXTMENU.COLDATA-PASTE",
+            "IconStyle": "fa-solid fa-paste",
+            "InternalFunction": "set-data"
+        }
+    ];
+
+    //- check for right click on mousedown
+    if (Event.button == 2) {
+
+        var ContextMenu = new sysContextMenu();
+
+        ContextMenu.ID             = 'CtMenu_CopyPaste_' + this.SheetObjectID;
+        ContextMenu.ItemConfig     = ContextMenuItems;
+        ContextMenu.ScreenObject   = this.SheetObject.ScreenObject;
+        ContextMenu.ParentObject   = this;
+        ContextMenu.pageX          = Event.pageX;
+        ContextMenu.pageY          = Event.pageY;
+
+        ContextMenu.RowData        = this.RowData;
+        ContextMenu.RowDataIndex   = this.Index;
+
+        ContextMenu.RowObject      = this;
+
+        ContextMenu.init();
+    }
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "EventListenerSelect"
+//------------------------------------------------------------------------------
+
+sysListCalculateableCol.prototype.EventListenerSelect = function(Event)
+{
+    //- left click (select upper left corner)
+    if (Event.button == 0 && Event.shiftKey == false) {
+        this.SheetObject.ColDataSelUpLeftCol = this.ColIndex;
+        this.SheetObject.ColDataSelUpLeftRow = this.RowIndex;
+    }
+
+    //- left click and shift key (select bottom right corner)
+    if (Event.button == 0 && Event.shiftKey) {
+
+        this.SheetObject.ColDataSelBotRightCol = this.ColIndex;
+        this.SheetObject.ColDataSelBotRightRow = this.RowIndex;
+
+        const XCoordStart = this.SheetObject.ColDataSelUpLeftCol;
+        const XCoordEnd = this.SheetObject.ColDataSelBotRightCol+1;
+        const YCoordStart = this.SheetObject.ColDataSelUpLeftRow;
+        const YCoordEnd = this.SheetObject.ColDataSelBotRightRow+1;
+
+        console.log('XStart:%s XEnd:%s YStart:%s YEnd:%s', XCoordStart, XCoordEnd, YCoordStart, YCoordEnd);
+
+        //- reset hilited (all columns)
+        for (let x=0; x<(this.SheetObject.RowItems.length)-2; ++x) {
+            for (let y=0; y<this.SheetObject.ColumnCount; ++y) {
+                const SetHiliteObj = sysFactory.getObjectByID('Form_' + this.SheetObject.ObjectID + '_' + x + '_' + y);
+                SetHiliteObj.removeDOMElementStyle('text-bg-info');
+            }
+        }
+
+        //- hilite selected area
+        for (let x=XCoordStart; x<XCoordEnd; ++x) {
+            for (let y=YCoordStart; y<YCoordEnd; ++y) {
+                const SetHiliteObj = sysFactory.getObjectByID('Form_' + this.SheetObject.ObjectID + '_' + y + '_' + x);
+                SetHiliteObj.addDOMElementStyle('text-bg-info');
+            }
+        }
+
+    }
 }
 
 
@@ -714,6 +813,12 @@ function sysListCalculateable()
     this.ChildObjects           = new Array();               //- Child Objects
 
     this.RowsSelectable         = true;                      //- Multi Row Selection Default
+
+    this.ColDataSelUpLeftCol    = false;                     //- Upper Left Column Col for Copy / Paste
+    this.ColDataSelUpLeftRow    = false;                     //- Upper Left Column Row for Copy / Paste
+    this.ColDataSelBotRightCol  = false;                     //- Bottom Right Column Col for Copy / Paste
+    this.ColDataSelBotRightRow  = false;                     //- Bottom Right Column Row for Copy / Paste
+
     this.DOMStyle               = 'container';
 }
 
