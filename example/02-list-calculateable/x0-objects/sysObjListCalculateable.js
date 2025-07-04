@@ -17,6 +17,8 @@
 
 function sysListCalculateableColRowIndexEmpty(ParentObject)
 {
+    this.overrideDOMObjectID       = true;  //- Override Recursive ObjectID
+
     this.ObjectID                  = 'TCRowIndex_'+ ParentObject.ObjectID + '_0';
     this.DOMStyle                  = 'col-1';
 
@@ -32,6 +34,8 @@ sysListCalculateableColRowIndexEmpty.prototype = new sysBaseObject();
 
 function sysListCalculateableColHeaderSum(ParentObject)
 {
+    this.overrideDOMObjectID       = true;  //- Override Recursive ObjectID
+
     this.ObjectID                  = 'TCHeader_'+ ParentObject.ObjectID + '_Sum';
     this.DOMStyle                  = 'col-sm h5 fw-bold';
 
@@ -47,6 +51,8 @@ sysListCalculateableColHeaderSum.prototype = new sysBaseObject();
 
 function sysListCalculateableColRowSum(ParentObject)
 {
+    this.overrideDOMObjectID       = true;  //- Override Recursive ObjectID
+
     this.ObjectID                  = 'TCRow_'+ ParentObject.ObjectID + '_Sum';
     this.DOMStyle                  = 'col-1 h5 fw-bold';
 
@@ -64,6 +70,8 @@ function sysListCalculateableColRowIndex(ParentObject, RowIndex)
 {
     this.EventListeners            = new Object();          //- Event Listeners
     this.RowIndex                  = RowIndex;              //- Row Index
+
+    this.overrideDOMObjectID       = true;                  //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TCRowIndex_'+ ParentObject.ObjectID + '_' + RowIndex;
     this.DOMStyle                  = 'col-1 h5 fw-bold';
@@ -192,7 +200,7 @@ function sysListCalculateableHeaderCol(ParentObject, ColIndex)
 
     this.Selected                  = false;                 //- Selected Row
 
-    this.overrideDOMObjectID       = true;                  //- Set ObjectID not recursive
+    this.overrideDOMObjectID       = true;                  //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TC_'+ this.ParentObjectID + '_' + ColIndex;
     this.DOMStyle                  = 'col-sm h5 fw-bold';
@@ -310,7 +318,7 @@ function sysListCalculateableSumCol(ParentObject, RowIndex)
 
     this.RowIndex                  = RowIndex;              //- Row Index
 
-    this.overrideDOMObjectID       = true;                  //- Set ObjectID not recursive
+    this.overrideDOMObjectID       = true;                  //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TCSum_'+ this.ParentObjectID + '_' + RowIndex;
     this.DOMStyle                  = 'col-sm';
@@ -358,7 +366,7 @@ function sysListCalculateableRowSum(ParentObject, ColIndex)
 
     this.ColIndex                  = ColIndex;              //- Col Index
 
-    this.overrideDOMObjectID       = true;                  //- Set ObjectID not recursive
+    this.overrideDOMObjectID       = true;                  //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TCRowSum_'+ this.ParentObjectID + '_' + ColIndex;
     this.DOMStyle                  = 'col-sm';
@@ -410,7 +418,7 @@ function sysListCalculateableCol(ParentObject, RowIndex, ColIndex)
 
     this.Selected                  = false;                 //- Selected Row
 
-    this.overrideDOMObjectID       = true;                  //- Set ObjectID not recursive
+    this.overrideDOMObjectID       = true;                  //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TC_'+ this.ParentObjectID + '_' + RowIndex + '_' + ColIndex;
     this.DOMStyle                  = 'col-sm';
@@ -436,6 +444,7 @@ sysListCalculateableCol.prototype.init = function()
             "ObjectType": "FormfieldText",
             "Type": "text",
             "Value": 0,
+            "ValidateRef": "Float",
             "Style": "form-control w-100 rounded-1"
         }
     }
@@ -554,35 +563,48 @@ sysListCalculateableCol.prototype.EventListenerSelect = function(Event)
 
 sysListCalculateableCol.prototype.processOnChangeColItem = function()
 {
-    let RowObj = this.ParentObject;
-    let RootObj = RowObj.ParentObject;
+    const r = this.FormFieldText.validate()
+    const ErrorContainer = sysFactory.getObjectByID(this.SheetObject.JSONConfig.Attributes.ErrorContainer);
 
-    //- process sum for single rows (output to sum column)
-    var SumCol;
-    for (let x=0; x<(RootObj.RowItems.length)-2; ++x) {
+    if (r == false) {
 
-        SumCol = 0;
-        for (let y=0; y<RootObj.ColumnCount; ++y) {
-            const SrcColObj = sysFactory.getObjectByID('Form_' + RootObj.ObjectID + '_' + x + '_' + y);
-            SumCol += parseFloat(SrcColObj.RuntimeGetDataFunc());
+        ErrorContainer.reset();
+
+        this.FormFieldText.removeDOMElementStyle('alert alert-success p-2');
+
+        let RowObj = this.ParentObject;
+        let RootObj = RowObj.ParentObject;
+
+        //- process sum for single rows (output to sum column)
+        var SumCol;
+        for (let x=0; x<(RootObj.RowItems.length)-2; ++x) {
+
+            SumCol = 0;
+            for (let y=0; y<RootObj.ColumnCount; ++y) {
+                const SrcColObj = sysFactory.getObjectByID('Form_' + RootObj.ObjectID + '_' + x + '_' + y);
+                SumCol += parseFloat(SrcColObj.RuntimeGetDataFunc());
+            }
+
+            const DstColID = 'FormSumCol_' + RootObj.ObjectID + '_' + x;
+            sysFactory.getObjectByID(DstColID).RuntimeSetDataFunc(SumCol);
         }
 
-        const DstColID = 'FormSumCol_' + RootObj.ObjectID + '_' + x;
-        sysFactory.getObjectByID(DstColID).RuntimeSetDataFunc(SumCol);
+        //- process sum for single columns (output to sum row)
+        var SumRow = 0;
+        for (let x=0; x<RootObj.ColumnCount; ++x) {
+
+            SumRow = 0;
+            for (let y=0; y<(RootObj.RowItems.length)-2; ++y) {
+                const SrcColObj = sysFactory.getObjectByID('Form_' + RootObj.ObjectID + '_' + y + '_' + x);
+                SumRow += parseFloat(SrcColObj.RuntimeGetDataFunc());
+            }
+
+            const DstColID = 'FormRowSumCol_' + RootObj.ObjectID + '_' + x;
+            sysFactory.getObjectByID(DstColID).RuntimeSetDataFunc(SumRow);
+        }
     }
-
-    //- process sum for single columns (output to sum row)
-    var SumRow = 0;
-    for (let x=0; x<RootObj.ColumnCount; ++x) {
-
-        SumRow = 0;
-        for (let y=0; y<(RootObj.RowItems.length)-2; ++y) {
-            const SrcColObj = sysFactory.getObjectByID('Form_' + RootObj.ObjectID + '_' + y + '_' + x);
-            SumRow += parseFloat(SrcColObj.RuntimeGetDataFunc());
-        }
-
-        const DstColID = 'FormRowSumCol_' + RootObj.ObjectID + '_' + x;
-        sysFactory.getObjectByID(DstColID).RuntimeSetDataFunc(SumRow);
+    else {
+        ErrorContainer.displayError(r.Message + '.');
     }
 }
 
@@ -600,7 +622,7 @@ function sysListCalculateableHeaderRow(ParentObject)
 
     this.ColItems                  = new Array();        //- Col Items Array
 
-    this.overrideDOMObjectID       = true;               //- Set ObjectID not recursive
+    this.overrideDOMObjectID       = true;               //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TRHeader_'+ ParentObject.ObjectID;
     this.DOMStyle                  = 'row'
@@ -645,7 +667,7 @@ function sysListCalculateableSumRow(ParentObject)
 
     this.ColItems                  = new Array();        //- Col Items Array
 
-    this.overrideDOMObjectID       = true;               //- Set ObjectID not recursive
+    this.overrideDOMObjectID       = true;               //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TRSum_'+ ParentObject.ObjectID;
     this.DOMStyle                  = 'row'
@@ -694,7 +716,7 @@ function sysListCalculateableRow(ParentObject, RowIndex)
 
     this.ColItems                  = new Array();        //- Col Items Array
 
-    this.overrideDOMObjectID       = true;               //- Set ObjectID not recursive
+    this.overrideDOMObjectID       = true;               //- Override Recursive ObjectID
 
     this.RuntimeGetDataFunc        = this.getRowData;    //- Get Runtime Data
     this.RuntimeSetDataFunc        = undefined;          //- To be implemented
