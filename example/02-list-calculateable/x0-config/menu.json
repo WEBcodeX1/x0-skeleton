@@ -1,0 +1,20 @@
+[
+	{
+		"Link1":
+		{
+			"RefID": "sysMenu"
+		}
+	},
+	{
+		"Link2":
+		{
+			"RefID": "sysMenu"
+		}
+	},
+	{
+		"Link3":
+		{
+			"RefID": "sysMenu"
+		}
+	}
+]
