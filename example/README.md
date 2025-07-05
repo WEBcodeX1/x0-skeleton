@@ -35,11 +35,11 @@ cd ./01-forms-microesb
 
 The following tasks will be executed in serial order.
 
-- Copy the *x0-metadata* and Backend Scripts from Example Content to `../www`
-- Build Debian Metadata Package used for next step Docker Container build
-- Build Docker Container "your-app" including the *x0-application*
-- Build Docker Container "your-db" including all Databases
-- Start "your-app" and "your-db" Docker Containers including local Docker Network Setup
+1. Copy the *x0-metadata* and Backend Scripts from Example Content to `../www`
+2. Build Debian Metadata Package used for next step Docker Container build
+3. Build Docker Container "your-app" including the *x0-application*
+4. Build Docker Container "your-db" including all Databases
+5. Start "your-app" and "your-db" Docker Containers including local Docker Network Setup
 
 >[!WARNING]
 > Activating an example deletes / overwrites current ../www content completely!
