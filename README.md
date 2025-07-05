@@ -3,7 +3,7 @@
 **x0 JS Framework Application Skeleton Repository**.
 
 This repository contains the skeleton setup required to run your *x0-application*
-within minutes using Docker or Google Kubernetes Engine (GKE).
+within minutes using **Docker** or **Google Kubernetes Engine (GKE)**.
 
 >[!WARNING]
 > This repository is a "template repository." For more details, see:
@@ -13,9 +13,14 @@ within minutes using Docker or Google Kubernetes Engine (GKE).
 
 For the base x0 repository and detailed documentation, visit: https://github.com/WEBcodeX1/x0.
 
-Howto model an *x0-app* according to the shipped example, see: [./BUILD-HOWTO.md](./BUILD-HOWTO.md).
+Howto model a basic *x0-app* according to the current included metadata, see: [./BUILD-HOWTO.md](./BUILD-HOWTO.md).
 
-## 1. Dependencies / Package Installation
+## 1. Quick Setup / Examples
+
+To see what the *x0-system* is capable of, build one of the dockerized examples
+documented at: [./example/README.md](./example/README.md).
+
+## 2. Dependencies / Package Installation
 
 ### Supported OS:
 
@@ -33,7 +38,7 @@ Ubuntu 24.04 / Devuan
 apt-get install devscripts debhelper pbuilder gnupg docker.io
 ```
 
-## 2. Docker Permissions
+## 3. Docker Permissions
 
 As the **root** user, add your current user to the Docker UNIX group:
 
@@ -46,7 +51,7 @@ usermod -aG docker your-user
 > A restart of your current shell, desktop session, or even computer may be
 > required for the changes to take effect.
 
-## 3. Clone Repository
+## 4. Clone Repository
 
 ```bash
 # clone x0-skeleton / your-x0-app-repo
@@ -54,7 +59,7 @@ mkdir ~/src && cd ~/src
 git clone https://github.com/WEBcodeX1/x0-skeleton.git
 ```
 
-## 4. Docker Images
+## 5. Docker Images
 
 ```bash
 # pull docker images
@@ -77,7 +82,7 @@ docker load < docker.x0-app.tar
 docker load < docker.x0-db.tar
 ```
 
-## 5. Build Base Debian Packages
+## 6. Build Base Debian Packages
 
 Install the required tools and set up GPG before building Debian packages.
 See: https://github.com/WEBcodeX1/x0/blob/main/debian/README.md.
@@ -93,14 +98,14 @@ Provide the following details for default package signing:
 cd ./debian && debuild
 ```
 
-## 6. Build Docker Containers
+## 7. Build Docker Containers
 
 ```bash
 # build docker containers
 cd ./docker && build-app.sh && build-db.sh
 ```
 
-## 7. IP Setup / DNS
+## 8. IP Setup / DNS
 
 The following IP setup is used for container addresses and hostnames:
 
@@ -114,7 +119,7 @@ The following IP setup is used for container addresses and hostnames:
 > Add `172.20.0.10` / `x0-skeleton-test.x0.localnet` to your hosts file or
 > dns zone.
 
-## 8. Start Base Application
+## 9. Start Base Application
 
 Run the following command to test if everything is working correctly:
 
@@ -126,7 +131,7 @@ cd ./docker && x0-start-containers.sh
 Open `http://x0-skeleton-test.x0.localnet/python/Index.py` in your browser.
 A `Hello World.` text should be displayed.
 
-## 9. Kubernetes Minikube
+## 10. Kubernetes Minikube
 
 By starting the kubernetes installer (`Setup.py`) using the unmodified
 `./config/app-config.json` metadata, the following Minikube infrastructure on
@@ -146,7 +151,7 @@ python3 ./Setup.py
 > The IP setup including DNS differs from the Docker setup and **must** be changed
 > according to the next steps.
 
-### 9.1. IP Setup / DNS
+### 10.1. IP Setup / DNS
 
 ```bash
 # get minikube main ip address
@@ -166,7 +171,7 @@ Add the data from column `HOST` and `ADDRESS` to `/etc/hosts` or DNS zone file.
 >[!NOTE]
 > Change IP address if already used in Docker context.
 
-### 9.2. Check Pod Status
+### 10.2. Check Pod Status
 
 Finally check pod status.
 
@@ -184,7 +189,7 @@ your-app-test-deployment-6cb48779f9-cq2sb   1/1     Running
 your-app-test-deployment-6cb48779f9-d5sf9   1/1     Running
 ```
 
-### 9.3. Check Application
+### 10.3. Check Application
 
 Open http://x0-skeleton-test.x0.localnet/python/Index.py in your browser.
 A `Hello World.` text should be displayed.
