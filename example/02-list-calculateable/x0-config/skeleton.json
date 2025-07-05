@@ -6,12 +6,6 @@
 			{
 				"RefID": "Screen1"
 			}
-		},
-		{
-			"ListCalculateable1ErrorContainer":
-			{
-				"RefID": "Screen1"
-			}
 		}
 	],
 
@@ -22,12 +16,6 @@
 			{
 				"RefID": "Screen2"
 			}
-		},
-		{
-			"ListCalculateable2ErrorContainer":
-			{
-				"RefID": "Screen2"
-			}
 		}
 	],
 
@@ -35,12 +23,6 @@
 	[
 		{
 			"ListCalculateable3":
-			{
-				"RefID": "Screen3"
-			}
-		},
-		{
-			"ListCalculateable3ErrorContainer":
 			{
 				"RefID": "Screen3"
 			}
