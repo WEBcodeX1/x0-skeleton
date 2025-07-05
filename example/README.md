@@ -33,7 +33,7 @@ cd ./01-forms-microesb
 ./activate.sh
 ```
 
-The following tasks will be executed in serial order.
+The following tasks will be executed in serial order:
 
 1. Copy the *x0-metadata* and Backend Scripts from Example Content to `../www`
 2. Build Debian Metadata Package used for next step Docker Container build
