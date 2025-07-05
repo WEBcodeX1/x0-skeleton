@@ -20,7 +20,7 @@ function sysListCalculateableColRowIndexEmpty(ParentObject)
     this.overrideDOMObjectID       = true;  //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TCRowIndex_'+ ParentObject.ObjectID + '_0';
-    this.DOMStyle                  = 'col-1';
+    this.DOMStyle                  = 'col-1 border-bottom border-dark border-3';
 
     this.DOMValue                  = '';
 }
@@ -37,7 +37,7 @@ function sysListCalculateableColHeaderSum(ParentObject)
     this.overrideDOMObjectID       = true;  //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TCHeader_'+ ParentObject.ObjectID + '_Sum';
-    this.DOMStyle                  = 'col-sm h5 fw-bold';
+    this.DOMStyle                  = 'col-sm h7 fw-bold border-bottom border-dark border-3';
 
     this.DOMValue                  = 'Sum';
 }
@@ -54,7 +54,7 @@ function sysListCalculateableColRowSum(ParentObject)
     this.overrideDOMObjectID       = true;  //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TCRow_'+ ParentObject.ObjectID + '_Sum';
-    this.DOMStyle                  = 'col-1 h5 fw-bold';
+    this.DOMStyle                  = 'col-1 h5 fw-bold border-top border-dark border-3';
 
     this.DOMValue                  = 'Sum';
 }
@@ -170,13 +170,22 @@ sysListCalculateableColRowIndex.prototype.EventListenerSelect = function(Event)
 
 
 //------------------------------------------------------------------------------
+//- METHOD "remove"
+//------------------------------------------------------------------------------
+
+sysListCalculateableColRowIndex.prototype.remove = function()
+{
+}
+
+
+//------------------------------------------------------------------------------
 //- CONSTRUCTOR "sysListCalculateableColEmptyBottom"
 //------------------------------------------------------------------------------
 
 function sysListCalculateableColEmptyBottom(ParentObject)
 {
     this.ObjectID                  = 'TCEmptyBottom_'+ ParentObject.ObjectID;
-    this.DOMStyle                  = 'col-sm';
+    this.DOMStyle                  = 'col-sm border-top border-dark border-3';
 
     this.DOMValue                  = '';
 }
@@ -203,7 +212,7 @@ function sysListCalculateableHeaderCol(ParentObject, ColIndex)
     this.overrideDOMObjectID       = true;                  //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TC_'+ this.ParentObjectID + '_' + ColIndex;
-    this.DOMStyle                  = 'col-sm h5 fw-bold';
+    this.DOMStyle                  = 'col-sm h7 fw-bold border-bottom border-dark border-3';
 
     this.DOMValue                  = 'Col' + (ColIndex+1);
 }
@@ -290,15 +299,34 @@ sysListCalculateableHeaderCol.prototype.EventListenerRightClick = function(Event
 
 sysListCalculateableHeaderCol.prototype.EventListenerSelect = function(Event)
 {
+    const SheetObject = this.ParentObject.ParentObject;
+    const HiliteStyle = 'text-bg-secondary';
+
     if (Event.button == 0) {
         var processed = false;
+
+        //- deselect
         if (this.Selected == true) {
-            this.removeDOMElementStyle('text-bg-secondary');
+            this.removeDOMElementStyle(HiliteStyle);
             this.Selected = false;
+            for (let x=0; x<(SheetObject.RowItems.length)-2; ++x) {
+                const HiliteObj = sysFactory.getObjectByID('TC_TR_' + SheetObject.ObjectID + '_' + x + '_' + x + '_' + this.ColIndex);
+                HiliteObj.removeDOMElementStyle(HiliteStyle);
+            }
+            const HiliteSumObj = sysFactory.getObjectByID('TCRowSum_TRSum_' + SheetObject.ObjectID + '_' + this.ColIndex);
+            HiliteSumObj.removeDOMElementStyle(HiliteStyle);
             processed = true;
         }
+
+        //- select
         if (this.Selected == false && processed == false) {
-            this.addDOMElementStyle('text-bg-secondary');
+            this.addDOMElementStyle(HiliteStyle);
+            for (let x=0; x<(SheetObject.RowItems.length)-2; ++x) {
+                const HiliteObj = sysFactory.getObjectByID('TC_TR_' + SheetObject.ObjectID + '_' + x + '_' + x + '_' + this.ColIndex);
+                HiliteObj.addDOMElementStyle(HiliteStyle);
+            }
+            const HiliteSumObj = sysFactory.getObjectByID('TCRowSum_TRSum_' + SheetObject.ObjectID + '_' + this.ColIndex);
+            HiliteSumObj.addDOMElementStyle(HiliteStyle);
             this.Selected = true;
         }
     }
@@ -369,7 +397,7 @@ function sysListCalculateableRowSum(ParentObject, ColIndex)
     this.overrideDOMObjectID       = true;                  //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TCRowSum_'+ this.ParentObjectID + '_' + ColIndex;
-    this.DOMStyle                  = 'col-sm';
+    this.DOMStyle                  = 'col-sm border-top border-dark border-3';
 }
 
 sysListCalculateableRowSum.prototype = new sysBaseObject();
@@ -409,6 +437,9 @@ function sysListCalculateableCol(ParentObject, RowIndex, ColIndex)
 {
     this.EventListeners            = new Object();          //- Event Listeners
     this.ChildObjects              = Array();               //- Child Objects
+
+    this.RuntimeGetDataFunc        = this.getData;          //- Get Runtime Data
+    this.RuntimeSetDataFunc        = this.setData;          //- Set Runtime Data
 
     this.ParentObject              = ParentObject;          //- Parent Object
     this.ParentObjectID            = ParentObject.ObjectID; //- Parent Object ObjectID
@@ -610,6 +641,81 @@ sysListCalculateableCol.prototype.processOnChangeColItem = function()
 
 
 //------------------------------------------------------------------------------
+//- METHOD "getData"
+//------------------------------------------------------------------------------
+
+sysListCalculateableCol.prototype.getData = function()
+{
+    const XCoordStart = this.SheetObject.ColDataSelUpLeftCol;
+    const XCoordEnd = this.SheetObject.ColDataSelBotRightCol+1;
+    const YCoordStart = this.SheetObject.ColDataSelUpLeftRow;
+    const YCoordEnd = this.SheetObject.ColDataSelBotRightRow+1;
+
+    //- reset hilited (all columns)
+    for (let x=0; x<(this.SheetObject.RowItems.length)-2; ++x) {
+        for (let y=0; y<this.SheetObject.ColumnCount; ++y) {
+            const SetHiliteObj = sysFactory.getObjectByID('Form_' + this.SheetObject.ObjectID + '_' + x + '_' + y);
+            SetHiliteObj.removeDOMElementStyle('text-bg-info');
+        }
+    }
+
+    //- get selected data
+    var MatrixData = new Array();
+    for (let x=XCoordStart; x<XCoordEnd; ++x) {
+        var ColData = new Array();
+        for (let y=YCoordStart; y<YCoordEnd; ++y) {
+            const GetFormID = 'Form_' + this.SheetObject.ObjectID + '_' + y + '_' + x;
+            console.log('Get Data FormID:%s', GetFormID);
+            const DataObj = sysFactory.getObjectByID(GetFormID);
+            ColData.push(DataObj.RuntimeGetDataFunc());
+        }
+        MatrixData.push(ColData);
+    }
+    console.log('Set Clipboard Matrix Data:%o', MatrixData);
+    return MatrixData;
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "setData"
+//------------------------------------------------------------------------------
+
+sysListCalculateableCol.prototype.setData = function(DataObject)
+{
+    console.log('Get Clipboard Matrix Data:%o', DataObject);
+
+    //- write data to columns
+    const xStartPos = this.ColIndex;
+    const yStartPos = this.RowIndex;
+
+    const xEndPos = this.SheetObject.ColumnCount+1;
+    const yEndPos = (this.SheetObject.RowItems.length)-1;
+
+    //- data array access
+    var xDataPointer = 0;
+
+    for (let x=xStartPos; x<xEndPos; ++x) {
+        var yDataPointer = 0;
+        for (let y=yStartPos; y<yEndPos; ++y) {
+            const SetFormID = 'Form_' + this.SheetObject.ObjectID + '_' + y + '_' + x;
+            console.log('Set Data FormID:%s x:%s y:%s', SetFormID, xDataPointer, yDataPointer);
+            try {
+                SetData = DataObject[xDataPointer][yDataPointer];
+                if (SetData !== undefined) {
+                    const SetFormObj = sysFactory.getObjectByID(SetFormID);
+                    SetFormObj.RuntimeSetDataFunc(SetData);
+                }
+            }
+            catch {
+            }
+            ++yDataPointer;
+        }
+        ++xDataPointer;
+    }
+}
+
+
+//------------------------------------------------------------------------------
 //- CONSTRUCTOR "sysListCalculateableHeaderRow"
 //------------------------------------------------------------------------------
 
@@ -718,9 +824,6 @@ function sysListCalculateableRow(ParentObject, RowIndex)
 
     this.overrideDOMObjectID       = true;               //- Override Recursive ObjectID
 
-    this.RuntimeGetDataFunc        = this.getRowData;    //- Get Runtime Data
-    this.RuntimeSetDataFunc        = undefined;          //- To be implemented
-
     this.ObjectID                  = 'TR_'+ ParentObject.ObjectID + '_' + RowIndex;
     this.DOMStyle                  = 'row'
 }
@@ -768,16 +871,6 @@ sysListCalculateableRow.prototype.updateColumnsValues = function()
 
 
 //------------------------------------------------------------------------------
-//- METHOD "getRowData"
-//------------------------------------------------------------------------------
-
-sysListCalculateableRow.prototype.getRowData = function()
-{
-    return this.RowData;
-}
-
-
-//------------------------------------------------------------------------------
 //- METHOD "getColumnById"
 //------------------------------------------------------------------------------
 
@@ -790,16 +883,6 @@ sysListCalculateableRow.prototype.getColumnById = function(Column)
             return ColItem;
         }
     }
-}
-
-
-//------------------------------------------------------------------------------
-//- METHOD "remove"
-//------------------------------------------------------------------------------
-
-sysListCalculateableRow.prototype.remove = function()
-{
-    this.ParentObject.removeRow(this.Index);
 }
 
 
@@ -819,10 +902,6 @@ sysListCalculateableRow.prototype.updateIndex = function(UpdateIndex)
 
 function sysListCalculateable()
 {
-    this.RuntimeGetDataFunc     = this.getRuntimeData;       //- Get Runtime Data
-    this.RuntimeSetDataFunc     = this.appendData;           //- Set Runtime Data
-    this.RuntimeAppendDataFunc  = this.appendData;           //- Append Runtime Data
-
     this.RowItems               = new Array();               //- Row Objects Array
 
     this.UpdateCount            = 0;                         //- Update Counter
@@ -934,10 +1013,6 @@ sysListCalculateable.prototype.addSumRow = function()
 
 sysListCalculateable.prototype.removeRow = function(Index)
 {
-    console.debug('Remove Row Index:%s', Index);
-    this.RowItems.splice(Index, 1);
-    this.ServiceData.splice(Index, 1);
-    this.renderRows();
 }
 
 
@@ -947,20 +1022,6 @@ sysListCalculateable.prototype.removeRow = function(Index)
 
 sysListCalculateable.prototype.removeSelectedRows = function()
 {
-    var RemoveArray = new Array();
-    for (const Item of this.RowItems) {
-        if (Item.Selected == true) {
-            RemoveArray.push(Item.Index);
-        }
-    }
-
-    for (var i = RemoveArray.length-1; i>=0; i--) {
-        console.debug('Remove Row selected Index:%s', RemoveArray[i]);
-        this.RowItems.splice(RemoveArray[i], 1);
-        this.ServiceData.splice(RemoveArray[i], 1);
-    }
-
-    this.renderRows();
 }
 
 
@@ -978,66 +1039,10 @@ sysListCalculateable.prototype.renderRows = function()
 
 
 //------------------------------------------------------------------------------
-//- METHOD "getColumnItems"
-//------------------------------------------------------------------------------
-
-sysListCalculateable.prototype.getColumnItems = function(ColumnID)
-{
-    //console.debug('::getColumnItems ColumnID:%s RowItems:%o', ColumnID, this.RowItems);
-    var ReturnItems = new Array();
-    for (Index in this.RowItems) {
-        const Row = this.RowItems[Index];
-        const ColumnObject = Row.ObjectRef[ColumnID];
-        //console.debug('::getColumnItems ColumnObject:%o', ColumnObject);
-        if (ColumnObject !== undefined) {
-            ReturnItems.push(ColumnObject);
-        }
-    }
-    return ReturnItems;
-}
-
-
-//------------------------------------------------------------------------------
 //- METHOD "getRowByIndex"
 //------------------------------------------------------------------------------
 
 sysListCalculateable.prototype.getRowByIndex = function(Index)
 {
     return this.RowItems[Index];
-}
-
-
-//------------------------------------------------------------------------------
-//- METHOD "getRuntimeData"
-//------------------------------------------------------------------------------
-
-sysListCalculateable.prototype.getRuntimeData = function()
-{
-    return this.RowItems;
-}
-
-
-//------------------------------------------------------------------------------
-//- METHOD "appendData"
-//------------------------------------------------------------------------------
-
-sysListCalculateable.prototype.appendData = function()
-{
-    console.debug('::appendData Data:%o', DataObj);
-
-    const Attributes = this.JSONConfig.Attributes;
-
-    const ErrorObj = sysFactory.getObjectByID(this.JSONConfig.Attributes.ErrorContainer);
-    if (ErrorObj !== undefined) {
-        ErrorObj.reset();
-    }
-
-    const MaxRows = Attributes.DataMaxRows;
-    if (this.ServiceData.length >= MaxRows && ErrorObj !== undefined) {
-        ErrorObj.displayError(sysFactory.getText('TXT.SYS.ERROR.TABLE.MAX-ROW-COUNT')) + MaxRows + '.';
-        return;
-    }
-
-    this.addRow(this.RowItems.length+1);
-    this.renderRows();
 }
