@@ -10,10 +10,10 @@ Each example contains its own README.md for detailed information.
 The most relevant examples have been recorded as video and can be found in
 *x0-base-system* repository (example subdir).
 
->[!WARNING]
+>[!NOTE]
 > Be sure to check section 2 from main README.md for dependencies / system compatibility.
 
->[!WARNING]
+>[!NOTE]
 > Also the repository must have been cloned to a local subfolder.
 
 ## 1. Base Docker Images
@@ -49,8 +49,8 @@ The following tasks will be executed in serial order.
 
 ## 3. Starting / Viewing Example
 
-- Add `x0-skeleton-test.x0.localnet` hostname / IPv4 address `172.20.0.10` to `/etc/hosts`.
-- Open `http://x0-skeleton-test.x0.localnet/python/Index.py` in a local Internet Browser.
+- Add `x0-skeleton-test.x0.localnet` hostname / IPv4 address `172.20.0.10` to `/etc/hosts`
+- Open `http://x0-skeleton-test.x0.localnet/python/Index.py` in a local Internet Browser
 
 >[!NOTE]
 > On older systems application startup time could be impacted. If the application is not
