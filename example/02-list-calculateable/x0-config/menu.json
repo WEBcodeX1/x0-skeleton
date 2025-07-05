@@ -1,44 +1,20 @@
 [
 	{
-		"MenuContainer":
+		"Link1":
 		{
 			"RefID": "sysMenu"
 		}
 	},
 	{
-		"Link1Row":
-		{
-			"RefID": "MenuContainer"
-		}
-	},
-	{
-		"Link1":
-		{
-			"RefID": "Link1Row"
-		}
-	},
-	{
-		"Link2Row":
-		{
-			"RefID": "MenuContainer"
-		}
-	},
-	{
 		"Link2":
 		{
-			"RefID": "Link2Row"
-		}
-	},
-	{
-		"Link3Row":
-		{
-			"RefID": "MenuContainer"
+			"RefID": "sysMenu"
 		}
 	},
 	{
 		"Link3":
 		{
-			"RefID": "Link3Row"
+			"RefID": "sysMenu"
 		}
 	}
 ]
