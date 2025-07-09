@@ -1,9 +1,41 @@
 {
+	"MenuContainer":
+	{
+		"Type": "Div",
+		"Attributes": {
+			"Style": "container"
+		}
+	},
+
+	"Link1Row":
+	{
+		"Type": "Div",
+		"Attributes": {
+			"Style": "row"
+		}
+	},
+
+	"Link2Row":
+	{
+		"Type": "Div",
+		"Attributes": {
+			"Style": "row"
+		}
+	},
+
+	"Link3Row":
+	{
+		"Type": "Div",
+		"Attributes": {
+			"Style": "row"
+		}
+	},
+
 	"Link1":
 	{
 		"Type": "Link",
 		"Attributes": {
-			"Style": "btn btn-primary",
+			"Style": "btn btn-primary col",
 			"TextID": "TXT.MENU.LIST-EXAMPLE.LINK.SCREEN1",
 			"ScreenID": "Screen1"
 		}
@@ -13,7 +45,7 @@
 	{
 		"Type": "Link",
 		"Attributes": {
-			"Style": "btn btn-primary",
+			"Style": "btn btn-primary col",
 			"TextID": "TXT.MENU.LIST-EXAMPLE.LINK.SCREEN2",
 			"ScreenID": "Screen2"
 		}
@@ -23,7 +55,7 @@
 	{
 		"Type": "Link",
 		"Attributes": {
-			"Style": "btn btn-primary",
+			"Style": "btn btn-primary col",
 			"TextID": "TXT.MENU.LIST-EXAMPLE.LINK.SCREEN3",
 			"ScreenID": "Screen3"
 		}
@@ -33,7 +65,8 @@
 		"Type": "ListCalculateable",
 		"Attributes": {
 			"Style": "border border-dark border-3 rounded-top rounded-bottom container",
-			"ErrorContainer": "ListCalculateable1ErrorContainer"
+			"ErrorContainer": "ListCalculateable1ErrorContainer",
+			"ColumnCount": 4
 		}
 	},
 
@@ -47,7 +80,9 @@
 		"Type": "ListCalculateable",
 		"Attributes": {
 			"Style": "border border-dark border-3 rounded-top rounded-bottom container",
-			"ErrorContainer": "ListCalculateable2ErrorContainer"
+			"ErrorContainer": "ListCalculateable2ErrorContainer",
+			"ColumnCount": 5,
+			"RowCount": 10
 		}
 	},
 
@@ -61,7 +96,9 @@
 		"Type": "ListCalculateable",
 		"Attributes": {
 			"Style": "border border-dark border-3 rounded-top rounded-bottom container",
-			"ErrorContainer": "ListCalculateable3ErrorContainer"
+			"ErrorContainer": "ListCalculateable3ErrorContainer",
+			"ColumnCount": 6,
+			"RowCount": 6
 		}
 	},
 

@@ -54,7 +54,7 @@ function sysListCalculateableColRowSum(ParentObject)
     this.overrideDOMObjectID       = true;  //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TCRow_'+ ParentObject.ObjectID + '_Sum';
-    this.DOMStyle                  = 'col-1 h5 fw-bold border-top border-dark border-3';
+    this.DOMStyle                  = 'col-1 h7 fw-bold border-top border-dark border-3';
 
     this.DOMValue                  = 'Sum';
 }
@@ -74,7 +74,7 @@ function sysListCalculateableColRowIndex(ParentObject, RowIndex)
     this.overrideDOMObjectID       = true;                  //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TCRowIndex_'+ ParentObject.ObjectID + '_' + RowIndex;
-    this.DOMStyle                  = 'col-1 h5 fw-bold';
+    this.DOMStyle                  = 'col-1 h7 fw-bold';
 
     this.DOMValue                  = 'Row' + (RowIndex+1);
 }
