@@ -1,0 +1,23 @@
+#/bin/sh
+
+PATH_DB="./database"
+PATH_DOCKER="./docker"
+PATH_METADATA="./x0-config"
+PATH_BACKEND="./x0-backend"
+
+PATH_DST_PREFIX="../.."
+PATH_DST_METADATA="www/static"
+PATH_DST_BACKEND="www/python"
+PATH_DST_JS="www/x0"
+
+rm ${PATH_DST_PREFIX}/${PATH_DB}/*.sql
+rm ${PATH_DST_PREFIX}/${PATH_DST_METADATA}/*.json
+rm ${PATH_DST_PREFIX}/${PATH_DST_BACKEND}/*.py
+rm ${PATH_DST_PREFIX}/${PATH_DST_JS}/*.js
+
+cp ${PATH_DB}/* ${PATH_DST_PREFIX}/${PATH_DB}/
+cp ${PATH_DOCKER}/* ${PATH_DST_PREFIX}/${PATH_DOCKER}/
+cp ${PATH_METADATA}/* ${PATH_DST_PREFIX}/${PATH_DST_METADATA}/
+cp ${PATH_BACKEND}/* ${PATH_DST_PREFIX}/${PATH_DST_BACKEND}/
+cp ./microesb/* ${PATH_DST_PREFIX}/${PATH_DST_BACKEND}/
+
