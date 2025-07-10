@@ -1,3 +1,4 @@
 config/* /var/lib/x0/app-config
 python /var/lib/x0/app-install
 www /var/lib/x0/app-install
+www/x0/* /var/lib/x0/app-install

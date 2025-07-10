@@ -1,5 +1,7 @@
 #/bin/sh
 
+rm /var/lib/postgresql/16/main/postmaster.pid
+
 chown -R postgres:postgres /var/lib/postgresql/16/main/
 chown -R postgres:postgres /var/run/postgresql/
 
