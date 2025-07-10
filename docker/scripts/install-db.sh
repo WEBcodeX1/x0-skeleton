@@ -2,7 +2,7 @@
 
 /root/start-postgresql.sh &
 
-sleep 10
+sleep 20
 
 BASEDIR="/var/lib/x0"
 DB_SU_PWD=$(${BASEDIR}/sys/get-pg-pass.py su)
