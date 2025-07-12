@@ -108,9 +108,9 @@ The `./www/static` folder contains x0 object definitions and relationships:
 By default, these files provide a minimal "Hello World" output.
 Explore the example sub-folder and **x0-base** examples for more advanced object modeling.
 
-## 6. Debian / Docker Image / Container Build
+## 6. Building & Running
 
-First build the Debian Packages:
+### 6.1. Building Debian Packages
 
 ```bash
 cd ./debian
