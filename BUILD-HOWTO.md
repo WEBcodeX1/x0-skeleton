@@ -139,5 +139,4 @@ Your application is now available at:
 
 ```
 http://x0-skeleton-test.x0.localnet/python/Index.py
-``´
-
+```
