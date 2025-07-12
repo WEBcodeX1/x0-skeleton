@@ -85,11 +85,11 @@ Mime type must be `.sql`.
 
 >[!WARNING]
 > Database definitions in *Local Docker Environment* will **not** use
-> Debian Packaging. They are defined inside dockerfile.
+> Debian Packaging. The copy process is defined inside dockerfile `./docker/db.dockerfile`.
 
 >[!WARNING]
 > Database definitions in *Kubernetes Environment* **are using**
-Debian Packaging. They are defined in `./debian/x0-skeleton-db-install.install`.
+Debian Packaging. The copy process is defined inside `./debian/x0-skeleton-db-install.install`.
 
 ## 5. x0 Metadata / Object Modeling
 
