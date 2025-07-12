@@ -22,40 +22,39 @@ You can find them in the *x0-base-system* repository under the `example` subdire
 
 ## 1. Base Docker Images
 
-The latest *x0-system* docker images from `ghcr.io/webcodex1/` will be referenced
-inside example dockerfiles.
-
-The next step describes the build process in detail.
+The latest x0-system Docker images from `ghcr.io/webcodex1/` are referenced in the example Dockerfiles.
 
 ## 2. Activating / Building
 
-Each example provides the `activate.sh` shell script.
+Each example provides an `activate.sh` shell script.
+
+To build and run an example (from the example's main directory):
 
 ```bash
-# build and run example (from example main path)
+# build and run example #1
 cd ./01-forms-microesb
 ./activate.sh
 ```
 
-The following tasks will be executed in serial order:
+This script executes the following tasks in order:
 
-1. Copy the *x0-metadata* and Backend Scripts from Example Content to `../www`
-2. Build Debian Metadata Package used for next step Docker Container build
-3. Build Docker Container "your-app" including the *x0-application*
-4. Build Docker Container "your-db" including all Databases
-5. Start "your-app" and "your-db" Docker Containers including local Docker Network Setup
+1. Copies the x0-metadata and backend scripts from the example content to `../www`.
+2. Builds a Debian metadata package, used for Docker container creation.
+3. Builds the Docker container `your-app`, including the x0-application.
+4. Builds the Docker container your-db, including all databases.
+5. Starts both containers and sets up the local Docker network.
 
 >[!WARNING]
-> Activating an example deletes / overwrites current ../www content completely!
+> Activating an example will delete and overwrite the current `../www` content!
 
 >[!NOTE]
-> You need internet access for external Docker Images / Python pip3 Packages!
+> Internet access is required to download external Docker images and Python `pip3` packages.
 
-## 3. Starting / Viewing Example
+## 3. Starting / Viewing An Example
 
-- Add `x0-skeleton-test.x0.localnet` hostname / IPv4 address `172.20.0.10` to `/etc/hosts`
-- Open `http://x0-skeleton-test.x0.localnet/python/Index.py` in a local Internet Browser
+- Add the hostname `x0-skeleton-test.x0.localnet' with IPv4 address `172.20.0.10` to your `/etc/hosts` file.
+- Open `http://x0-skeleton-test.x0.localnet/python/Index.py` in your local browser.
 
 >[!NOTE]
-> On older systems application startup time could be impacted. If the application is not
-> up 100%, an 500 Internal Server Error will be raised.
+> On older systems, application startup time may be longer. If the application isn’t
+> fully started, you might see a 500 Internal Server Error.
