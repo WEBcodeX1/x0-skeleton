@@ -8,7 +8,7 @@ For advanced instructions, refer to the official *x0 online documentation*:
 - [Chapter 26: Object Modeling](https://docs.webcodex.de/x0/v1.0/dev-object-modeling.html)
 - [Chapter 27: Application Porting](https://docs.webcodex.de/x0/v1.0/dev-porting.html)
 
-## 1. Basics
+## 1. Prerequisites & Key Files
 
 The **x0-skeleton** Dockerfiles rely on **x0-base-system** Docker images, which contain the
 **x0-runtime** and **x0-system-database**.
