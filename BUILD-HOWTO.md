@@ -117,7 +117,7 @@ cd ./debian
 debuild
 ```
 
-Next, build the Docker images for your app (**your-app**) and database (**your-db**):
+### 6.2. Building Docker Images
 
 ```bash
 cd ./docker
@@ -125,11 +125,15 @@ cd ./docker
 ./build-db.sh
 ```
 
+### 6.3. Start Docker Containers
+
 Finally, (re)start the Docker containers for **your-app** and **your-db**:
 
 ```bash
 cd ./docker && x0-start-containers.sh
 ```
+
+## 7. Accessing Your Application
 
 You can now access your application at:
 `http://x0-skeleton-test.x0.localnet/python/Index.py`.
