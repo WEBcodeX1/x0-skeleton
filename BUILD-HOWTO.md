@@ -25,11 +25,11 @@ To build your app, update and package:
 
 Key files to configure:
 
-- ./debian/control
-- ./debian/x0-skeleton-data.install
-- ./debian/x0-skeleton-db.install
-- ./docker/app.dockerfile
-- ./docker/db.dockerfile
+- `./debian/control`
+- `./debian/x0-skeleton-data.install`
+- `./debian/x0-skeleton-db.install`
+- `./docker/app.dockerfile`
+- `./docker/db.dockerfile`
 
 ## 2. Debian Metadata Packages
 
