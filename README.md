@@ -1,19 +1,15 @@
-# x0-skeleton
-
-**x0 JS Framework Application Skeleton Repository**.
+# x0 JS Framework - Application Skeleton Repository
 
 This repository contains the skeleton setup required to run your *x0-application*
-within minutes using **Docker** or **Google Kubernetes Engine (GKE)**.
+within minutes using a **local Docker Environment** or **Google Kubernetes Engine (GKE)**.
 
 >[!WARNING]
-> This repository is a "template repository." For more details, see:
-> https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template
-> You should create your own repository from this template before starting to model
-> your *x0-app* or making any changes.
+> This repository is a "template repository." For more details, refer to:
+> [Github - Creating A Repository From A Template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+> You should create your own repository from this template before starting to model your *x0-app* or making any changes.
 
-For the base x0 repository and detailed documentation, visit: https://github.com/WEBcodeX1/x0.
-
-Howto model a basic *x0-app* according to the current included metadata, see: [./BUILD-HOWTO.md](./BUILD-HOWTO.md).
+- [Detailed x0 Online Documentation](https://github.com/WEBcodeX1/x0)
+- [Howto Model A Basic *x0-application*](./BUILD-HOWTO.md)
 
 ## 1. Quick Setup / Examples
 
