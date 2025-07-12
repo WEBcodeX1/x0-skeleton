@@ -38,15 +38,11 @@ Depends: python3-package-xyz (>=2.3), ${misc:Depends}
 Description: Your application (www) data.
 ```
 
-## 2.1. Debian Data Packages
+## 2.1. Data Packages
 
-Additionally the Debian Metadata Packages are used to provide Docker Container
-with *x0-app* content.
+Debian metadata packages additionally provide Docker containers with **x0-app** content.
 
-The `./debian/x0-skeleton-data.install` file defines which data will be used
-inside the docker image "your-app".
-
-The default definition in `./debian/x0-skeleton-data.install` copies this data:
+Define which data to include in the Docker image in `./debian/x0-skeleton-data.install`:
 
 - x0 Application Metadata JSON (app-config.json)
 - x0 Object Metadata (menu.json, skeleton.json, object.json)
@@ -56,8 +52,9 @@ The default definition in `./debian/x0-skeleton-data.install` copies this data:
 - Your Application Backend Python Scripts (Apache2 WSGI)
 
 >[!WARNING]
-> Do not forget that building Debian Packages needs correct gpg signing to be
-> set up (see [/README.md](/README.md).
+> Building Debian packages requires proper GPG signing. See [/README.md](/README.md)
+> for setup instructions.
+
 
 ## 3. Docker Configuration
 
