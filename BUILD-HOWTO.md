@@ -90,17 +90,14 @@ Example:
 
 ## 5. x0 Metadata / Object Modeling
 
-`./www/static` sub-folder contains *x0-object* definitions and relations.
+The `./www/static` folder contains x0 object definitions and relationships:
 
 - menu.json
 - skeleton.json
 - object.json
 
-The default contains a very limited "Hello World" output with minimal a
-object count.
-
-Check out the example sub-folder and the *x0-base* examples to get more
-experience in modeling *x0-objects*.
+By default, these files provide a minimal "Hello World" output.
+Explore the example sub-folder and **x0-base** examples for more advanced object modeling.
 
 ## 6. Debian / Docker Image / Container Build
 
