@@ -8,8 +8,25 @@ within minutes using a **local Docker Environment** or **Google Kubernetes Engin
 > [Github - Creating A Repository From A Template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
 > You should create your own repository from this template before starting to model your *x0-app* or making any changes.
 
-- [Detailed x0 Online Documentation](https://github.com/WEBcodeX1/x0)
+The following links should be consulted if you are interested in more precise *x0-system* information and how-to
+model *x0-applications*:
+
+- [x0 Base Repository](https://github.com/WEBcodeX1/x0)
+- [Detailed x0 Online Documentation](https://docs.webcodex.de/x0/v1.0/)
 - [Howto Model A Basic *x0-application*](./BUILD-HOWTO.md)
+
+## Table of Contents
+
+1. [Quick Setup / Examples](#1-quick-setup--examples)
+2. [Dependencies / Package Installation](#2-dependencies--package-installation)
+3. [Docker Permissions](#3-docker-permissions)
+4. [Clone Repository](#4-clone-repository)
+5. [Docker Images](#5-docker-images)
+6. [Build Base Debian Packages](#6-build-base-debian-packages)
+7. [Build Docker Containers](#7-build-docker-containers)
+8. [IP Setup / DNS](#8-ip-setup--dns)
+9. [Start Base Application](#9-start-base-application)
+10. [Kubernetes Minikube](#10-kubernetes-minikube)
 
 ## 1. Quick Setup / Examples
 
