@@ -52,7 +52,7 @@ This script executes the following tasks in order:
 
 ## 3. Starting / Viewing An Example
 
-- Add the hostname `x0-skeleton-test.x0.localnet' with IPv4 address `172.20.0.10` to your `/etc/hosts` file.
+- Add the hostname `x0-skeleton-test.x0.localnet` with IPv4 address `172.20.0.10` to your `/etc/hosts` file.
 - Open `http://x0-skeleton-test.x0.localnet/python/Index.py` in your local browser.
 
 >[!NOTE]
