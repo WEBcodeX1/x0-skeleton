@@ -4,7 +4,7 @@ The following describes building simple *x0-apps* which do not rely on external
 / advanced object includes on a *Local Docker Environment*.
 
 An advanced build howto can be found in the *x0-online-documentation*
- (chapters 26 https://docs.webcodex.de/x0/v1.0/dev-object-modeling.html# and 27 https://docs.webcodex.de/x0/v1.0/dev-porting#).
+ (chapters 26 https://docs.webcodex.de/x0/v1.0/dev-object-modeling.html and 27 https://docs.webcodex.de/x0/v1.0/dev-porting.html).
 
 ## 1. Basics
 
