@@ -88,7 +88,7 @@ Mime type must be `.sql`.
 > Debian Packaging. They are defined inside dockerfile.
 
 >[!WARNING]
-> Database definitions in Kubernetes environment **are using**
+> Database definitions in *Kubernetes Environment* **are using**
 Debian Packaging. They are defined in `./debian/x0-skeleton-db-install.install`.
 
 ## 5. x0 Metadata / Object Modeling
