@@ -10,13 +10,11 @@ For advanced instructions, refer to the *x0 online documentation*:
 
 ## 1. Basics
 
-The *x0-skeleton* Docker dockerfiles rely on *x0-base-system* (include) Docker
-Images containing the *x0-runtime* and *x0-system-database*.
+The **x0-skeleton** Dockerfiles rely on **x0-base-system** Docker images, which contain the
+**x0-runtime** and **x0-system-database**.
 
-Only your Application Program Code, Database and Configuration Files / System
-Metadata must be updated / packaged on top to produce a working *x0-application*.
-
-The following subsections describe the most important configurable data.
+To build your **x0-application**, you only need to update and package your application code,
+database, configuration files, and system metadata. The key files to configure are:
 
 - ./debian/control
 - ./debian/x0-skeleton-data.install
