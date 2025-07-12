@@ -1,11 +1,15 @@
 # x0-skeleton Examples
 
-The following examples are included to demonstrate advanced *x0-realtime-features*.
+This directory contains examples that demonstrate advanced **x0-realtime-features**.
 
-- 01-forms-microesb
-- 02-list-calculateable
+## Included Examples
 
-Each example contains its own README.md for detailed information.
+- `01-forms-microesb`
+- `02-list-calculateable`
+
+Each example contains its own `README.md` with detailed information.
+
+## Videos
 
 The most relevant examples have been recorded as video and can be found in
 *x0-base-system* repository (example subdir).
