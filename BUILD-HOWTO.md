@@ -135,5 +135,9 @@ cd ./docker && x0-start-containers.sh
 
 ## 7. Accessing Your Application
 
-You can now access your application at:
-`http://x0-skeleton-test.x0.localnet/python/Index.py`.
+Your application is now available at:
+
+```
+http://x0-skeleton-test.x0.localnet/python/Index.py
+``´
+
