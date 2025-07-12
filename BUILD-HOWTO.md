@@ -55,16 +55,15 @@ Define which data to include in the Docker image in `./debian/x0-skeleton-data.i
 > Building Debian packages requires proper GPG signing. See [/README.md](/README.md)
 > for setup instructions.
 
-
 ## 3. Docker Configuration
 
-If you need to install Python pip3 Packages:
+To install Python pip3 packages, add to your Dockerfile:
 
 ```bash
 RUN pip3 install microesb --break-system-packages
 ```
 
-See Example #1 dockerfile which uses `microesb` pip3 Package.
+See Example #1 Dockerfile for using the `microesb` pip3 package.
 
 ## 4. Database / Table Definition
 
