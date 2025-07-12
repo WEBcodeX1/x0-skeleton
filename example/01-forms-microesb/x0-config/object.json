@@ -405,18 +405,20 @@
 				"col-md-2 border-end",
 				"col-md-1"
 			],
-			"ContextMenuItems": {
-				"RemoveSingle": {
+			"ContextMenuItems": [
+				{
+					"ID": "RemoveSingle",
 					"TextID": "TXT.CONTEXTMENU.REMOVE-ITEM-SINGLE",
 					"IconStyle": "fa-regular fa-trash-can",
 					"InternalFunction": "remove"
 				},
-				"RemoveSelected": {
+				{
+					"ID": "RemoveSelected",
 					"TextID": "TXT.CONTEXTMENU.REMOVE-ITEM-SELECTED",
 					"IconStyle": "fa-regular fa-trash-can",
 					"InternalFunction": "remove-selected"
 				}
-			},
+			],
 			"ErrorContainer": "HostingNewHostsListErrorContainer"
 		}
 	},
