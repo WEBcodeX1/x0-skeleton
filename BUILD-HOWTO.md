@@ -16,6 +16,15 @@ The **x0-skeleton** Dockerfiles rely on **x0-base-system** Docker images, which 
 To build your **x0-application**, you only need to update and package your application code,
 database, configuration files, and system metadata. The key files to configure are:
 
+To build your app, update and package:
+
+- Application code
+- Database definitions
+- Configuration files
+- System metadata
+
+Key files to configure:
+
 - ./debian/control
 - ./debian/x0-skeleton-data.install
 - ./debian/x0-skeleton-db.install
