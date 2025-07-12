@@ -67,25 +67,26 @@ See Example #1 Dockerfile for using the `microesb` pip3 package.
 
 ## 4. Database / Table Definition
 
-Database definitions will be placed inside `./database/` sub-folder.
-They must be prefixed by a number to ensure serial ordered processing.
+Place your database definitions in the `./database/` folder.
+Prefix each file with a number to ensure proper processing order.
+Files must use the `.sql` MIME type.
 
-Mime type must be `.sql`.
+Example:
 
 - 01-x0-webui.txt.sql
 - 02-x0-app-config.sql
 
 >[!NOTE]
-> You are not limited to the x0 sytem database only, multiple databases
-> can be defined, so not forget to adjust authentication.
+> You can define multiple databases, not just the x0 system database.
+> Adjust authentication settings accordingly.
 
 >[!WARNING]
-> Database definitions in *Local Docker Environment* will **not** use
-> Debian Packaging. The copy process is defined inside dockerfile `./docker/db.dockerfile`.
+> In a local Docker environment, database definitions are **not** managed by Debian packaging.
+> Copying is handled in `./docker/db.dockerfile`.
 
 >[!WARNING]
-> Database definitions in *Kubernetes Environment* **are using**
-Debian Packaging. The copy process is defined inside `./debian/x0-skeleton-db-install.install`.
+> In a Kubernetes environment, database definitions **are** managed by Debian packaging.
+> Copying is handled in `./debian/x0-skeleton-db-install.install`.
 
 ## 5. x0 Metadata / Object Modeling
 
