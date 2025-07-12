@@ -11,14 +11,14 @@ Each example contains its own `README.md` with detailed information.
 
 ## Videos
 
-The most relevant examples have been recorded as video and can be found in
-*x0-base-system* repository (example subdir).
+The most relevant examples have been recorded as videos. 
+You can find them in the *x0-base-system* repository under the `example` subdirectory.
 
 >[!NOTE]
-> Be sure to check section 2 from main README.md for dependencies / system compatibility.
+> Check section 2 of the main `/README.md` for information about dependencies and system compatibility.
 
 >[!NOTE]
-> Also the repository must have been cloned to a local subfolder.
+> Clone this repository to a local subfolder before proceeding.
 
 ## 1. Base Docker Images
 
