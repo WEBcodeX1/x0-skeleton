@@ -1,4 +1,4 @@
-# x0-skeleton Examples
+# x0-Application Examples
 
 This directory contains examples that demonstrate advanced **x0-realtime-features**.
 
