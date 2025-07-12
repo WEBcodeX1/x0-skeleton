@@ -24,11 +24,11 @@ database, configuration files, and system metadata. The key files to configure a
 
 ## 2. Debian Metadata Packages
 
-The Debian Package Building Subsystem (debuild / apt) is used by *x0-system* to
-easily maintain external packages with minimal effort.
+The Debian package building subsystem (`debuild` / `apt`) is used by **x0-system**
+to manage external packages efficiently.
 
-If your *x0-app* needs apt package dependencies (e.g. python3-package-xyz), then
-you should modify the `./debian/control` file.
+If your **x0-app** requires additional apt package dependencies (e.g., `python3-package-xyz`),
+modify the `./debian/control` file accordingly:
 
 ```bash
 Package: x0-skeleton-data
