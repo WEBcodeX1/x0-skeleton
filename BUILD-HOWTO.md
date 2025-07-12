@@ -101,14 +101,14 @@ Explore the example sub-folder and **x0-base** examples for more advanced object
 
 ## 6. Debian / Docker Image / Container Build
 
-First build the Debian Packages.
+First build the Debian Packages:
 
 ```bash
 cd ./debian
 debuild
 ```
 
-The following commands start the Docker image build process "your-app" and "your-db".
+Next, build the Docker images for your app (**your-app**) and database (**your-db**):
 
 ```bash
 cd ./docker
@@ -116,10 +116,11 @@ cd ./docker
 ./build-db.sh
 ```
 
-Afterwards (re)start the Docker Container "your-app" and "your-db".
+Finally, (re)start the Docker containers for **your-app** and **your-db**:
 
 ```bash
 cd ./docker && x0-start-containers.sh
 ```
 
-Open `http://x0-skeleton-test.x0.localnet/python/Index.py`.
+You can now access your application at:
+`http://x0-skeleton-test.x0.localnet/python/Index.py`.
