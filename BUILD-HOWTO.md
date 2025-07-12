@@ -84,7 +84,7 @@ Mime type must be `.sql`.
 > can be defined, so not forget to adjust authentication.
 
 >[!WARNING]
-> Database definitions in local Docker environment will **not** use
+> Database definitions in *Local Docker Environment* will **not** use
 > Debian Packaging. They are defined inside dockerfile.
 
 >[!WARNING]
