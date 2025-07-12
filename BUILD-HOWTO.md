@@ -1,4 +1,4 @@
-# Build Basic x0-Applications
+# How to Build Basic x0 Applications
 
 This guide describes how to build simple **x0-apps** that do not depend on external
 or advanced object includes, using a **local Docker environment**.
