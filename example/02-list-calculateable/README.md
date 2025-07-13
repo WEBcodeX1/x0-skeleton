@@ -1,7 +1,7 @@
-# Example #02 (Micro Excel List)
+# Example: 02-list-calculateable
 
-This example provides a small real-time editable Excel-like List with three
-separate instances (sheets).
+This example provides a small (micro) real-time editable Excel-like list with
+three separate instances (sheets).
 
 ## Highly-Structured Code
 
