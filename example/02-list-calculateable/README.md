@@ -2,6 +2,11 @@
 
 This example provides a small real-time editable Excel-List (3 instances / sheets).
 
+## Highly-Structured Code
+
+The Excel List example should demonstrate that modeling complex objects / applications
+in *x0-system* is still highly structured even with lots of realtime functionality.
+
 ## Functionality / Context-Menus
 
 1. Column Header
