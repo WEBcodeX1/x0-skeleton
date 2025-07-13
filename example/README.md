@@ -31,7 +31,7 @@ Each example provides an `activate.sh` shell script.
 To build and run an example (from the example's main directory):
 
 ```bash
-# build and run example #1
+# build and run example 1
 cd ./01-forms-microesb
 ./activate.sh
 ```
