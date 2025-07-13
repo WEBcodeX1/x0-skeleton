@@ -18,27 +18,28 @@ The *Micro Excel List* example is organized into three main areas:
 - **Column Matrix**
 
 ### 1. Column Header
-  - Select / deselect a column by left mouse-click, hilites column
-  - Right click to open context-menu
+  - **Select/Deselect Column:** Left mouse click highlights the column.
+  - **Context Menu (Right Click):**
     - Remove columns
     - Remove selected columns
     - Add column left
     - Add column right
 
 ### 2. Row Index
-  - Select / deselect a row by left mouse-click, hilites row
-  - Right click to open context-menu
+  - **Select/Deselect Row:** Left mouse click highlights the row.
+  - **Context Menu (Right Click):**
     - Remove row
     - Remove selected rows
     - Add row
 
-### 3. Column Matrix
-  - Select columns by
-    - Left mouse click selects upper left column (selection) coordinate
-    - Shift mouse click selects bottom right column (selection) coordinate
-    - Columns selection hilites now and can be selected by context-menu
-      - Copy selected celldata
-      - Paste selected celldata
+### 3. Column Matrix (Cell Area)
+  - **Column Selection:**
+    - Left mouse click sets the upper-left cell of the selection.
+    - Shift + mouse click extends selection to the bottom-right cell.
+    - Selected columns are highlighted.
+  - **Context Menu:**
+    - Copy selected celldata
+    - Paste selected celldata
 
 ## Implementation Notes
 
