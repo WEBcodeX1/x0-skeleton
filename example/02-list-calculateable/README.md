@@ -38,3 +38,11 @@ The *Micro Excel List* example provides 3 content areas:
       - Copy selected celldata
       - Paste selected celldata
 
+## Implementation Time
+
+Many lines of this example code have been copied from the already existing
+**sysObjList.js** x0 base object.
+
+For an expirienced *x0-developer* it took apx. 5 - 8 days to model / implement
+this example.
+
