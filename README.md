@@ -8,7 +8,7 @@ within minutes using a **local Docker Environment** or **Google Kubernetes Engin
 > [Github - Creating A Repository From A Template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
 > You should create your own repository from this template before starting to model your *x0-app* or making any changes.
 
-The following links should be consulted if you are interested in more precise *x0-system* information and how-to
+The following links should be considered if you are interested in more precise *x0-system* information and how-to
 model *x0-applications*:
 
 - [x0 Base Repository](https://github.com/WEBcodeX1/x0)
