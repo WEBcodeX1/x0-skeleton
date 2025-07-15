@@ -1,50 +1,83 @@
 # Example: 02-list-calculateable
 
-This example provides a small (micro) real-time editable Excel-like list with
-three separate instances (sheets).
+This example demonstrates how to implement a real-time, editable Excel-like list using the x0-system framework.
 
-## Highly-Structured Code
+## Overview
 
-This example demonstrates how complex objects and applications can be modeled
-in *x0-system* while maintaining a highly structured codebase, even when extensive
-real-time functionality is required.
+The `02-list-calculateable` example showcases a dynamic, spreadsheet-style component with three separate instances ("sheets"), offering a reference implementation for:
+- Creating and managing editable lists/tables.
+- Real-time updates and interaction.
+- Highly structured, modular code even for complex, interactive UIs.
 
-## Functionality / Context-Menus
+## Folder Structure
 
-The *Micro Excel List* example is organized into three main areas:
+```
+example/
+└── 02-list-calculateable/
+    ├── database/
+    │   ├── <db scripts>
+    ├── docker/
+    │   └── app.dockerfile
+    ├── microesb/
+    │   └── <backend scripts>
+    ├── x0-backend/
+    │   └── <backend logic>
+    ├── x0-config/
+    │   ├── menu.json
+    │   ├── object.json
+    │   └── skeleton.json
+    ├── x0-objects/
+    │   └── sysObjList.js
+    ├── <source files>
+    ├── README.md
+```
 
-- **Column Header**
-- **Row Index**
-- **Column Matrix**
+## Features
 
-### 1. Column Header
-  - **Select/Deselect Column:** Left mouse click highlights the column.
-  - **Context Menu (Right Click):**
-    - Remove columns
-    - Remove selected columns
-    - Add column left
-    - Add column right
+- **Excel-like Editable List**: Real-time, browser-based editing with support for multiple sheets.
+- **Column & Row Operations**: Add/remove/select columns and rows, both via UI and context menus.
+- **Selection & Context Menus**: Advanced selection (shift/multiselect) and rich context menu actions (copy/paste, add/remove).
+- **Highly Structured Codebase**: Modular organization for maintainability and extensibility.
 
-### 2. Row Index
-  - **Select/Deselect Row:** Left mouse click highlights the row.
-  - **Context Menu (Right Click):**
-    - Remove row
-    - Remove selected rows
-    - Add row
+## Usage
 
-### 3. Column Matrix (Cell Area)
-  - **Column Selection:**
-    - Left mouse click sets the upper-left cell of the selection.
-    - Shift + mouse click extends selection to the bottom-right cell.
-    - Selected columns are highlighted.
-  - **Context Menu:**
-    - Copy selected celldata
-    - Paste selected celldata
+1. **Run the example**  
+   The startup instructions depend on your main framework configuration. If a script is provided, run:
 
-## Implementation Notes
+   ```bash
+   ./activate
+   ```
+   or refer to the main repo documentation for custom commands.
 
-Many lines of code in this example were adapted from the existing
-**sysObjList.js** x0 base object.
+2. **Explore the code**
+   - Review the table/list definition and handling logic in `object.json` and `skeleton.json`.
+   - Check the implementation of list-editing and context menu logic.
 
-For an experienced *x0-system* developer, modeling and implementing this
-example took approximately 5–8 days.
+## How It Works
+
+- **Editable Sheets**: Each instance represents a separate editable sheet.
+- **Column Header**:  
+  - *Select/Deselect*: Left click  
+  - *Context menu*: Add/remove columns
+- **Row Index**:  
+  - *Select/Deselect*: Left click  
+  - *Context menu*: Add/remove rows
+- **Cell Area**:  
+  - *Selection*: Click/shift-click for range selection  
+  - *Context menu*: Copy/paste cell data
+- **Real-Time Updates**: Changes are reflected immediately in the UI.
+
+## Customization
+
+- Add or modify context menu actions for new requirements.
+- Adapt the structure of sheets, columns, and rows to your application's needs.
+- Extend the component with new interactive features or data integrations.
+
+## References
+
+- [x0-skeleton Repository](https://github.com/WEBcodeX1/x0-skeleton)
+- [sysObjList.js (x0 base object)](https://github.com/WEBcodeX1/x0-skeleton/blob/main/example/02-list-calculateable/x0-objects/sysObjList.js)
+
+---
+
+*For advanced usage and customization, see the main x0-skeleton documentation.*
