@@ -16,6 +16,21 @@ The `01-forms-microesb` example showcases a microservice-like architecture in wh
 ```
 example/
 └── 01-forms-microesb/
+    ├── database/
+    │   ├──── 01-db-script.sql
+    │   └──── 02-db-script.sql
+    ├── docker/
+    │   └──── app.dockerfile
+    ├── microesb/
+    │   └──── backend-scripts.py
+    ├── x0-backend/
+    │   └──── x0-json-processing.py
+    ├── x0-config/
+    │   ├──── menu.json
+    │   ├──── object.json
+    │   └──── skeleton.json
+    ├── x0-objects/
+    │   └──── sysObjFunction.js
     ├── <source files>
     ├── README.md
 ```
