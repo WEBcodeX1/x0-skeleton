@@ -44,7 +44,7 @@ example/
 ## How It Works
 
 - **Form Submission**: User fills out and submits the form.
-- **Form Validation**: Complex form data directly gets validated in browser.
+- **Form Validation**: Complex form data is validated directly in the browser.
 - **Message Routing**: Form data is encapsulated in a message and sent to the microESB.
 - **Processing Pipeline**: The microESB routes the message through a sequence of processors (e.g., transformation, persistence).
 - **Response**: The result is sent back to the UI.
