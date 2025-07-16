@@ -23,7 +23,7 @@ example/
     ├── x0-objects/
     │   └── <system code>
     ├── <source files>
-    ├── README.md
+    └── README.md
 ```
 
 ## Features
