@@ -73,6 +73,11 @@ example/
 - Adapt the structure of sheets, columns, and rows to your application's needs.
 - Extend the component with new interactive features or data integrations.
 
+## Development Time
+
+An expirienced *x0-developer* took about 5-7 days to develop the application
+based on existing `sysObjList.js` *x0-base-object*.
+
 ## References
 
 - [x0-skeleton Repository](https://github.com/WEBcodeX1/x0-skeleton)
