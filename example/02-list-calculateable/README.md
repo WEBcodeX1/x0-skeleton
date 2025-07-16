@@ -16,18 +16,12 @@ example/
 └── 02-list-calculateable/
     ├── database/
     │   └── <db scripts>
-    ├── docker/
-    │   └── app.dockerfile
-    ├── microesb/
-    │   └── <backend scripts>
-    ├── x0-backend/
-    │   └── <backend logic>
     ├── x0-config/
     │   ├── menu.json
     │   ├── object.json
     │   └── skeleton.json
     ├── x0-objects/
-    │   └── sysObjList.js
+    │   └── <system code>
     ├── <source files>
     ├── README.md
 ```
