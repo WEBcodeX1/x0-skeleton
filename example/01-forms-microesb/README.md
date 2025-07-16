@@ -69,6 +69,14 @@ example/
 - You can add or modify processors in the microESB to handle custom business requirements.
 - Adapt form fields and validation logic according to your application's needs.
 
+## Development Time
+
+An expirienced *x0-developer* took about 3-4 days to develop the application including backend services.
+Development times will be further improved if the following features are implemented:
+
+- Visual WSIWYG Editor
+- Transparent ESB Data Structure Mapping
+
 ## References
 
 - [x0-skeleton Repository](https://github.com/WEBcodeX1/x0-skeleton)
