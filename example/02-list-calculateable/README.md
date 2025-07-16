@@ -15,7 +15,7 @@ The `02-list-calculateable` example showcases a dynamic, spreadsheet-style compo
 example/
 └── 02-list-calculateable/
     ├── database/
-    │   ├── <db scripts>
+    │   └── <db scripts>
     ├── docker/
     │   └── app.dockerfile
     ├── microesb/
