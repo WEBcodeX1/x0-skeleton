@@ -10,7 +10,7 @@ class User(microesb.ClassHandler):
         self.DB_user_id = None
 
     def init(self):
-        crs = self.dbcon.cursor()
+        crs = self.dbcon.cursor(cursor_factory=psycopg2.extras.DictCursor)
         crs.execute("""
             SELECT id
                 FROM sys_core."user"
@@ -33,7 +33,7 @@ class Domain(microesb.ClassHandler):
         self.DB_user_id = self.parent_object.DB_user_id
         self.dbcon = self.parent_object.dbcon
 
-        crs = self.dbcon.cursor()
+        crs = self.dbcon.cursor(cursor_factory=psycopg2.extras.DictCursor)
         crs.execute(
             """
             SELECT id
@@ -76,7 +76,7 @@ class Host(microesb.MultiClassHandler):
         if len(self.priority) == 0:
             self.priority = 0
 
-        crs = self.dbcon.cursor()
+        crs = self.dbcon.cursor(cursor_factory=psycopg2.extras.DictCursor)
         crs.execute(
             """
             INSERT INTO sys_dns.dnsrecord
@@ -92,4 +92,3 @@ class Host(microesb.MultiClassHandler):
                 self.priority,
             )
         )
-
