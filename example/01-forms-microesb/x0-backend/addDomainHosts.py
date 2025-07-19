@@ -3,7 +3,32 @@ import psycopg2
 import sys
 import json
 
+import DB
+import dbpool.pool
+
 import POSTData
+
+config = {
+    'db': {
+        'host': 'mypostgres',
+        'name': 'hosting-example',
+        'user': 'postgres',
+        'pass': 'changeme',
+        'ssl': 'disable',
+        'connect_timeout': 30,
+        'connection_retry_sleep': 1,
+        'query_timeout': 30000,
+        'session_tmp_buffer': 128
+    },
+    'groups': {
+        'hosting': {
+            'connection_count': 3,
+            'autocommit': False,
+        }
+    }
+}
+
+dbpool.pool.Connection.init(config)
 
 sys.path.append('/var/www/vhosts/x0-skeleton/python/')
 
@@ -110,9 +135,6 @@ class_mapper = microesb.ClassMapper(
     class_properties=service_properties
 )
 
-dbcon = psycopg2.connect("dbname='hosting-example' user='postgres' host='mypostgres' password='changeme'")
-dbcon.autocommit = False
-
 
 def application(environ, start_response):
 
@@ -125,48 +147,50 @@ def application(environ, start_response):
         service_json = json.loads(POSTData.Environment.getPOSTData(environ))
         data_req = service_json['RequestData']
 
-        service_metadata = {
-            'SYSServiceID': 'insertUserDomain',
-            'data': [
-                {
-                    'User':
+        with dbpool.Handler('hosting') as dbcon:
+
+            service_metadata = {
+                'SYSServiceID': 'insertUserDomain',
+                'data': [
                     {
-                        'SYSServiceMethod': 'init',
-                        'name': data_req['HostingNewHostsSelectedUser']['UserID']
+                        'User':
+                        {
+                            'SYSServiceMethod': 'init',
+                            'name': data_req['HostingNewHostsSelectedUser']['UserID']
+                        }
                     }
-                }
-            ]
-        }
+                ]
+            }
 
-        domain_full = data_req['HostingNewHostsSelectedDomain']['DomainPulldown']
-        domain_split = domain_full.split('.')
+            domain_full = data_req['HostingNewHostsSelectedDomain']['DomainPulldown']
+            domain_split = domain_full.split('.')
 
-        service_metadata['data'][0]['User']['dbcon'] = dbcon
-        service_metadata['data'][0]['User']['Domain'] = {}
+            service_metadata['data'][0]['User']['dbcon'] = dbcon
+            service_metadata['data'][0]['User']['Domain'] = {}
 
-        service_metadata['data'][0]['User']['Domain']['SYSServiceMethod'] = 'add'
-        service_metadata['data'][0]['User']['Domain']['name'] = domain_split[0]
-        service_metadata['data'][0]['User']['Domain']['ending'] = domain_split[1]
+            service_metadata['data'][0]['User']['Domain']['SYSServiceMethod'] = 'add'
+            service_metadata['data'][0]['User']['Domain']['name'] = domain_split[0]
+            service_metadata['data'][0]['User']['Domain']['ending'] = domain_split[1]
 
-        service_metadata['data'][0]['User']['Domain']['Host'] = []
+            service_metadata['data'][0]['User']['Domain']['Host'] = []
 
-        for rec in data_req['HostingNewHostsList']:
+            for rec in data_req['HostingNewHostsList']:
 
-            HostItem = {}
-            HostItem['SYSServiceMethod'] = 'add'
-            HostItem['name'] = rec['RecordName']
-            HostItem['type'] = rec['RecordType']
-            HostItem['value'] = rec['RecordValue']
-            HostItem['ttl'] = rec['RecordTTL']
-            HostItem['priority'] = rec['RecordPriority']
+                HostItem = {}
+                HostItem['SYSServiceMethod'] = 'add'
+                HostItem['name'] = rec['RecordName']
+                HostItem['type'] = rec['RecordType']
+                HostItem['value'] = rec['RecordValue']
+                HostItem['ttl'] = rec['RecordTTL']
+                HostItem['priority'] = rec['RecordPriority']
 
-            service_metadata['data'][0]['User']['Domain']['Host'].append(HostItem)
+                service_metadata['data'][0]['User']['Domain']['Host'].append(HostItem)
 
-        microesb.ServiceExecuter().execute(
-            class_mapper=class_mapper,
-            service_data=service_metadata
-        )
+            microesb.ServiceExecuter().execute(
+                class_mapper=class_mapper,
+                service_data=service_metadata
+            )
 
-        dbcon.commit()
+            dbcon.commit()
 
         yield bytes(json.dumps(result), 'utf-8')
