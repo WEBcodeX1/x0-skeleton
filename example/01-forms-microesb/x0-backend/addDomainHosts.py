@@ -4,7 +4,7 @@ import sys
 import json
 
 import DB
-import dbpool.pool
+from dbpool import pool as dbpool
 
 import POSTData
 
