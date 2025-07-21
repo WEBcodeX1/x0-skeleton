@@ -4,7 +4,7 @@ import sys
 import json
 
 import DB
-from dbpool import pool as dbpool
+from pgdbpool import pool
 
 import POSTData
 
@@ -28,7 +28,7 @@ config = {
     }
 }
 
-dbpool.pool.Connection.init(config)
+pool.Connection.init(config)
 
 sys.path.append('/var/www/vhosts/x0-skeleton/python/')
 
@@ -147,23 +147,23 @@ def application(environ, start_response):
         service_json = json.loads(POSTData.Environment.getPOSTData(environ))
         data_req = service_json['RequestData']
 
-        with dbpool.Handler('hosting') as dbcon:
-
-            service_metadata = {
-                'SYSServiceID': 'insertUserDomain',
-                'data': [
+        service_metadata = {
+            'SYSServiceID': 'insertUserDomain',
+            'data': [
+                {
+                    'User':
                     {
-                        'User':
-                        {
-                            'SYSServiceMethod': 'init',
-                            'name': data_req['HostingNewHostsSelectedUser']['UserID']
-                        }
+                        'SYSServiceMethod': 'init',
+                        'name': data_req['HostingNewHostsSelectedUser']['UserID']
                     }
-                ]
-            }
+                }
+            ]
+        }
 
-            domain_full = data_req['HostingNewHostsSelectedDomain']['DomainPulldown']
-            domain_split = domain_full.split('.')
+        domain_full = data_req['HostingNewHostsSelectedDomain']['DomainPulldown']
+        domain_split = domain_full.split('.')
+
+        with pool.Handler('hosting') as dbcon:
 
             service_metadata['data'][0]['User']['dbcon'] = dbcon
             service_metadata['data'][0]['User']['Domain'] = {}
@@ -185,6 +185,11 @@ def application(environ, start_response):
                 HostItem['priority'] = rec['RecordPriority']
 
                 service_metadata['data'][0]['User']['Domain']['Host'].append(HostItem)
+
+            with open("/tmp/esb-debug-srv-meta", 'w') as fh:
+                fh.write("Service Metadata:{}".format(
+                    service_metadata
+                ))
 
             microesb.ServiceExecuter().execute(
                 class_mapper=class_mapper,
