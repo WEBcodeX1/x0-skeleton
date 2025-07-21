@@ -3,7 +3,32 @@ import psycopg2
 import sys
 import json
 
+import DB
+from pgdbpool import pool
+
 import POSTData
+
+config = {
+    'db': {
+        'host': 'mypostgres',
+        'name': 'hosting-example',
+        'user': 'postgres',
+        'pass': 'changeme',
+        'ssl': 'disable',
+        'connect_timeout': 30,
+        'connection_retry_sleep': 1,
+        'query_timeout': 30000,
+        'session_tmp_buffer': 128
+    },
+    'groups': {
+        'hosting': {
+            'connection_count': 3,
+            'autocommit': False,
+        }
+    }
+}
+
+pool.Connection.init(config)
 
 sys.path.append('/var/www/vhosts/x0-skeleton/python/')
 
@@ -110,9 +135,6 @@ class_mapper = microesb.ClassMapper(
     class_properties=service_properties
 )
 
-dbcon = psycopg2.connect("dbname='hosting-example' user='postgres' host='mypostgres' password='changeme'")
-dbcon.autocommit = False
-
 
 def application(environ, start_response):
 
@@ -141,32 +163,39 @@ def application(environ, start_response):
         domain_full = data_req['HostingNewHostsSelectedDomain']['DomainPulldown']
         domain_split = domain_full.split('.')
 
-        service_metadata['data'][0]['User']['dbcon'] = dbcon
-        service_metadata['data'][0]['User']['Domain'] = {}
+        with pool.Handler('hosting') as dbcon:
 
-        service_metadata['data'][0]['User']['Domain']['SYSServiceMethod'] = 'add'
-        service_metadata['data'][0]['User']['Domain']['name'] = domain_split[0]
-        service_metadata['data'][0]['User']['Domain']['ending'] = domain_split[1]
+            service_metadata['data'][0]['User']['dbcon'] = dbcon
+            service_metadata['data'][0]['User']['Domain'] = {}
 
-        service_metadata['data'][0]['User']['Domain']['Host'] = []
+            service_metadata['data'][0]['User']['Domain']['SYSServiceMethod'] = 'add'
+            service_metadata['data'][0]['User']['Domain']['name'] = domain_split[0]
+            service_metadata['data'][0]['User']['Domain']['ending'] = domain_split[1]
 
-        for rec in data_req['HostingNewHostsList']:
+            service_metadata['data'][0]['User']['Domain']['Host'] = []
 
-            HostItem = {}
-            HostItem['SYSServiceMethod'] = 'add'
-            HostItem['name'] = rec['RecordName']
-            HostItem['type'] = rec['RecordType']
-            HostItem['value'] = rec['RecordValue']
-            HostItem['ttl'] = rec['RecordTTL']
-            HostItem['priority'] = rec['RecordPriority']
+            for rec in data_req['HostingNewHostsList']:
 
-            service_metadata['data'][0]['User']['Domain']['Host'].append(HostItem)
+                HostItem = {}
+                HostItem['SYSServiceMethod'] = 'add'
+                HostItem['name'] = rec['RecordName']
+                HostItem['type'] = rec['RecordType']
+                HostItem['value'] = rec['RecordValue']
+                HostItem['ttl'] = rec['RecordTTL']
+                HostItem['priority'] = rec['RecordPriority']
 
-        microesb.ServiceExecuter().execute(
-            class_mapper=class_mapper,
-            service_data=service_metadata
-        )
+                service_metadata['data'][0]['User']['Domain']['Host'].append(HostItem)
 
-        dbcon.commit()
+            with open("/tmp/esb-debug-srv-meta", 'w') as fh:
+                fh.write("Service Metadata:{}".format(
+                    service_metadata
+                ))
+
+            microesb.ServiceExecuter().execute(
+                class_mapper=class_mapper,
+                service_data=service_metadata
+            )
+
+            dbcon.commit()
 
         yield bytes(json.dumps(result), 'utf-8')

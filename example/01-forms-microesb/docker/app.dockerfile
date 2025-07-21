@@ -10,6 +10,7 @@ COPY ./$DEB_FILE ./
 RUN apt-get -qq install -y ./$DEB_FILE
 RUN apt-get -qq install -y python3-pip
 RUN pip3 install microesb --break-system-packages
+RUN pip3 install pgdbpool --break-system-packages
 
 RUN /usr/bin/python3 /var/lib/x0/app-setup/bin/ProcessVhosts.py
 RUN /var/lib/x0/app-setup/bin/fs-permissions.sh

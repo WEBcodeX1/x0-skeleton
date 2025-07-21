@@ -2,7 +2,7 @@ import sys
 import json
 
 import DB
-import dbpool.pool
+from pgdbpool import pool
 
 import POSTData
 
@@ -21,12 +21,12 @@ config = {
     'groups': {
         'hosting': {
             'connection_count': 3,
-            'autoommit': True,
+            'autocommit': True
         }
     }
 }
 
-dbpool.pool.Connection.init(config)
+pool.Connection.init(config)
 
 
 def application(environ, start_response):
@@ -39,7 +39,7 @@ def application(environ, start_response):
 
         sql = """SELECT "name" || '.' || ending AS domain_name FROM sys_core.domain ORDER BY "name" ASC"""
         sql_params = {}
-        with dbpool.pool.Handler('hosting') as db:
+        with pool.Handler('hosting') as db:
             for Record in db.query(sql, sql_params):
                 Row = {}
                 Row['Display'] = Record['domain_name']
