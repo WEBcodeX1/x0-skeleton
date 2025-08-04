@@ -1,7 +1,6 @@
 import sys
 import json
 
-import DB
 from pgdbpool import pool
 
 import POSTData

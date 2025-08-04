@@ -1,9 +1,7 @@
-import psycopg2
-
 import sys
 import json
+import copy
 
-import DB
 from pgdbpool import pool
 
 import POSTData
@@ -15,15 +13,15 @@ config = {
         'user': 'postgres',
         'pass': 'changeme',
         'ssl': 'disable',
-        'connect_timeout': 30,
+        'connect_timeout': 5,
         'connection_retry_sleep': 1,
-        'query_timeout': 30000,
+        'query_timeout': 3000,
         'session_tmp_buffer': 128
     },
     'groups': {
         'hosting': {
-            'connection_count': 3,
-            'autocommit': False,
+            'connection_count': 5,
+            'autocommit': False
         }
     }
 }
@@ -129,18 +127,18 @@ service_properties = {
     }
 }
 
-class_mapper = microesb.ClassMapper(
-    class_references=class_reference,
-    class_mappings=class_mapping,
-    class_properties=service_properties
-)
-
 
 def application(environ, start_response):
 
     start_response('200 OK', [('Content-Type', 'application/json; charset=UTF-8')])
 
     if environ['REQUEST_METHOD'].upper() == 'POST':
+
+        class_mapper_ref = microesb.ClassMapper(
+            class_references=copy.deepcopy(class_reference),
+            class_mappings=class_mapping,
+            class_properties=service_properties
+        )
 
         result = {}
 
@@ -186,13 +184,8 @@ def application(environ, start_response):
 
                 service_metadata['data'][0]['User']['Domain']['Host'].append(HostItem)
 
-            with open("/tmp/esb-debug-srv-meta", 'w') as fh:
-                fh.write("Service Metadata:{}".format(
-                    service_metadata
-                ))
-
             microesb.ServiceExecuter().execute(
-                class_mapper=class_mapper,
+                class_mapper=class_mapper_ref,
                 service_data=service_metadata
             )
 

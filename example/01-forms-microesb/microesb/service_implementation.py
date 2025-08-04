@@ -1,5 +1,3 @@
-import psycopg2
-
 from microesb import microesb
 
 
@@ -59,17 +57,6 @@ class Host(microesb.MultiClassHandler):
         self.dbcon = self.parent_object.dbcon
         self.DB_user_id = self.parent_object.DB_user_id
         self.DB_domain_id = self.parent_object.DB_domain_id
-
-        with open("/tmp/esb-debug-host", 'w') as fh:
-            fh.write("User id:{} Domain id:{} hostname:{} type:{} value:{} ttl:{} prio:{}".format(
-                self.DB_user_id,
-                self.DB_domain_id,
-                self.name,
-                self.type,
-                self.value,
-                self.ttl,
-                self.priority
-            ))
 
         if len(self.ttl) == 0:
             self.ttl = 0
