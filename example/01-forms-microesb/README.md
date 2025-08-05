@@ -13,7 +13,7 @@ The `01-forms-microesb` example showcases a microservice-like architecture in wh
 
 ## Video
 
-[Watch example video (VLC player recommended](./video/x0-example-enhanced-form-microesb.mkv).
+[Download example video (VLC or MPV player recommended)](https://download.webcodex.de/x0/video/x0-example-enhanced-form-microesb.mkv).
 
 ## Folder Structure
 
