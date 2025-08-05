@@ -11,6 +11,10 @@ The `01-forms-microesb` example showcases a microservice-like architecture in wh
 - Modular message processing.
 - Separation of concerns between UI, business logic, and integration.
 
+## Video
+
+[Watch example video (VLC player recommended](./video/x0-example-enhanced-form-microesb.mkv).
+
 ## Folder Structure
 
 ```
@@ -30,7 +34,9 @@ example/
     │   └── skeleton.json
     ├── x0-objects/
     │   └── <system code>
-    ├── <source files>
+    ├── video/
+    │   └── <example video>
+    ├── activate.sh
     └── README.md
 ```
 
