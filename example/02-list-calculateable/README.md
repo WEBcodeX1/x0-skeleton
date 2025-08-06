@@ -9,6 +9,10 @@ The `02-list-calculateable` example showcases a dynamic, spreadsheet-style compo
 - Real-time updates and interaction.
 - Highly structured, modular code even for complex, interactive UIs.
 
+## Video
+
+[Download example video (VLC or MPV player recommended)](https://download.webcodex.de/x0/video/x0-example-excel-sheet-sum-copy-paste.mkv).
+
 ## Folder Structure
 
 ```
