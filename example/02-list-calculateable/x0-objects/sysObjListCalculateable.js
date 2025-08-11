@@ -68,15 +68,16 @@ sysListCalculateableColRowSum.prototype = new sysBaseObject();
 
 function sysListCalculateableColRowIndex(ParentObject, RowIndex)
 {
-    this.EventListeners            = new Object();          //- Event Listeners
-    this.RowIndex                  = RowIndex;              //- Row Index
+    this.EventListeners            = new Object();                      //- Event Listeners
+    this.RowIndex                  = RowIndex;                          //- Row Index
 
-    this.overrideDOMObjectID       = true;                  //- Override Recursive ObjectID
+    this.overrideDOMObjectID       = true;                              //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TCRowIndex_'+ ParentObject.ObjectID + '_' + RowIndex;
     this.DOMStyle                  = 'col-1 h7 fw-bold';
 
     this.DOMValue                  = 'Row' + (RowIndex+1);
+
 }
 
 sysListCalculateableColRowIndex.prototype = new sysBaseObject();
@@ -113,19 +114,19 @@ sysListCalculateableColRowIndex.prototype.EventListenerRightClick = function(Eve
             "ID": "Remove",
             "TextID": "TXT.CONTEXTMENU.REMOVE-ROW-SINGLE",
             "IconStyle": "fa-regular fa-trash-can",
-            "InternalFunction": "remove"
+            "InternalFunction": "remove-row"
         },
         {
             "ID": "RemoveSelected",
             "TextID": "TXT.CONTEXTMENU.REMOVE-ROWS-SELECTED",
             "IconStyle": "fa-regular fa-trash-can",
-            "InternalFunction": "remove-selected"
+            "InternalFunction": "remove-selected-rows"
         },
         {
-            "ID": "AppendRow",
+            "ID": "AddRow",
             "TextID": "TXT.CONTEXTMENU.APPEND-ROW",
             "IconStyle": "fa-solid fa-paste",
-            "InternalFunction": "append-row"
+            "InternalFunction": "add-row"
         }
     ];
 
@@ -166,15 +167,6 @@ sysListCalculateableColRowIndex.prototype.EventListenerSelect = function(Event)
             this.ParentObject.Selected = true;
         }
     }
-}
-
-
-//------------------------------------------------------------------------------
-//- METHOD "remove"
-//------------------------------------------------------------------------------
-
-sysListCalculateableColRowIndex.prototype.remove = function()
-{
 }
 
 
@@ -261,13 +253,13 @@ sysListCalculateableHeaderCol.prototype.EventListenerRightClick = function(Event
             "ID": "AddColLeft",
             "TextID": "TXT.CONTEXTMENU.ADD-COL-LEFT",
             "IconStyle": "fa-solid fa-paste",
-            "InternalFunction": "append-row"
+            "InternalFunction": "add-col-left"
         },
         {
             "ID": "AddColRight",
             "TextID": "TXT.CONTEXTMENU.ADD-COL-RIGHT",
             "IconStyle": "fa-solid fa-paste",
-            "InternalFunction": "append-row"
+            "InternalFunction": "add-col-right"
         }
     ];
 
@@ -832,6 +824,16 @@ sysListCalculateableRow.prototype = new sysBaseObject();
 
 
 //------------------------------------------------------------------------------
+//- METHOD "removeRow"
+//------------------------------------------------------------------------------
+
+sysListCalculateableRow.prototype.removeRow = function()
+{
+    this.ParentObject.removeRow(this.Index);
+}
+
+
+//------------------------------------------------------------------------------
 //- METHOD "addColumns"
 //------------------------------------------------------------------------------
 
@@ -934,6 +936,16 @@ sysListCalculateable.prototype.processSourceObjects = sysSourceObjectHandler.pro
 
 
 //------------------------------------------------------------------------------
+//- METHOD "removeRow"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.removeRow = function(Index)
+{
+    alert(Index);
+}
+
+
+//------------------------------------------------------------------------------
 //- METHOD "init"
 //------------------------------------------------------------------------------
 
@@ -1004,15 +1016,6 @@ sysListCalculateable.prototype.addSumRow = function()
     var RowObj = new sysListCalculateableSumRow(this);
     RowObj.addColumns();
     this.RowItems.push(RowObj);
-}
-
-
-//------------------------------------------------------------------------------
-//- METHOD "removeRow"
-//------------------------------------------------------------------------------
-
-sysListCalculateable.prototype.removeRow = function(Index)
-{
 }
 
 
