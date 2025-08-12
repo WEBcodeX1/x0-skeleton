@@ -61,8 +61,13 @@ UserContextMenu.prototype.process = function(ContextMenuRef)
         ContextMenuRef.ContextMenuObject.close();
     }
 
-    if (ContextMenuRef.InternalFunction == 'add-row') {
-        RowObject.ParentObject.addRow();
+    if (ContextMenuRef.InternalFunction == 'remove-selected-rows') {
+        RowObject.ParentObject.removeSelectedRows();
+        ContextMenuRef.ContextMenuObject.close();
+    }
+
+    if (ContextMenuRef.InternalFunction == 'insert-row') {
+        RowObject.ParentObject.insertRow();
         ContextMenuRef.ContextMenuObject.close();
     }
 
