@@ -960,7 +960,7 @@ sysListCalculateable.prototype.init = function()
 
 sysListCalculateable.prototype.removeSelectedRows = function()
 {
-    this.Data =this.getMatrixData();
+    this.Data = this.getMatrixData();
 
     var RemoveArray = new Array();
     for (const Item of this.RowItems) {
@@ -989,7 +989,7 @@ sysListCalculateable.prototype.removeSelectedRows = function()
 
 sysListCalculateable.prototype.removeRow = function(Index)
 {
-    this.Data =this.getMatrixData();
+    this.Data = this.getMatrixData();
     this.removeParent();
     this.RowItems = [];
 
@@ -1005,7 +1005,7 @@ sysListCalculateable.prototype.removeRow = function(Index)
 
 sysListCalculateable.prototype.insertRow = function()
 {
-    this.Data =this.getMatrixData();
+    this.Data = this.getMatrixData();
     this.removeParent();
     this.RowItems = [];
 
