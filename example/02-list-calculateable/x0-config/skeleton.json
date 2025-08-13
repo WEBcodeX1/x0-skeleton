@@ -2,9 +2,15 @@
 	"Screen1":
 	[
 		{
-			"ListCalculateable1":
+			"ListCalculateable1Container":
 			{
 				"RefID": "Screen1"
+			}
+		},
+		{
+			"ListCalculateable1":
+			{
+				"RefID": "ListCalculateable1Container"
 			}
 		},
 		{
@@ -18,9 +24,15 @@
 	"Screen2":
 	[
 		{
-			"ListCalculateable2":
+			"ListCalculateable2Container":
 			{
 				"RefID": "Screen2"
+			}
+		},
+		{
+			"ListCalculateable2":
+			{
+				"RefID": "ListCalculateable2Container"
 			}
 		},
 		{
@@ -34,9 +46,15 @@
 	"Screen3":
 	[
 		{
-			"ListCalculateable3":
+			"ListCalculateable3Container":
 			{
 				"RefID": "Screen3"
+			}
+		},
+		{
+			"ListCalculateable3":
+			{
+				"RefID": "ListCalculateable3Container"
 			}
 		},
 		{

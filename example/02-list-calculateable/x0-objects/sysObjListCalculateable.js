@@ -68,15 +68,16 @@ sysListCalculateableColRowSum.prototype = new sysBaseObject();
 
 function sysListCalculateableColRowIndex(ParentObject, RowIndex)
 {
-    this.EventListeners            = new Object();          //- Event Listeners
-    this.RowIndex                  = RowIndex;              //- Row Index
+    this.EventListeners            = new Object();                      //- Event Listeners
+    this.RowIndex                  = RowIndex;                          //- Row Index
 
-    this.overrideDOMObjectID       = true;                  //- Override Recursive ObjectID
+    this.overrideDOMObjectID       = true;                              //- Override Recursive ObjectID
 
     this.ObjectID                  = 'TCRowIndex_'+ ParentObject.ObjectID + '_' + RowIndex;
     this.DOMStyle                  = 'col-1 h7 fw-bold';
 
     this.DOMValue                  = 'Row' + (RowIndex+1);
+
 }
 
 sysListCalculateableColRowIndex.prototype = new sysBaseObject();
@@ -113,19 +114,19 @@ sysListCalculateableColRowIndex.prototype.EventListenerRightClick = function(Eve
             "ID": "Remove",
             "TextID": "TXT.CONTEXTMENU.REMOVE-ROW-SINGLE",
             "IconStyle": "fa-regular fa-trash-can",
-            "InternalFunction": "remove"
+            "InternalFunction": "remove-row"
         },
         {
             "ID": "RemoveSelected",
             "TextID": "TXT.CONTEXTMENU.REMOVE-ROWS-SELECTED",
             "IconStyle": "fa-regular fa-trash-can",
-            "InternalFunction": "remove-selected"
+            "InternalFunction": "remove-selected-rows"
         },
         {
-            "ID": "AppendRow",
+            "ID": "AddRow",
             "TextID": "TXT.CONTEXTMENU.APPEND-ROW",
             "IconStyle": "fa-solid fa-paste",
-            "InternalFunction": "append-row"
+            "InternalFunction": "insert-row"
         }
     ];
 
@@ -166,15 +167,6 @@ sysListCalculateableColRowIndex.prototype.EventListenerSelect = function(Event)
             this.ParentObject.Selected = true;
         }
     }
-}
-
-
-//------------------------------------------------------------------------------
-//- METHOD "remove"
-//------------------------------------------------------------------------------
-
-sysListCalculateableColRowIndex.prototype.remove = function()
-{
 }
 
 
@@ -249,25 +241,25 @@ sysListCalculateableHeaderCol.prototype.EventListenerRightClick = function(Event
             "ID": "Remove",
             "TextID": "TXT.CONTEXTMENU.REMOVE-COL-SINGLE",
             "IconStyle": "fa-regular fa-trash-can",
-            "InternalFunction": "remove"
+            "InternalFunction": "remove-col"
         },
         {
             "ID": "RemoveSelected",
             "TextID": "TXT.CONTEXTMENU.REMOVE-COLS-SELECTED",
             "IconStyle": "fa-regular fa-trash-can",
-            "InternalFunction": "remove-selected"
+            "InternalFunction": "remove-selected-cols"
         },
         {
             "ID": "AddColLeft",
             "TextID": "TXT.CONTEXTMENU.ADD-COL-LEFT",
             "IconStyle": "fa-solid fa-paste",
-            "InternalFunction": "append-row"
+            "InternalFunction": "insert-col-left"
         },
         {
             "ID": "AddColRight",
             "TextID": "TXT.CONTEXTMENU.ADD-COL-RIGHT",
             "IconStyle": "fa-solid fa-paste",
-            "InternalFunction": "append-row"
+            "InternalFunction": "insert-col-right"
         }
     ];
 
@@ -330,6 +322,36 @@ sysListCalculateableHeaderCol.prototype.EventListenerSelect = function(Event)
             this.Selected = true;
         }
     }
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "removeCol"
+//------------------------------------------------------------------------------
+
+sysListCalculateableHeaderCol.prototype.removeCol = function()
+{
+    this.ParentObject.ParentObject.removeCol(this.ColIndex);
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "insertColLeft"
+//------------------------------------------------------------------------------
+
+sysListCalculateableHeaderCol.prototype.insertColLeft = function()
+{
+    this.ParentObject.ParentObject.insertColLeft(this.ColIndex);
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "insertColRight"
+//------------------------------------------------------------------------------
+
+sysListCalculateableHeaderCol.prototype.insertColRight = function()
+{
+    this.ParentObject.ParentObject.insertColRight(this.ColIndex);
 }
 
 
@@ -662,7 +684,7 @@ sysListCalculateableCol.prototype.getData = function()
     //- get selected data
     var MatrixData = new Array();
     for (let x=XCoordStart; x<XCoordEnd; ++x) {
-        var ColData = new Array();
+        let ColData = new Array();
         for (let y=YCoordStart; y<YCoordEnd; ++y) {
             const GetFormID = 'Form_' + this.SheetObject.ObjectID + '_' + y + '_' + x;
             console.log('Get Data FormID:%s', GetFormID);
@@ -671,7 +693,7 @@ sysListCalculateableCol.prototype.getData = function()
         }
         MatrixData.push(ColData);
     }
-    console.log('Set Clipboard Matrix Data:%o', MatrixData);
+    console.log('Clipboard Matrix Data:%o', MatrixData);
     return MatrixData;
 }
 
@@ -682,7 +704,7 @@ sysListCalculateableCol.prototype.getData = function()
 
 sysListCalculateableCol.prototype.setData = function(DataObject)
 {
-    console.log('Get Clipboard Matrix Data:%o', DataObject);
+    console.log('SetData Data:%o', DataObject);
 
     //- write data to columns
     const xStartPos = this.ColIndex;
@@ -712,6 +734,7 @@ sysListCalculateableCol.prototype.setData = function(DataObject)
         }
         ++xDataPointer;
     }
+    this.processOnChangeColItem();
 }
 
 
@@ -832,6 +855,16 @@ sysListCalculateableRow.prototype = new sysBaseObject();
 
 
 //------------------------------------------------------------------------------
+//- METHOD "removeRow"
+//------------------------------------------------------------------------------
+
+sysListCalculateableRow.prototype.removeRow = function()
+{
+    this.ParentObject.removeRow(this.Index);
+}
+
+
+//------------------------------------------------------------------------------
 //- METHOD "addColumns"
 //------------------------------------------------------------------------------
 
@@ -841,6 +874,7 @@ sysListCalculateableRow.prototype.addColumns = function()
     ColRowIndex.init();
     this.ColItems.push(ColRowIndex);
 
+    const Data = this.ParentObject.Data;
     for (let x=0; x<this.ParentObject.ColumnCount; ++x) {
         const ColumnItem = new sysListCalculateableCol(this, this.Index, x);
         ColumnItem.init();
@@ -853,19 +887,6 @@ sysListCalculateableRow.prototype.addColumns = function()
 
     for (const ColItem of this.ColItems) {
         this.addObject(ColItem);
-    }
-}
-
-
-//------------------------------------------------------------------------------
-//- METHOD "updateColumnsValues"
-//------------------------------------------------------------------------------
-
-sysListCalculateableRow.prototype.updateColumnsValues = function()
-{
-    console.debug('this.DynUpdateObjects:%o', this.DynUpdateObjects);
-    for (const UpdateElement of this.DynUpdateObjects) {
-        sysFactory.getObjectByID(UpdateElement[0]).RuntimeSetDataFunc(UpdateElement[1]);
     }
 }
 
@@ -902,14 +923,15 @@ sysListCalculateableRow.prototype.updateIndex = function(UpdateIndex)
 
 function sysListCalculateable()
 {
+    this.Data                   = new Array();               //- Data Array
     this.RowItems               = new Array();               //- Row Objects Array
-
-    this.UpdateCount            = 0;                         //- Update Counter
 
     this.ColumnCount            = 4;                         //- Default Column Count
     this.ColumnCountMax         = 8;                         //- Max Column Count
     this.RowCount               = 8;                         //- Default Row Count
     this.RowCountMax            = 14;                        //- Max Row Count
+
+    this.Updated                = false;                     //- On true: remove list div before re-render()
 
     this.ChildObjects           = new Array();               //- Child Objects
 
@@ -920,7 +942,7 @@ function sysListCalculateable()
     this.ColDataSelBotRightCol  = false;                     //- Bottom Right Column Col for Copy / Paste
     this.ColDataSelBotRightRow  = false;                     //- Bottom Right Column Row for Copy / Paste
 
-    this.DOMStyle               = 'container';
+    this.DOMStyle               = 'container';               //- CSS Style
 }
 
 sysListCalculateable.prototype = new sysBaseObject();
@@ -952,11 +974,256 @@ sysListCalculateable.prototype.init = function()
         this.RowCount = Attributes.RowCount;
     }
 
+    //- reset data
+    this.resetData();
+
+    //- render
+    this.render();
+
+    //- remove list and re-render() on next calls
+    this.Updated = true;
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "removeSelectedRows"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.removeSelectedRows = function()
+{
+    this.Data =this.getMatrixData();
+
+    let RemoveArray = new Array();
+    for (const Item of this.RowItems) {
+        console.debug('Row Item:%o', Item);
+        if (Item.Selected == true) {
+            RemoveArray.push(Item.Index);
+        }
+    }
+
+    this.removeParent();
+    this.RowItems = [];
+
+    for (let i = RemoveArray.length-1; i>=0; --i) {
+        console.debug('Row selected Index:%s', RemoveArray[i]);
+        this.Data.splice(RemoveArray[i], 1);
+    }
+
+    this.render();
+    this.setMatrixData();
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "removeRow"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.removeRow = function(Index)
+{
+    this.Data = this.getMatrixData();
+    this.removeParent();
+    this.RowItems = [];
+
+    this.Data.splice(Index, 1);
+    this.render();
+    this.setMatrixData();
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "insertRow"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.insertRow = function()
+{
+    this.Data = this.getMatrixData();
+    this.removeParent();
+    this.RowItems = [];
+
+    let ColArray = new Array();
+    for (let y=0; y<this.ColumnCount; ++y) {
+        ColArray[y] = 0;
+    }
+
+    this.Data.push(ColArray);
+    this.render();
+    this.setMatrixData();
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "removeCol"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.removeCol = function(ColIndex)
+{
+    //console.debug('ColIndex:%s', ColIndex);
+
+    this.Data = this.getMatrixData();
+    this.removeParent();
+    this.RowItems = [];
+
+    for (let i=0; i<this.Data.length; ++i) {
+        this.Data[i].splice(ColIndex, 1);
+    }
+
+    this.ColumnCount--;
+
+    this.render();
+    this.setMatrixData();
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "removeSelectedCols"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.removeSelectedCols = function()
+{
+    this.Data =this.getMatrixData();
+
+    let RemoveArray = new Array();
+    for (const RowItem of this.RowItems) {
+        console.debug('Row Item:%o', RowItem);
+        for (const ColItem of RowItem.ColItems) {
+            if (ColItem.Selected == true) {
+                RemoveArray.push(ColItem.ColIndex);
+            }
+        }
+    }
+
+    this.removeParent();
+    this.RowItems = [];
+
+    for (let x=RemoveArray.length-1; x>=0; --x) {
+        for (let y=0; y<this.Data.length; ++y) {
+            this.Data[y].splice(RemoveArray[x], 1);
+        }
+        this.ColumnCount--;
+    }
+
+    this.render();
+    this.setMatrixData();
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "insertColLeft"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.insertColLeft = function(ColIndex)
+{
+    //console.debug('ColIndex:%s', ColIndex);
+
+    this.Data = this.getMatrixData();
+    this.removeParent();
+    this.RowItems = [];
+
+    for (let i=0; i<this.Data.length; ++i) {
+        this.Data[i].splice(ColIndex, 0, 0);
+    }
+
+    this.ColumnCount++;
+
+    this.render();
+    this.setMatrixData();
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "insertColLeft"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.insertColRight = function(ColIndex)
+{
+    //console.debug('ColIndex:%s', ColIndex);
+
+    this.Data = this.getMatrixData();
+    this.removeParent();
+    this.RowItems = [];
+
+    for (let i=0; i<this.Data.length; ++i) {
+        this.Data[i].splice(ColIndex+1, 0, 0);
+    }
+
+    this.ColumnCount++;
+
+    this.render();
+    this.setMatrixData();
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "getMatrixData"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.getMatrixData = function()
+{
+    var MatrixData = new Array();
+    for (let x=0; x<(this.RowItems.length-2); ++x) {
+        var ColData = new Array();
+        for (let y=0; y<this.ColumnCount; ++y) {
+            const FormID = 'Form_' + this.ObjectID + '_' + x + '_' + y;
+            //console.debug('FormID:%s', FormID);
+            const DataObj = sysFactory.getObjectByID(FormID);
+            if (DataObj != null) {
+                ColData.push(DataObj.RuntimeGetDataFunc());
+            }
+        }
+        MatrixData.push(ColData);
+    }
+    console.log('getMatrixData Data:%o', MatrixData);
+    return MatrixData;
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "setMatrixData"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.setMatrixData = function(Type)
+{
+    for (let x=0; x<this.Data.length; ++x) {
+        for (let y=0; y<this.ColumnCount; ++y) {
+            const FormID = 'Form_' + this.ObjectID + '_' + x + '_' + y;
+            //console.log('FormID:%s', FormID);
+            sysFactory.getObjectByID(FormID).RuntimeSetDataFunc(this.Data[x][y]);
+        }
+    }
+    console.debug('RowItems:%o ColItems:%o', this.RowItems, this.RowItems[1].ColItems[0]);
+    this.RowItems[1].ColItems[1].processOnChangeColItem();
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "resetData"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.resetData = function()
+{
+    for (let x=0; x<this.RowCount; ++x) {
+        this.Data[x] = new Array();
+        for (let y=0; y<this.ColumnCount; ++y) {
+            this.Data[x][y] = 0;
+        }
+    }
+    console.debug('Data:%o', this.Data);
+}
+
+
+//------------------------------------------------------------------------------
+//- METHOD "render"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.render = function()
+{
     //- add header row
     this.addHeaderRow();
 
     //- add rows / columns
-    for (let i=0; i<this.RowCount; ++i) {
+    const RowCount = this.Data.length;
+
+    for (let i=0; i<RowCount; ++i) {
         this.addRow(i);
     }
 
@@ -1008,24 +1275,6 @@ sysListCalculateable.prototype.addSumRow = function()
 
 
 //------------------------------------------------------------------------------
-//- METHOD "removeRow"
-//------------------------------------------------------------------------------
-
-sysListCalculateable.prototype.removeRow = function(Index)
-{
-}
-
-
-//------------------------------------------------------------------------------
-//- METHOD "removeSelectedRows"
-//------------------------------------------------------------------------------
-
-sysListCalculateable.prototype.removeSelectedRows = function()
-{
-}
-
-
-//------------------------------------------------------------------------------
 //- METHOD "renderRows"
 //------------------------------------------------------------------------------
 
@@ -1034,7 +1283,10 @@ sysListCalculateable.prototype.renderRows = function()
     for (const RowItem of this.RowItems) {
         this.addObject(RowItem);
     }
-    //this.renderObject(this.DOMParentID);
+
+    if (this.Updated == true) {
+        this.renderObject(this.DOMParentID);
+    }
 }
 
 
