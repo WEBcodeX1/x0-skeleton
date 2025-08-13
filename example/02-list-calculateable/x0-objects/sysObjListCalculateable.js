@@ -664,7 +664,7 @@ sysListCalculateableCol.prototype.getData = function()
     //- get selected data
     var MatrixData = new Array();
     for (let x=XCoordStart; x<XCoordEnd; ++x) {
-        var ColData = new Array();
+        let ColData = new Array();
         for (let y=YCoordStart; y<YCoordEnd; ++y) {
             const GetFormID = 'Form_' + this.SheetObject.ObjectID + '_' + y + '_' + x;
             console.log('Get Data FormID:%s', GetFormID);
@@ -972,7 +972,7 @@ sysListCalculateable.prototype.removeSelectedRows = function()
 {
     this.Data =this.getMatrixData();
 
-    var RemoveArray = new Array();
+    let RemoveArray = new Array();
     for (const Item of this.RowItems) {
         console.debug('Row Item:%o', Item);
         if (Item.Selected == true) {
@@ -983,7 +983,7 @@ sysListCalculateable.prototype.removeSelectedRows = function()
     this.removeParent();
     this.RowItems = [];
 
-    for (var i = RemoveArray.length-1; i>=0; --i) {
+    for (let i = RemoveArray.length-1; i>=0; --i) {
         console.debug('Row selected Index:%s', RemoveArray[i]);
         this.Data.splice(RemoveArray[i], 1);
     }
