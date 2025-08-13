@@ -52,7 +52,7 @@ function UserContextMenu()
 
 UserContextMenu.prototype.process = function(ContextMenuRef)
 {
-    console.debug('::UserContextMenu process() ContextMenuRef:%o', ContextMenuRef);
+    //console.debug('::UserContextMenu process() ContextMenuRef:%o', ContextMenuRef);
 
     const RowObject = ContextMenuRef.ParentObject.ParentObject;
 
@@ -71,4 +71,26 @@ UserContextMenu.prototype.process = function(ContextMenuRef)
         ContextMenuRef.ContextMenuObject.close();
     }
 
+    const ColHeaderObject = ContextMenuRef.ParentObject;
+    console.debug('::UserContextMenu process() ColHeaderObject:%o', ColHeaderObject);
+
+    if (ContextMenuRef.InternalFunction == 'remove-col') {
+        ColHeaderObject.removeCol();
+        ContextMenuRef.ContextMenuObject.close();
+    }
+
+    if (ContextMenuRef.InternalFunction == 'remove-selected-cols') {
+        ColHeaderObject.ParentObject.ParentObject.removeSelectedCols();
+        ContextMenuRef.ContextMenuObject.close();
+    }
+
+    if (ContextMenuRef.InternalFunction == 'insert-col-left') {
+        ColHeaderObject.insertColLeft();
+        ContextMenuRef.ContextMenuObject.close();
+    }
+
+    if (ContextMenuRef.InternalFunction == 'insert-col-right') {
+        ColHeaderObject.insertColRight();
+        ContextMenuRef.ContextMenuObject.close();
+    }
 }
