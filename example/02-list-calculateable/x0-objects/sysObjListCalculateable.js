@@ -734,6 +734,7 @@ sysListCalculateableCol.prototype.setData = function(DataObject)
         }
         ++xDataPointer;
     }
+    this.processOnChangeColItem();
 }
 
 
