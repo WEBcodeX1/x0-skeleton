@@ -326,6 +326,16 @@ sysListCalculateableHeaderCol.prototype.EventListenerSelect = function(Event)
 
 
 //------------------------------------------------------------------------------
+//- METHOD "removeCol"
+//------------------------------------------------------------------------------
+
+sysListCalculateableHeaderCol.prototype.removeCol = function()
+{
+    this.ParentObject.ParentObject.removeCol(this.ColIndex);
+}
+
+
+//------------------------------------------------------------------------------
 //- CONSTRUCTOR "sysListCalculateableSumCol"
 //------------------------------------------------------------------------------
 
@@ -960,9 +970,9 @@ sysListCalculateable.prototype.init = function()
 
 sysListCalculateable.prototype.removeSelectedRows = function()
 {
-    this.Data = this.getMatrixData();
+    this.Data =this.getMatrixData();
 
-    let RemoveArray = new Array();
+    var RemoveArray = new Array();
     for (const Item of this.RowItems) {
         console.debug('Row Item:%o', Item);
         if (Item.Selected == true) {
@@ -973,7 +983,7 @@ sysListCalculateable.prototype.removeSelectedRows = function()
     this.removeParent();
     this.RowItems = [];
 
-    for (let i = RemoveArray.length-1; i>=0; --i) {
+    for (var i = RemoveArray.length-1; i>=0; --i) {
         console.debug('Row selected Index:%s', RemoveArray[i]);
         this.Data.splice(RemoveArray[i], 1);
     }
@@ -1021,6 +1031,29 @@ sysListCalculateable.prototype.insertRow = function()
 
 
 //------------------------------------------------------------------------------
+//- METHOD "removeCol"
+//------------------------------------------------------------------------------
+
+sysListCalculateable.prototype.removeCol = function(ColIndex)
+{
+    //console.debug('ColIndex:%s', ColIndex);
+
+    this.Data = this.getMatrixData();
+    this.removeParent();
+    this.RowItems = [];
+
+    for (let i=0; i<this.Data; ++i) {
+        this.Data[i].splice(ColIndex, 1);;
+    }
+
+    this.ColumnCount--;
+
+    this.render();
+    this.setMatrixData();
+}
+
+
+//------------------------------------------------------------------------------
 //- METHOD "getMatrixData"
 //------------------------------------------------------------------------------
 
@@ -1028,7 +1061,7 @@ sysListCalculateable.prototype.getMatrixData = function()
 {
     var MatrixData = new Array();
     for (let x=0; x<(this.RowItems.length-2); ++x) {
-        let ColData = new Array();
+        var ColData = new Array();
         for (let y=0; y<this.ColumnCount; ++y) {
             const FormID = 'Form_' + this.ObjectID + '_' + x + '_' + y;
             //console.debug('FormID:%s', FormID);
