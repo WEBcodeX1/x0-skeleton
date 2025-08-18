@@ -79,7 +79,7 @@ based on existing `sysObjList.js` *x0-base-object*.
 ## References
 
 - [x0-skeleton Repository](https://github.com/WEBcodeX1/x0-skeleton)
-- [sysObjList.js (x0 base object)](https://github.com/WEBcodeX1/x0-skeleton/blob/main/example/02-list-calculateable/x0-objects/sysObjList.js)
+- [sysObjList.js (x0 base object)](https://github.com/WEBcodeX1/x0/blob/main/www/sysObjList.js)
 
 ---
 
